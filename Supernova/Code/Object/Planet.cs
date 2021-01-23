@@ -31,7 +31,8 @@ namespace SuperNova.Code.Object {
 
         }
 
-        public void render() {
+        public void render(SpriteBatch spriteBatch) {
+
 
 
 

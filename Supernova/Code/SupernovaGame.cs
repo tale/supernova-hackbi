@@ -5,11 +5,14 @@ using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
 using System.IO;
 using SuperNova.Code.Util;
+using SuperNova.Code.Object;
 
 namespace Supernova.Code
 {
     public class SupernovaGame : Game
     {
+
+        Planet test;
 
         public const int STARTSCREEN = 0, GAMESCREEN = 1, MENUSCREEN = 2, SETTINGSCREEN = 3;
         public int gameState = GAMESCREEN;
@@ -34,6 +37,8 @@ namespace Supernova.Code
             Window.IsBorderless = false;
 
             graphics.ApplyChanges();
+
+            test = new Planet(new Vector2(0, 0), 50, 50, 1);
 
             base.Initialize();
         }
@@ -69,21 +74,46 @@ namespace Supernova.Code
 
 
                     break;
-
-                
-
-
-                    // TODO: Add your update logic here
-
-                    base.Update(gameTime);
+                 
             }
+
+            base.Update(gameTime);
         }
 
-        protected override void Draw(GameTime gameTime)
-        {
+        protected override void Draw(GameTime gameTime) {
+
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            // TODO: Add your drawing code here
+            spriteBatch.Begin();
+
+            switch (gameState) {
+
+                case STARTSCREEN:
+
+                    break;
+
+
+                case GAMESCREEN:
+
+                    test.render(spriteBatch);
+
+
+                    break;
+
+                case MENUSCREEN:
+
+                    break;
+
+                case SETTINGSCREEN:
+
+                    break;
+
+                default:
+                    throw new Exception("Unkown Game State");
+
+            }
+
+            spriteBatch.End();
 
             base.Draw(gameTime);
         }
