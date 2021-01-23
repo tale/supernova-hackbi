@@ -1,18 +1,21 @@
 ﻿using System;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 
-public class Planet {
+namespace SuperNova.Code.Object {
+
+    public class Planet {
 
     static Random rand = new Random();
 
     private const double gravityStrength = 0.000000000000001;
     private float radius, mass, changeInRotation, rotation;
-    private Vector position;
+    private Vector2 position;
 
     private Texture sprite;
 
-    public Planet(Vector position, float radius, float mass, float changeInRotation) {
+    public Planet(Vector2 position, float radius, float mass, float changeInRotation) {
 
         this.position = position;
         this.radius = radius;
@@ -34,13 +37,13 @@ public class Planet {
 
     }
 
-    public Vector gravity(Vector ObjectPosition) {
+    public Vector2 gravity(Vector2 ObjectPosition) {
 
-        float acceleration = (float)(gravityStrength * mass / Hypot(position.getX() - ObjectPosition.getX(), position.getY() - ObjectPosition.getY()));
+        float acceleration = (float)(gravityStrength * mass / Hypot(position.X - ObjectPosition.X, position.Y - ObjectPosition.Y));
 
-        float angle = (float)Math.Atan((position.getY() - ObjectPosition.getY()) / (position.getX() - ObjectPosition.getX()));
+        float angle = (float)Math.Atan((position.Y - ObjectPosition.Y) / (position.X - ObjectPosition.X));
 
-        return new Vector((float)(acceleration * Math.Cos(angle)), (float)(acceleration * Math.Sin(angle)));
+        return new Vector2((float)(acceleration * Math.Cos(angle)), (float)(acceleration * Math.Sin(angle)));
 
         
 

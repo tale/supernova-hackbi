@@ -5,7 +5,7 @@ using System;
 //@author Peter Downey
 
 
-namespace Fondue.Code.Utilities {
+namespace SuperNova.Code.Util {
 
     public static class Camera {
 

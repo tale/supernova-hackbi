@@ -4,8 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
 using System.IO;
-
-using Fondue.Code.Utilities;
+using SuperNova.Code.Util;
 
 namespace Supernova.Code
 {

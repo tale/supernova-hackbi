@@ -1,62 +1,66 @@
 ﻿using System;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-public class Astroid {
+namespace SuperNova.Code.Object {
 
-    static Random rand = new Random();
+    public class Astroid {
 
-    private float radius, changeInRotation, rotation;
-    private Vector position, velocity, accleration;
+        static Random rand = new Random();
 
-    private Texture2D sprite;
+        private float radius, changeInRotation, rotation;
+        private Vector2 position, velocity, accleration;
 
-    public Astroid(Vector position, Vector velocity, float radius, float changeInRotation) {
+        private Texture2D sprite;
 
-        this.position = position;
-        this.velocity = velocity;
-        this.accleration = new Vector();
-        this.radius = radius;
-        this.sprite = makeAstroidTexture();
-        this.changeInRotation = changeInRotation;
-        this.rotation = (float)(rand.NextDouble() * Math.PI * 2);
-    }
+        public Astroid(Vector2 position, Vector2 velocity, float radius, float changeInRotation) {
 
-    public void tick() {
+            this.position = position;
+            this.velocity = velocity;
+            this.accleration = new Vector2();
+            this.radius = radius;
+            this.sprite = makeAstroidTexture();
+            this.changeInRotation = changeInRotation;
+            this.rotation = (float)(rand.NextDouble() * Math.PI * 2);
+        }
 
-        rotation = (float)((rotation + changeInRotation) % (Math.PI * 2));
+        public void tick() {
 
-        position.setX(position.getX() + velocity.getX());
-        position.setY(position.getY() + velocity.getY());
-    }
+            rotation = (float)((rotation + changeInRotation) % (Math.PI * 2));
 
-    public void render() {
+            position.X += velocity.X;
+            position.Y += velocity.Y;
+        }
 
-
-
-    }
+        public void render() {
 
 
-
-
-    private static Texture2D makeAstroidTexture() {
-
-        int type = (int)(rand.Next(1));
-
-        switch (type) {
-
-            case 0:
-                return null;
-
-            case 1:
-                return null;
-
-            default:
-                return null;
 
         }
 
 
 
+
+        private static Texture2D makeAstroidTexture() {
+
+            int type = (int)(rand.Next(1));
+
+            switch (type) {
+
+                case 0:
+                    return null;
+
+                case 1:
+                    return null;
+
+                default:
+                    return null;
+
+            }
+
+
+
+        }
     }
 
 }
