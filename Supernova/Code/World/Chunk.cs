@@ -33,10 +33,11 @@ namespace Supernova.Code.World {
                     const int multiplier = 125;
                     const float divider = 2f;
 
-                    var prefix = (float)noiseGenerator.evaluate(i * multiplier, j * multiplier) * multiplier;
+                    var prefix = (float)noiseGenerator.evaluate(position.X * 5000 + i * multiplier, position.Y * 5000 + j * multiplier) * multiplier;
+
                     // -10 and +10 are from Perlin
-                    if (prefix > 10 || prefix < -10) {
-                        array[i, j] = new Planet(new Vector2(i * prefix, j * prefix), prefix / divider, 100, 23);
+                    if (prefix > 10) {
+                        array[i, j] = new Planet(new Vector2(position.X * 5000 + i * multiplier, position.Y * 5000 + j * multiplier), prefix / divider, 100, 23);
                     }
                     else {
                         array[i, j] = null;

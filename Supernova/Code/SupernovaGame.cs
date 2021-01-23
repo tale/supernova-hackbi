@@ -117,6 +117,7 @@ namespace Supernova.Code {
                     WorldManager.WorldRender(_spriteBatch);
                     break;
                 case GameState.LoseScreen:
+                    Player.render(_spriteBatch);
                     break;
                 case GameState.MenuScreen:
                     break;
