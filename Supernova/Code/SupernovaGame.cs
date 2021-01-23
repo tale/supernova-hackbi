@@ -1,119 +1,70 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using System.Collections.Generic;
-using System.IO;
 using SuperNova.Code.Util;
 using SuperNova.Code.Object;
 
-namespace Supernova.Code
-{
-    public class SupernovaGame : Game
-    {
-
+namespace Supernova.Code {
+    internal enum GameState {
+        StartScreen,
+        GameScreen,
+        LoseScreen,
+        MenuScreen,
+        SettingsScreen
+    }
+    public class SupernovaGame : Game {
         Planet test;
+        
+        private GameState _gameState = GameState.GameScreen;
+        private readonly GraphicsDeviceManager _graphicsDeviceManager;
 
-        public const int STARTSCREEN = 0, GAMESCREEN = 1, MENUSCREEN = 2, SETTINGSCREEN = 3;
-        public int gameState = GAMESCREEN;
-
-        private GraphicsDeviceManager graphics;
-        private SpriteBatch spriteBatch;
-
-        public SupernovaGame()
-        {
-            graphics = new GraphicsDeviceManager(this);
+        public SupernovaGame() {
+            _graphicsDeviceManager = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
         }
 
-        protected override void Initialize()
-        {
-            // TODO: Add your initialization logic here
-            graphics.PreferredBackBufferHeight = 450;
-            graphics.PreferredBackBufferWidth = 720;
+        protected override void Initialize() {
+            _graphicsDeviceManager.PreferredBackBufferHeight = 450;
+            _graphicsDeviceManager.PreferredBackBufferWidth = 720;
 
             Window.AllowUserResizing = true;
             Window.IsBorderless = false;
 
-            graphics.ApplyChanges();
-
-            test = new Planet(new Vector2(0, 0), 50, 50, 1);
-
+            _graphicsDeviceManager.ApplyChanges();
             base.Initialize();
         }
 
-        protected override void LoadContent()
-        {
-            spriteBatch = new SpriteBatch(GraphicsDevice);
-
-            // TODO: use this.Content to load your game content here
-        }
-
         protected override void Update(GameTime gameTime) {
-
-            Camera.update(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
-
-            MouseState mouseState = Mouse.GetState();
-            KeyboardState keyBoardState = Keyboard.GetState();
-
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+            Camera.Update(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
+            if (Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            switch (gameState) {
-
-                case STARTSCREEN:
-
+            switch (_gameState) {
+                case GameState.StartScreen:
                     break;
-
-                case MENUSCREEN:
-
+                case GameState.GameScreen:
                     break;
-
-                case SETTINGSCREEN:
-
-
+                case GameState.LoseScreen:
                     break;
-                 
+                case GameState.MenuScreen:
+                    break;
+                case GameState.SettingsScreen:
+                    break;
+                default:
+                    Console.WriteLine("Invalid game state. Exiting...");
+                    Exit();
+                    break;
             }
-
+            
             base.Update(gameTime);
         }
 
-        protected override void Draw(GameTime gameTime) {
-
+        protected override void Draw(GameTime gameTime)
+        {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            spriteBatch.Begin();
-
-            switch (gameState) {
-
-                case STARTSCREEN:
-
-                    break;
-
-
-                case GAMESCREEN:
-
-                    test.render(spriteBatch);
-
-
-                    break;
-
-                case MENUSCREEN:
-
-                    break;
-
-                case SETTINGSCREEN:
-
-                    break;
-
-                default:
-                    throw new Exception("Unkown Game State");
-
-            }
-
-            spriteBatch.End();
+            // TODO: Add your drawing code here
 
             base.Draw(gameTime);
         }

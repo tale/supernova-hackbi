@@ -1,65 +1,57 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
-
-//@author Peter Downey
-
 
 namespace SuperNova.Code.Util {
 
     public static class Camera {
+        private const int Width = 720, Height = 450;
+        private static int _currentWidth = 720, _currentHeight = 450;
+        private static Vector2 _flippedCoordinates = Vector2.Zero;
 
-
-        public static readonly int WIDTH = 720, HEIGHT = 450;
-
-        public static int currWidth = WIDTH, currHeight = HEIGHT;
-
-        public static Vector2 flippedPlayerCords = Vector2.Zero;
-
-        public static void update(int currWidth, int currHeight) {
-
-            Camera.currWidth = currWidth;
-            Camera.currHeight = currHeight;
+        public static void Update(int width, int height) {
+            _currentWidth = width;
+            _currentHeight = height;
         }
 
-        public static int getX() {
+        public static int GetX() {
 
-            return (int)flippedPlayerCords.X;
+            return (int)_flippedCoordinates.X;
         }
 
-        public static void setX(float x) {
+        public static void SetX(float x) {
 
-            flippedPlayerCords.X = x;
+            _flippedCoordinates.X = x;
         }
 
-        public static int getY() {
+        public static int GetY() {
 
-            return (int)flippedPlayerCords.Y;
+            return (int)_flippedCoordinates.Y;
         }
 
-        public static void setY(float y) {
+        public static void SetY(float y) {
 
-            flippedPlayerCords.Y = y;
+            _flippedCoordinates.Y = y;
         }
 
-        public static Vector2 getPoint() {
+        public static Vector2 GetPoint() {
 
-            return new Vector2(flippedPlayerCords.X + currWidth - WIDTH, flippedPlayerCords.Y + currHeight - HEIGHT);
+            return new Vector2(_flippedCoordinates.X + _currentWidth - Width, _flippedCoordinates.Y + _currentHeight - Height);
         }
 
-        public static float getWidthScaler() {
+        public static float GetWidthScalar() {
 
-            return (float)currWidth / WIDTH;
+            return (float)_currentWidth / Width;
         }
 
-        public static float getHeightScaler() {
+        public static float GetHeightScalar() {
 
-            return (float)currHeight / HEIGHT;
+            return (float)_currentHeight / Height;
         }
 
-        public static bool isOnScreen(Vector2 position, Vector2 dimensions) {
+        public static bool IsOnScreen(Vector2 position, Vector2 dimensions) {
+            var (dimensionX, dimensionY) = dimensions;
+            var (positionX, positionY) = position;
 
-            return (position.X + Camera.getX() - dimensions.X / 2 < WIDTH && position.X + Camera.getX() + dimensions.X / 2 > 0 && position.Y + Camera.getY() - dimensions.Y / 2 < HEIGHT && position.Y + Camera.getY() + dimensions.Y / 2 > 0);
+            return (positionX + GetX() - dimensionX / 2 < Width && positionX + GetX() + dimensionX / 2 > 0 && positionY + GetY() - dimensionY / 2 < Height && positionY + GetY() + dimensionY / 2 > 0);
         }
     }
 }
