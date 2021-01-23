@@ -6,8 +6,6 @@ namespace SuperNova.Code.Object {
 
     public class Supernova {
 
-        static Random rand = new Random();
-
         private const double radius = 10;
         private double yPosition, yVelocity, yAcceleration;
 
