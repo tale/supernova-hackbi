@@ -24,13 +24,13 @@ namespace SuperNova.Code.Util {
             foreach (var file in files) {
                 var identifier = file.Substring(file.LastIndexOf("/", StringComparison.Ordinal) + 1);
                 identifier = identifier.Substring(0, identifier.IndexOf(".png", StringComparison.Ordinal)).ToUpper();
-                _spriteMap.Add(file, Texture2D.FromFile(game.GraphicsDevice, file));
+                _spriteMap.Add(identifier, Texture2D.FromFile(game.GraphicsDevice, file));
                 Console.WriteLine($"Loaded {identifier}");
             }
         }
 
         public static Texture2D GetTexture(string identifier) {
-            return !_spriteMap.ContainsKey(identifier) ? _spriteMap["MISSING"] : _spriteMap[identifier];
+            return _spriteMap.ContainsKey(identifier) ? _spriteMap[identifier] : _spriteMap["MISSING"];
         }
     }
 }
