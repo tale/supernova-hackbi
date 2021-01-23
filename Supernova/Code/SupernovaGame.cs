@@ -15,8 +15,7 @@ namespace Supernova.Code {
     }
     public class SupernovaGame : Game {
 
-        private int delay = 0;
-
+        private int _delay;
         private Button start;
         Planet test;
         
@@ -37,6 +36,7 @@ namespace Supernova.Code {
             Window.IsBorderless = false;
 
             _graphicsDeviceManager.ApplyChanges();
+            SpriteManager.LoadAssets(this);
             base.Initialize();
 
             start = new Button(360, 250, 240, 60, null);
@@ -55,9 +55,9 @@ namespace Supernova.Code {
             switch (_gameState) {
                 case GameState.StartScreen:
 
-                    if (start.tick(mouseState.X, mouseState.Y) && mouseState.LeftButton == ButtonState.Pressed && delay <= 0) {
+                    if (start.tick(mouseState.X, mouseState.Y) && mouseState.LeftButton == ButtonState.Pressed && _delay <= 0) {
                         _gameState = GameState.StartScreen;
-                        delay = 10;
+                        _delay = 10;
                         Camera.SetX(0);
                         Camera.SetY(0);
                         Update(gameTime);
@@ -93,7 +93,7 @@ namespace Supernova.Code {
 
         protected override void Draw(GameTime gameTime) {
 
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.Black);
 
             switch (_gameState) {
                 case GameState.StartScreen:
