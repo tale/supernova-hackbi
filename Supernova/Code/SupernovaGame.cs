@@ -5,6 +5,7 @@ using SuperNova.Code.Util;
 using SuperNova.Code.Object;
 using SuperNova.Code.Utilities;
 using Microsoft.Xna.Framework.Graphics;
+using Supernova.Code.World;
 
 namespace Supernova.Code {
     internal enum GameState {
@@ -72,6 +73,7 @@ namespace Supernova.Code {
                     }
                     break;
                 case GameState.GameScreen:
+                    WorldManager.WorldTick();
 
                     if (keyBoardState.IsKeyDown(Keys.A))
                         Camera.SetX(Camera.GetX() + 5);
@@ -112,7 +114,7 @@ namespace Supernova.Code {
                     start.render(_spriteBatch);
                     break;
                 case GameState.GameScreen:
-                    Player.render(_spriteBatch);
+                    WorldManager.WorldRender(_spriteBatch);
                     break;
                 case GameState.LoseScreen:
                     break;
