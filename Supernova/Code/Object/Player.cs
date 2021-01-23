@@ -6,31 +6,25 @@ using SuperNova.Code.Util;
 
 namespace SuperNova.Code.Object {
 
-    public class Player {
+    public static class Player {
 
-        private Vector2 position, scale;
+        private static Vector2 position = new Vector2(360, 400);
+        private static Vector2 dimensions = new Vector2(48, 48);
 
-        private Texture2D sprite;
 
-        public Player(Vector2 position, Vector2 scale) {
+        private static Texture2D sprite = SpriteManager.GetTexture("PLAYER");
 
-            this.position = position;
-            this.scale = scale;
-            this.sprite = MakePlayerTexture();
-        }
 
-        public void tick() {
+
+        public static void tick() {
 
         }
 
-        public void render() {
+        public static void render(SpriteBatch _spriteBatch) {
+
+            _spriteBatch.Draw(sprite, destinationRectangle: new Rectangle((int)(Camera.GetWidthScalar() * (position.X - dimensions.X / 2)), (int)(Camera.GetHeightScalar() * (position.Y - dimensions.Y / 2)), (int)(Camera.GetWidthScalar() * (dimensions.X)), (int)(Camera.GetHeightScalar() * dimensions.Y)), Color.White);
 
 
-            
-        }
-
-        private static Texture2D MakePlayerTexture() {
-            return SpriteManager.GetTexture("PLAYER");
         }
     }
 }

@@ -112,6 +112,7 @@ namespace Supernova.Code {
                     start.render(_spriteBatch);
                     break;
                 case GameState.GameScreen:
+                    Player.render(_spriteBatch);
                     break;
                 case GameState.LoseScreen:
                     break;
