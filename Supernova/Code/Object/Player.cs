@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using SuperNova.Code.Util;
 
 namespace SuperNova.Code.Object {
 
@@ -15,7 +16,7 @@ namespace SuperNova.Code.Object {
 
             this.position = position;
             this.scale = scale;
-            this.sprite = makePlayerTexture();
+            this.sprite = MakePlayerTexture();
         }
 
         public void tick() {
@@ -25,13 +26,11 @@ namespace SuperNova.Code.Object {
         public void render() {
 
 
-
+            
         }
 
-        private static Texture2D makePlayerTexture() {
-
+        private static Texture2D MakePlayerTexture() {
             return SpriteManager.GetTexture("PLAYER");
         }
     }
-
 }
