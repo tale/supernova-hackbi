@@ -30,7 +30,7 @@ namespace SuperNova.Code.Object {
 
         private static Texture2D makePlayerTexture() {
 
-
+            return SpriteManager.GetTexture("PLAYER");
         }
     }
 
