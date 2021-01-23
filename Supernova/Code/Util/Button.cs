@@ -45,9 +45,12 @@ namespace SuperNova.Code.Utilities {
         }
 
 
-        public void render(SpriteBatch spriteBatch) {
+        public void render(SpriteBatch _spriteBatch) {
 
-            spriteBatch.Draw(texture, destinationRectangle: new Rectangle((int)(Camera.GetWidthScalar() * (position.X - dimensions.X / 2 * expand)), (int)(Camera.GetHeightScalar() * (position.Y - dimensions.Y / 2 * expand)), (int)(Camera.GetWidthScalar() * (dimensions.X * expand)), (int)(Camera.GetHeightScalar() * (dimensions.Y * expand))), Color.White);
+            if (texture == null)
+                Console.WriteLine("sdfasdf");
+
+            _spriteBatch.Draw(texture, destinationRectangle: new Rectangle((int)(Camera.GetWidthScalar() * (position.X - dimensions.X / 2 * expand)), (int)(Camera.GetHeightScalar() * (position.Y - dimensions.Y / 2 * expand)), (int)(Camera.GetWidthScalar() * (dimensions.X * expand)), (int)(Camera.GetHeightScalar() * (dimensions.Y * expand))), Color.White);
         }
     }
 }

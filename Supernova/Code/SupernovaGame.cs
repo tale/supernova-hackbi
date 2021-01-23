@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Input;
 using SuperNova.Code.Util;
 using SuperNova.Code.Object;
 using SuperNova.Code.Utilities;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Supernova.Code {
     internal enum GameState {
@@ -15,12 +16,13 @@ namespace Supernova.Code {
     }
     public class SupernovaGame : Game {
 
-        private int _delay;
+        private int _delay = 0;
         private Button start;
         Planet test;
         
-        private GameState _gameState = GameState.GameScreen;
+        private GameState _gameState = GameState.StartScreen;
         private readonly GraphicsDeviceManager _graphicsDeviceManager;
+        private SpriteBatch _spriteBatch;
 
         public SupernovaGame() {
             _graphicsDeviceManager = new GraphicsDeviceManager(this);
@@ -39,7 +41,13 @@ namespace Supernova.Code {
             SpriteManager.LoadAssets(this);
             base.Initialize();
 
-            start = new Button(360, 250, 240, 60, null);
+            start = new Button(360, 250, 240, 60, SpriteManager.GetTexture("START"));
+        }
+
+        protected override void LoadContent() {
+
+            _spriteBatch = new SpriteBatch(GraphicsDevice);
+
         }
 
         protected override void Update(GameTime gameTime) {
@@ -56,7 +64,7 @@ namespace Supernova.Code {
                 case GameState.StartScreen:
 
                     if (start.tick(mouseState.X, mouseState.Y) && mouseState.LeftButton == ButtonState.Pressed && _delay <= 0) {
-                        _gameState = GameState.StartScreen;
+                        _gameState = GameState.GameScreen;
                         _delay = 10;
                         Camera.SetX(0);
                         Camera.SetY(0);
@@ -87,6 +95,8 @@ namespace Supernova.Code {
                 default:
                     throw new Exception("Unkown Game State");
             }
+
+            _delay = Math.Max(_delay - 1, 0);
             
             base.Update(gameTime);
         }
@@ -95,8 +105,11 @@ namespace Supernova.Code {
 
             GraphicsDevice.Clear(Color.Black);
 
+            _spriteBatch.Begin();
+
             switch (_gameState) {
                 case GameState.StartScreen:
+                    start.render(_spriteBatch);
                     break;
                 case GameState.GameScreen:
                     break;
@@ -111,6 +124,8 @@ namespace Supernova.Code {
             }
 
                     base.Draw(gameTime);
+
+            _spriteBatch.End();
         }
     }
 }
