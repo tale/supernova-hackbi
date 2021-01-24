@@ -12,8 +12,8 @@ namespace Supernova.Code.World {
         private static readonly GaussianRandom _random = new GaussianRandom();
         
         
-        private static Dictionary<(int, int), Chunk> chunks = new Dictionary<(int, int), Chunk>();
-        private static List<Asteroid> _asteroids = new List<Asteroid>();
+        static readonly Dictionary<(int, int), Chunk> Chunks = new Dictionary<(int, int), Chunk>();
+        static readonly List<Asteroid> Asteroids = new List<Asteroid>();
         private static (int, int)[] loaded = new (int, int)[9];
 
         //private static Planet planet = new Planet(new Vector2(600, 100), 128, 50, 1);
@@ -32,8 +32,8 @@ namespace Supernova.Code.World {
 
                 for (int n = -1; n <= 1; n++) {
 
-                    if (!chunks.ContainsKey((cordX + n, cordY + j)))
-                        chunks.Add((cordX + n, cordY + j), new Chunk((cordX + n) * 5000, (cordY + j) * 5000));
+                    if (!Chunks.ContainsKey((cordX + n, cordY + j)))
+                        Chunks.Add((cordX + n, cordY + j), new Chunk((cordX + n) * 5000, (cordY + j) * 5000));
 
                     loaded[(j + 1) * 3 + (n + 1)] = (cordX + n, cordY + j);
 
@@ -59,15 +59,15 @@ namespace Supernova.Code.World {
                             spawnPoint = new Vector2(cordX * 1 * spawnLocation * 30 + -Camera.GetX(), cordY * -1 * spawnLocation * 30 - Camera.GetY());
                             break;
                     }
-                    _asteroids.Add(new Asteroid(spawnPoint, new Vector2((float)rand / 2, (float)rand) / 2, 10, 23));
+                    Asteroids.Add(new Asteroid(spawnPoint, new Vector2((float)rand / 2, (float)rand) / 2, 10, 23));
                 }
             }
 
-            foreach (var asteroid in _asteroids) {
+            foreach (var asteroid in Asteroids) {
                 asteroid.Tick();
 
                 if (Vector2.Distance(new Vector2(asteroid.X, asteroid.Y), Player.GetPosition()) > 50000) {
-                    _asteroids.Remove(asteroid);
+                    Asteroids.Remove(asteroid);
                 }
             }
 
@@ -80,7 +80,7 @@ namespace Supernova.Code.World {
 
             for (int n = 0; n < 9; n++) {
 
-                acceleration += chunks[loaded[n]].getGravityEffects(positition);
+                acceleration += Chunks[loaded[n]].getGravityEffects(positition);
             }
             //acceleration = planet.Gravity(positition);
 
@@ -109,12 +109,12 @@ namespace Supernova.Code.World {
         public static void WorldRender(SpriteBatch _spriteBatch) {
             for (int n = 0; n < 9; n++) {
 
-                chunks[loaded[n]].Render(_spriteBatch);
+                Chunks[loaded[n]].Render(_spriteBatch);
             }
 
             //planet.Render(_spriteBatch);
 
-            foreach (var asteroid in _asteroids) {
+            foreach (var asteroid in Asteroids) {
                 asteroid?.Render(_spriteBatch);
             }
         }
