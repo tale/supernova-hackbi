@@ -9,7 +9,7 @@ namespace SuperNova.Code.Object {
 
         static Random rand = new Random();
 
-        private const double _gravityStrength = .0005;
+        private const double _gravityStrength = .001;
         private float _mass, _changeInRotation, _rotation;
         private Vector2 _position { get; }
 

@@ -9,7 +9,7 @@ namespace SuperNova.Code.Object {
     public static class SupernovaObject {
 
         private const float _radius = 10;
-        private static float _yPosition = 900, _yVelocity = -2.25f;
+        private static float _yPosition = 900, _yVelocity = -4.5f;
 
         private static Texture2D _sprite = SpriteManager.GetTexture("EXPANDING_SUPERNOVA");
 

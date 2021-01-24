@@ -61,7 +61,20 @@ namespace Supernova.Code.World {
                 }
             }
             
-            for (int n = 0; n < Bullets.Count; n++) {
+          
+
+            for (int n = 0; n < 9; n++) {
+
+                Chunks[loaded[n]].Tick();
+            }
+
+
+
+        }
+
+        public static void WorldTick2() {
+
+            for (int n = 0; n<Bullets.Count; n++) {
                 Bullets[n].Tick();
 
                 if (Vector2.Distance(new Vector2(Bullets[n].X, Bullets[n].Y), Player.GetPosition()) > 1000) {
@@ -76,16 +89,7 @@ namespace Supernova.Code.World {
                     Asteroids.Remove(Asteroids[n]);
                 }
             }
-
-            for (int n = 0; n < 9; n++) {
-
-                Chunks[loaded[n]].Tick();
-            }
-
-
-
         }
-
         public static Vector2 getGravityEffects(Vector2 positition) {
 
             Vector2 acceleration = Vector2.Zero;
