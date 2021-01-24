@@ -143,6 +143,7 @@ namespace SuperNova.Code.Object {
 
                         if (velocity.X > 1.25) {
                             addToVelocity(3, ang);
+                            UpdateHealth(-5 * velocity.X);
                                 
                         } else {
                             while (IsCollisionPlanet(planet)) {
