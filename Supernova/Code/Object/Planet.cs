@@ -52,7 +52,10 @@ namespace SuperNova.Code.Object {
 
         public Vector2 Gravity(Vector2 objectPosition) {
 
-            float acceleration = (float)(_gravityStrength * _mass / (Math.Pow((_position.X - objectPosition.X) / 140, 2) + Math.Pow((_position.Y - objectPosition.Y) / 140, 2)));
+            if (Math.Sqrt(Math.Pow(_position.X - objectPosition.X, 2) + Math.Pow(_position.Y - objectPosition.Y, 2)) > 1000)
+                return Vector2.Zero;
+
+            float acceleration = (float)(_gravityStrength * _mass / (Math.Pow((_position.X - objectPosition.X) / 180, 2) + Math.Pow((_position.Y - objectPosition.Y) / 180, 2)));
 
             float angle = 0;
 

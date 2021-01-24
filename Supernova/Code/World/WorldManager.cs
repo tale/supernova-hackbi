@@ -84,7 +84,7 @@ namespace Supernova.Code.World {
             }
             //acceleration = planet.Gravity(positition);
 
-            float mangnitude = (float)Math.Sqrt(Math.Pow(acceleration.X, 2) + Math.Pow(acceleration.Y, 2));
+            float mangnitude = Math.Min((float)Math.Sqrt(Math.Pow(acceleration.X, 2) + Math.Pow(acceleration.Y, 2)), .085f);
 
             float angle = 0;
 
