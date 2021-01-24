@@ -1,10 +1,11 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SuperNova.Code.Util;
 
 namespace SuperNova.Code.Object {
 
-    public class Astroid {
+    public class Asteroid {
 
         static Random rand = new Random();
         
@@ -14,7 +15,7 @@ namespace SuperNova.Code.Object {
         private Vector2 _position, _velocity, _accleration;
         private Texture2D _sprite;
 
-        public Astroid(Vector2 position, Vector2 velocity, float radius, float changeInRotation) {
+        public Asteroid(Vector2 position, Vector2 velocity, float radius, float changeInRotation) {
 
             _position = position;
             _velocity = velocity;
@@ -45,8 +46,8 @@ namespace SuperNova.Code.Object {
             _position.Y += _velocity.Y;
         }
 
-        public void Render() {
-
+        public void Render(SpriteBatch spriteBatch) {
+            spriteBatch.Draw(SpriteManager.GetTexture("MISSING"), _position, Color.White);
         }
         
 

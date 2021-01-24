@@ -30,7 +30,7 @@ namespace SuperNova.Code.Object  {
             
         }
         
-        private bool IsCollision(Astroid asteroid) {
+        private bool IsCollision(Asteroid asteroid) {
 
             double bulletX = _position.X + _size.X / 2, bulletY = _position.Y + _size.Y / 2;
             double asteroidXTemp = Math.Cos(_angle + 90) * (asteroid.GetX() - bulletX) -
