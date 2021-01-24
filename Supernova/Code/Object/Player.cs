@@ -23,8 +23,10 @@ namespace SuperNova.Code.Object {
         public static Vector2 Size { get; } = new Vector2(48, 48);
         
         public static float Angle { get; set; } = (float) Math.PI * 3 / 2;
-        
-        public static float Health { get; set; } = 1f;
+
+        private static float Health { get; set; } = 100F;
+        private static float Fuel { get; set; } = 100F;
+        private static int Score { get; set; } = 0;
 
         public static Vector2 GetPosition() {
             return position;
@@ -70,8 +72,10 @@ namespace SuperNova.Code.Object {
 
         }
         
-        private static void UpdateHealth() {
-            
+        private static void UpdateHealth(float health) {
+            while (Health <= 100) {
+                Health += health;
+            }
         }
 
         private static void CheckCollision() {
@@ -85,7 +89,8 @@ namespace SuperNova.Code.Object {
                     
                     Vector2.Multiply(velocity, 0.5f);
                     // WorldManager.Asteroids.Remove(asteroid);
-                    Health -= 0.2f; // temp
+                    Health -= (float)Math.Sqrt(Math.Pow(asteroid._velocity.X, 2) + Math.Pow(asteroid._velocity.Y, 2)) / 10;
+                    Console.WriteLine(Health);
                 }
 
             }
@@ -99,8 +104,12 @@ namespace SuperNova.Code.Object {
                         Console.WriteLine("PLANET COLLISION");
 
                         Vector2.Multiply(velocity, -5f);
-                        
-                        Health -= 0.3f; // temp
+                        if (velocity.Length() <= 4) {
+                            UpdateHealth(0.5F);
+                            Console.WriteLine(Health);
+                        }
+
+                        Fuel += 1F;
                     }
 
                 }

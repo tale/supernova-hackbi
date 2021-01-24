@@ -1,18 +1,19 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Supernova.Code.World;
 using SuperNova.Code.Util;
+using Supernova.Code.World;
 
 namespace SuperNova.Code.Object {
 
     public class Asteroid {
 
-        static Random rand = new Random();
+        private static readonly Random rand = new Random();
 
-        private float _changeInRotation, _rotation;
-        private Vector2 _position, _velocity, _acceleration;
-        private Texture2D _sprite;
+        private readonly float _changeInRotation;
+        private float _rotation;
+        private Vector2 _position, _acceleration;
+        private readonly Texture2D _sprite;
 
         public Asteroid(Vector2 position, Vector2 velocity, float radius, float changeInRotation) {
 
@@ -27,22 +28,19 @@ namespace SuperNova.Code.Object {
         }
 
         public bool IsVisible { get; set; }
-        
+
         public float Radius { get; }
+        public Vector2 _velocity;
 
-        public float X {
-            get { return _position.X; }
-        }
-        
-        public float Y {
-            get { return _position.Y; }
-        }
+        public float X => _position.X;
 
-        
+        public float Y => _position.Y;
+
+
         public void Tick() {
 
 
-            Vector2 accel = WorldManager.getGravityEffects(_position);
+            var accel = WorldManager.getGravityEffects(_position);
 
             _velocity.X += accel.X * (float)Math.Cos(accel.Y);
             _velocity.Y += accel.X * (float)Math.Sin(accel.Y);
@@ -55,15 +53,18 @@ namespace SuperNova.Code.Object {
 
         public void Render(SpriteBatch _spriteBatch) {
 
-            _spriteBatch.Draw(_sprite, new Rectangle((int)(Camera.GetWidthScalar() * (_position.X - Radius + Camera.GetX())), (int)(Camera.GetHeightScalar() * (_position.Y - Radius + Camera.GetY())), (int)(Camera.GetWidthScalar() * Radius * 2), (int)(Camera.GetHeightScalar() * Radius * 2)), Color.White);
+            _spriteBatch.Draw(_sprite,
+                new Rectangle((int)(Camera.GetWidthScalar() * (_position.X - Radius + Camera.GetX())), (int)(Camera.GetHeightScalar() * (_position.Y - Radius + Camera.GetY())), (int)(Camera.GetWidthScalar() * Radius * 2),
+                    (int)(Camera.GetHeightScalar() * Radius * 2)), Color.White);
         }
-        
+
 
         private static Texture2D MakeAstroidTexture() {
 
-            int type = (int)(rand.Next(1));
+            var type = rand.Next(1);
 
             return SpriteManager.GetTexture("NULL");
+
 
             switch (type) {
 
