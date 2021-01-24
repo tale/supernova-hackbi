@@ -26,7 +26,18 @@ namespace SuperNova.Code.Object {
 
         public static float Health { get; set; } = 100F;
         private static float Fuel { get; set; } = 100F;
-        private static int Score { get; set; } = 0;
+        public static int Score { get; set; } = 0;
+
+        public static void Reset() {
+            position = new Vector2(640, 620);
+            velocity = new Vector2(.00001f, (float) Math.PI * 3 / 2);
+            engine = false;
+            timer = 0;
+            Angle = (float)Math.PI * 3 / 2;
+            Health = 100F;
+            Fuel = 100F;
+            Score = 0;
+        }
 
         public static Vector2 GetPosition() {
             return position;
@@ -238,6 +249,8 @@ namespace SuperNova.Code.Object {
                 engine = true;
             else
                 engine = false;
+
+            Score++;
         }
         
         

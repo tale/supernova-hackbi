@@ -8,7 +8,7 @@ using SuperNova.Code.Util;
 
 namespace Supernova.Code.World {
     public static class WorldManager {
-        public static readonly NoiseGenerator Generator = new NoiseGenerator(new Random().Next(10000, 1000000));
+        public static NoiseGenerator Generator = new NoiseGenerator(new Random().Next(10000, 1000000));
         private static readonly GaussianRandom _random = new GaussianRandom();
         
         private static (int, int)[] loaded = new (int, int)[9];
@@ -19,6 +19,12 @@ namespace Supernova.Code.World {
 
         //private static Planet planet = new Planet(new Vector2(600, 100), 128, 50, 1);
 
+        public static void Reset() {
+            Asteroids.Clear();
+            Bullets.Clear();
+            Chunks.Clear();
+            Generator = new NoiseGenerator(new Random().Next(10000, 1000000));
+        }
 
         public static void WorldTick() {
 

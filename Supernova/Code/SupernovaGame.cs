@@ -12,14 +12,13 @@ namespace Supernova.Code {
     internal enum GameState {
         StartScreen,
         GameScreen,
-        LoseScreen,
-        MenuScreen,
-        SettingsScreen
+        LoseScreen
     }
     public class SupernovaGame : Game {
 
         private int _delay = 0;
         private Button start;
+        private Button end;
         private Image title;
         Planet test;
         
@@ -46,6 +45,7 @@ namespace Supernova.Code {
             base.Initialize();
 
             start = new Button(640, 600, 480, 120, SpriteManager.GetTexture("START"));
+            end = new Button(640, 600, 480, 120, SpriteManager.GetTexture("END"));
             title = new Image(640, 360, 880, 684, SpriteManager.GetTexture("SUPERNOVA"));
         }
 
@@ -99,13 +99,19 @@ namespace Supernova.Code {
 
                     break;
                 case GameState.LoseScreen:
-                    break;
-                case GameState.MenuScreen:
-                    break;
-                case GameState.SettingsScreen:
+                    if (end.Tick(mouseState.X, mouseState.Y) && mouseState.LeftButton == ButtonState.Pressed && _delay <= 0) {
+                        _gameState = GameState.StartScreen;
+                        Player.Reset();
+                        SupernovaObject.Reset();
+                        WorldManager.Reset();
+                        _delay = 10;
+                        Camera.SetX(0);
+                        Camera.SetY(0);
+                        Update(gameTime);
+                    }
                     break;
                 default:
-                    throw new Exception("Unkown Game State");
+                    throw new Exception("Unknown Game State");
             }
 
             _delay = Math.Max(_delay - 1, 0);
@@ -133,13 +139,11 @@ namespace Supernova.Code {
                     HealthBar.Render(_spriteBatch);
                     break;
                 case GameState.LoseScreen:
-                    break;
-                case GameState.MenuScreen:
-                    break;
-                case GameState.SettingsScreen:
+                    // _spriteBatch.DrawString(new SpriteFont(), Player.Score.ToString(), Vector2.Zero, Color.White);
+                    end.Render(_spriteBatch);
                     break;
                 default:
-                    throw new Exception("Unkown Game State");
+                    throw new Exception("Unknown Game State");
             }
 
                     base.Draw(gameTime);
