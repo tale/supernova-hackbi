@@ -21,30 +21,48 @@ namespace Supernova.Code.World {
         private Planet[] GeneratePlanetMap(NoiseGenerator noiseGenerator) {
             // Noise Constants
             const int noiseMultiplier1 = 5000;
-            const int noiseMultiplier2 = 125;
-            const float radiusDivider = 2F;
+
             
-            var array = new Planet[300];
+            var array = new Planet[30];
 
-            for (var iter = 0; iter < array.Length; iter++) {
+            int iteration = 1000000;
+            int number = 0;
 
+            List<(int, int)> previous = new List<(int, int)>();
+
+            do {
                 var x = random.Next(5000);
                 var y = random.Next(5000);
 
-                var iterMultiplier = iter * noiseMultiplier2;
-                var noiseLevel = (float)noiseGenerator.evaluate((x + _position.X) * noiseMultiplier1, (y + _position.Y)) * noiseMultiplier1;
+                //var noiseLevel = (float)noiseGenerator.evaluate((x + _position.X) * noiseMultiplier1, (y + _position.Y)) * noiseMultiplier1;
 
-                array[iter] = new Planet(new Vector2((x + _position.X), (y + _position.Y)), 128, 100, 23);
-
-                /*if (noiseLevel > 5) {
-                    
+                if (checkPrevious(x, y, previous)) {
+                    array[number] = new Planet(new Vector2((x + _position.X), (y + _position.Y)), 64, 100, 23);
+                    previous.Add((x, y));
+                    number++;
                 }
-                else {
-                    array[iter] = null;
-                }*/
-            }
+                iteration--;
+            } while (iteration > 0 && number < 30);                
+
+
 
             return array;
+        }
+
+        private Boolean checkPrevious(int x, int y, List<(int, int)> previous) {
+
+            foreach ((int, int) prev in previous) {
+
+                var (x2, y2) = prev;
+
+                if (Math.Sqrt(Math.Pow(x - x2, 2) + Math.Pow(y - y2, 2)) < 700) {
+                    return false;
+                }
+
+            }
+
+            return true;
+
         }
 
         public void Render(SpriteBatch _spritebatch) {

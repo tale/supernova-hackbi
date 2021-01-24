@@ -48,13 +48,13 @@ namespace Supernova.Code.World {
 
                     switch (spawnLocation) {
                         case 0:
-                            spawnPoint = new Vector2(cordX * -1 * spawnLocation * 30, cordY * -1 * spawnLocation * 30);
+                            spawnPoint = new Vector2(cordX * -1 * spawnLocation * 30 - Camera.GetX(), cordY * -1 * spawnLocation * 30 - Camera.GetY());
                             break;
                         case 1:
-                            spawnPoint = new Vector2(cordX * 1 * spawnLocation * 30, cordY * -1 * spawnLocation * 30);
+                            spawnPoint = new Vector2(cordX * 1 * spawnLocation * 30 - Camera.GetX(), cordY * -1 * spawnLocation * 30 - Camera.GetY());
                             break;
                         case 2:
-                            spawnPoint = new Vector2(cordX * 1 * spawnLocation * 30 + Camera.GetWidthScalar(), cordY * -1 * spawnLocation * 30);
+                            spawnPoint = new Vector2(cordX * 1 * spawnLocation * 30 + -Camera.GetX(), cordY * -1 * spawnLocation * 30 - Camera.GetY());
                             break;
                     }
                     _asteroids.Add(new Asteroid(spawnPoint, new Vector2((float)rand / 2, (float)rand) / 2, 10, 23));
