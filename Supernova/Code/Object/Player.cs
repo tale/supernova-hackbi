@@ -22,7 +22,7 @@ namespace SuperNova.Code.Object {
 
         private static Boolean gif = false;
 
-        private static int timer2 = 0;
+        private static int timer2 = 0, invin = 0;
         
         public static Vector2 DrawPosition { get; } = new Vector2(640, 620);
         
@@ -111,7 +111,12 @@ namespace SuperNova.Code.Object {
 
                     velocity.X *= 0.5f;
                     velocity.Y += (float)Math.PI;
-                    Health -= 20 * (float)Math.Sqrt(Math.Pow(WorldManager.Asteroids[i]._velocity.X, 2) + Math.Pow(WorldManager.Asteroids[i]._velocity.Y, 2)) / 10;
+
+                    if (invin == 10) {
+                        Health -= 5 * velocity.X;
+                        invin = 0;
+                    }
+
                     WorldManager.Asteroids.Remove(WorldManager.Asteroids[i]);
                 }
 
@@ -143,7 +148,11 @@ namespace SuperNova.Code.Object {
 
                         if (velocity.X > 1.25) {
                             addToVelocity(3, ang);
-                            UpdateHealth(-5 * velocity.X);
+
+                            if (invin == 10 && velocity.X > 2) {
+                                Health -= 5 * velocity.X;
+                                invin = 0;
+                            }
                                 
                         } else {
                             while (IsCollisionPlanet(planet)) {
@@ -162,8 +171,8 @@ namespace SuperNova.Code.Object {
                             }
 
                             if (velocity.X <= 1) {
-                                UpdateHealth(1F);
-                                UpdateFuel(2F);
+                                UpdateHealth(.025F);
+                                UpdateFuel(.1F);
                             }
 
                         }
@@ -267,6 +276,8 @@ namespace SuperNova.Code.Object {
             } else {
                 timer2++;
             }
+
+            invin = Math.Min(invin + 1, 10);
 
             Score++;
         }

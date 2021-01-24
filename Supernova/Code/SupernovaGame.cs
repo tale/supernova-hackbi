@@ -82,7 +82,7 @@ namespace Supernova.Code {
                     break;
                 case GameState.GameScreen:
                     WorldManager.WorldTick();
-                    //SupernovaObject.Tick();
+                    SupernovaObject.Tick();
                     if (keyBoardState.IsKeyDown(Keys.A))
                         Player.Angle -= .075f;
 
