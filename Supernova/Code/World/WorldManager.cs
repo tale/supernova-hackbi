@@ -11,10 +11,10 @@ namespace Supernova.Code.World {
         public static readonly NoiseGenerator Generator = new NoiseGenerator(new Random().Next(10000, 1000000));
         private static readonly GaussianRandom _random = new GaussianRandom();
         
-        
-        static readonly Dictionary<(int, int), Chunk> Chunks = new Dictionary<(int, int), Chunk>();
-        static readonly List<Asteroid> Asteroids = new List<Asteroid>();
         private static (int, int)[] loaded = new (int, int)[9];
+        
+        public static Dictionary<(int, int), Chunk> Chunks { get; } = new Dictionary<(int, int), Chunk>();
+        public static List<Asteroid> Asteroids { get; }
 
         //private static Planet planet = new Planet(new Vector2(600, 100), 128, 50, 1);
 
