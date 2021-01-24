@@ -9,7 +9,7 @@ namespace SuperNova.Code.Object {
 
         static Random rand = new Random();
 
-        private const double _gravityStrength = 0.000000000000001;
+        private const double _gravityStrength = .00001;
         private float _radius, _mass, _changeInRotation, _rotation;
         private Vector2 _position;
 
@@ -38,13 +38,21 @@ namespace SuperNova.Code.Object {
 
         }
 
-        public Vector2 Gravity(Vector2 ObjectPosition) {
+        public Vector2 Gravity(Vector2 objectPosition) {
 
-            float acceleration = (float)(_gravityStrength * _mass / Hypot(_position.X - ObjectPosition.X, _position.Y - ObjectPosition.Y));
+            float accelerationX = (float)(_gravityStrength * _mass / Math.Pow(_position.X - objectPosition.X, 2));
 
-            float angle = (float)Math.Atan((_position.Y - ObjectPosition.Y) / (_position.X - ObjectPosition.X));
+            float accelerationY = (float)(_gravityStrength * _mass / Math.Pow(_position.Y - objectPosition.Y, 2));
 
-            return new Vector2((float)(acceleration * Math.Cos(angle)), (float)(acceleration * Math.Sin(angle)));
+            if (_position.X < objectPosition.X)
+                accelerationX *= -1;
+
+            if (_position.Y < objectPosition.Y)
+                accelerationY *= -1;
+
+
+
+            return new Vector2(accelerationX, accelerationY);
 
         }
 

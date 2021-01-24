@@ -65,11 +65,32 @@ namespace Supernova.Code.World {
 
         }
 
+        public Vector2 getGravityEffects(Vector2 positition) {
+
+            Vector2 acceleration = Vector2.Zero;
+
+            for (int n = 0; n < _planets.Length; n++) {
+
+
+                Vector2 temp = _planets[n].Gravity(positition);
+
+                acceleration.X += temp.X;
+                acceleration.Y += temp.Y;
+            }
+
+            return acceleration;
+
+        }
+
         public void Render(SpriteBatch _spritebatch) {
 
             foreach (var planet in _planets) {
                 if (planet != null) planet.Render(_spritebatch);
             }
+        }
+
+        public Planet[] getPlanets() {
+            return _planets;
         }
     }
 }

@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Supernova.Code.World;
 using SuperNova.Code.Util;
 
 namespace SuperNova.Code.Object {
@@ -48,7 +49,7 @@ namespace SuperNova.Code.Object {
             Player.angle = angle;
         }
 
-        public static void addToVelocity(float amount) {
+        public static void addToVelocity(float amount, float angle) {
 
             float CVX = (float) (velocity.X * Math.Cos(velocity.Y));
             float CVY = (float) (velocity.X * Math.Sin(velocity.Y));
@@ -73,8 +74,12 @@ namespace SuperNova.Code.Object {
         }
 
 
-        public static void Tick()
-        {
+        public static void Tick() {
+
+            Vector2 gravity = WorldManager.getGravityEffects(position);
+
+            addToVelocity(gravity.X, gravity.Y);
+
 
             velocity.X = Math.Min(velocity.X, 10);
             velocity.X = Math.Max(velocity.X, -10);
@@ -94,8 +99,6 @@ namespace SuperNova.Code.Object {
 
             Camera.SetX(-position.X);
             Camera.SetY(-position.Y);
-
-            Console.WriteLine(velocity.X + " " + (180 / Math.PI) * velocity.Y + " " + (180 / Math.PI) * angle);
 
             KeyboardState keyboardState = Keyboard.GetState();
             timer += 1;

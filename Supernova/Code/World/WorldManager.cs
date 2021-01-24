@@ -72,6 +72,38 @@ namespace Supernova.Code.World {
   
         }
 
+        public static Vector2 getGravityEffects(Vector2 positition) {
+
+            Vector2 acceleration = Vector2.Zero;
+
+            for (int n = 0; n < 9; n++) {
+
+                acceleration += chunks[loaded[n]].getGravityEffects(positition);
+            }
+
+
+            float mangnitude = (float)Math.Sqrt(Math.Pow(acceleration.X, 2) + Math.Pow(acceleration.Y, 2));
+
+            float angle = 0;
+
+            if (acceleration.X > 0 && acceleration.Y > 0)
+                angle = (float)Math.Atan(acceleration.Y / (acceleration.X));
+
+            else if (acceleration.X < 0 && acceleration.Y > 0)
+                angle = (float)(Math.Atan(acceleration.Y / (acceleration.X)) + Math.PI);
+
+            else if (acceleration.X < 0 && acceleration.Y < 0)
+                angle = (float)(Math.Atan(acceleration.Y / (acceleration.X)) + Math.PI);
+
+            else if (acceleration.X > 0 && acceleration.Y < 0)
+                angle = (float)(Math.Atan(acceleration.Y / (acceleration.X)) + 2 * Math.PI);
+
+            angle %= (float)Math.PI * 2;
+
+            return new Vector2(mangnitude, angle);
+
+        }
+
         public static void WorldRender(SpriteBatch _spriteBatch) {
             for (int n = 0; n < 9; n++) {
 
