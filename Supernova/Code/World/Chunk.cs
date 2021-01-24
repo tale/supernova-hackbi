@@ -34,7 +34,7 @@ namespace Supernova.Code.World {
                 var iterMultiplier = iter * noiseMultiplier2;
                 var noiseLevel = (float)noiseGenerator.evaluate((x + _position.X) * noiseMultiplier1, (y + _position.Y)) * noiseMultiplier1;
 
-                array[iter] = new Planet(new Vector2((x + _position.X), (y + _position.Y)), 50, 100, 23);
+                array[iter] = new Planet(new Vector2((x + _position.X), (y + _position.Y)), 128, 100, 23);
 
                 /*if (noiseLevel > 5) {
                     
