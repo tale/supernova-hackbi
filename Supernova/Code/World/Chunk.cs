@@ -37,7 +37,7 @@ namespace Supernova.Code.World {
                 //var noiseLevel = (float)noiseGenerator.evaluate((x + _position.X) * noiseMultiplier1, (y + _position.Y)) * noiseMultiplier1;
 
                 if (checkPrevious(x, y, previous)) {
-                    array[number] = new Planet(new Vector2((x + _position.X), (y + _position.Y)), 64, 100, (float)random.NextDouble() / 50 );
+                    array[number] = new Planet(new Vector2((x + _position.X), (y + _position.Y)), 84, 100, (float)random.NextDouble() / 50 );
                     previous.Add((x, y));
                     number++;
                 }
@@ -87,9 +87,9 @@ namespace Supernova.Code.World {
         public void Tick() {
 
             foreach (var planet in Planets) {
-                if (planet != null) planet.Tick();
+                planet?.Tick();
             }
-
+            
         }
 
         public void Render(SpriteBatch _spritebatch) {

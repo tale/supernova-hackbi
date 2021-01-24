@@ -3,8 +3,8 @@
 namespace SuperNova.Code.Util {
 
     public static class Camera {
-        private const int Width = 720, Height = 450;
-        private static int _currentWidth = 720, _currentHeight = 450;
+        private const int Width = 1280, Height = 720;
+        private static int _currentWidth = 1280, _currentHeight = 720;
         private static Vector2 _flippedCoordinates = Vector2.Zero;
 
         public static void Update(int width, int height) {

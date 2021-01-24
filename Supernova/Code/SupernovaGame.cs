@@ -33,8 +33,8 @@ namespace Supernova.Code {
         }
 
         protected override void Initialize() {
-            _graphicsDeviceManager.PreferredBackBufferHeight = 450;
-            _graphicsDeviceManager.PreferredBackBufferWidth = 720;
+            _graphicsDeviceManager.PreferredBackBufferHeight = 720;
+            _graphicsDeviceManager.PreferredBackBufferWidth = 1280;
             _graphicsDeviceManager.PreferMultiSampling = true;
 
             Window.AllowUserResizing = true;
@@ -111,7 +111,7 @@ namespace Supernova.Code {
 
             GraphicsDevice.Clear(Color.Black);
 
-            _spriteBatch.Begin();
+            _spriteBatch.Begin(SpriteSortMode.FrontToBack, null, SamplerState.PointClamp);
 
             switch (_gameState) {
                 case GameState.StartScreen:

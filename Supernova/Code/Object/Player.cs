@@ -9,7 +9,7 @@ namespace SuperNova.Code.Object {
 
     public static class Player {
 
-        private static Vector2 position = new Vector2(360, 225);
+        private static Vector2 position = new Vector2(640, 620);
         private static Vector2 velocity = new Vector2(.00001f, (float) Math.PI * 3 / 2);
 
         private static Boolean engine = false;
@@ -18,9 +18,9 @@ namespace SuperNova.Code.Object {
         private static Texture2D sprite2 = SpriteManager.GetTexture("PLAYER1");
         private static float timer = 0f;
         
-        public static Vector2 DrawPosition { get; } = new Vector2(360, 225);
+        public static Vector2 DrawPosition { get; } = new Vector2(640, 620);
         
-        public static Vector2 Size { get; } = new Vector2(32, 32);
+        public static Vector2 Size { get; } = new Vector2(48, 48);
         
         public static float Angle { get; set; } = (float) Math.PI * 3 / 2;
 
@@ -169,10 +169,28 @@ namespace SuperNova.Code.Object {
         public static void Render(SpriteBatch _spriteBatch) {
             
             if (!engine)
-                _spriteBatch.Draw(sprite, destinationRectangle: new Rectangle((int)(Camera.GetWidthScalar() * (DrawPosition.X - Size.X / 2)), (int)(Camera.GetHeightScalar() * (DrawPosition.Y - Size.Y / 2)), (int)(Camera.GetWidthScalar() * (Size.X)), (int)(Camera.GetHeightScalar() * Size.Y)),null, Color.White, (Angle + (float)Math.PI / 2) % ((float)Math.PI * 2), new Vector2(Size.X / 2 * Camera.GetWidthScalar(), Camera.GetHeightScalar() * (Size.Y / 2 -2)) , SpriteEffects.None, 0f);
+                _spriteBatch.Draw(sprite, destinationRectangle: 
+                    new Rectangle(
+                        (int)(Camera.GetWidthScalar() * (DrawPosition.X - Size.X / 2)),
+                        (int)(Camera.GetHeightScalar() * (DrawPosition.Y - Size.Y / 2)),
+                        (int)(Camera.GetWidthScalar() * (Size.X)),
+                        (int)(Camera.GetHeightScalar() * Size.Y)),
+                    null, Color.White,
+                    (Angle + (float)Math.PI / 2) % ((float)Math.PI * 2),
+                    new Vector2(sprite.Width / 2F, sprite.Height / 2F) , SpriteEffects.None,
+                    0f);
 
             else
-                _spriteBatch.Draw(sprite2, destinationRectangle: new Rectangle((int)(Camera.GetWidthScalar() * (DrawPosition.X - Size.X / 2)), (int)(Camera.GetHeightScalar() * (DrawPosition.Y - Size.Y / 2)), (int)(Camera.GetWidthScalar() * (Size.X)), (int)(Camera.GetHeightScalar() * Size.Y)), null, Color.White, (Angle + (float)Math.PI / 2) % ((float)Math.PI * 2), new Vector2(Size.X / 2 * Camera.GetWidthScalar(), Camera.GetHeightScalar() * (Size.Y / 2 - 2)), SpriteEffects.None, 0f);
+                _spriteBatch.Draw(sprite2, destinationRectangle: 
+                    new Rectangle(
+                        (int)(Camera.GetWidthScalar() * (DrawPosition.X - Size.X / 2)),
+                        (int)(Camera.GetHeightScalar() * (DrawPosition.Y - Size.Y / 2)), 
+                        (int)(Camera.GetWidthScalar() * (Size.X)),
+                        (int)(Camera.GetHeightScalar() * Size.Y)),
+                    null, Color.White,
+                    (Angle + (float)Math.PI / 2) % ((float)Math.PI * 2),
+                    new Vector2(sprite2.Width / 2F, sprite2.Height / 2F), SpriteEffects.None,
+                    0f);
 
         }
     }

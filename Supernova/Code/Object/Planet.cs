@@ -11,7 +11,7 @@ namespace SuperNova.Code.Object {
 
         private const double _gravityStrength = .0005;
         private float _mass, _changeInRotation, _rotation;
-        private Vector2 _position;
+        private Vector2 _position { get; }
 
         private Texture2D _sprite;
 
@@ -46,30 +46,37 @@ namespace SuperNova.Code.Object {
 
         public void Render(SpriteBatch _spriteBatch) {
 
-            _spriteBatch.Draw(_sprite, destinationRectangle: new Rectangle((int)(Camera.GetWidthScalar() * (_position.X - Radius + Camera.GetX())), (int)(Camera.GetHeightScalar() * (_position.Y - Radius + Camera.GetY())), (int)(Camera.GetWidthScalar() * (Radius * 2)), (int)(Camera.GetHeightScalar() * Radius * 2)), null, Color.White, (_rotation + (float)Math.PI / 2) % ((float)Math.PI * 2), new Vector2(Radius * Camera.GetWidthScalar(), Camera.GetHeightScalar() * (Radius - 2)), SpriteEffects.None, 0f);
-
+            _spriteBatch.Draw(_sprite, new Rectangle((int)(Camera.GetWidthScalar() * (_position.X - Radius + Camera.GetX())), 
+                (int)(Camera.GetHeightScalar() * (_position.Y - Radius + Camera.GetY())), (int)(Camera.GetWidthScalar() * (Radius * 2)), 
+                (int)(Camera.GetHeightScalar() * Radius * 2)), 
+                null, Color.White, 
+                (_rotation + (float)Math.PI / 4) % ((float)Math.PI * 2), 
+                new Vector2(_sprite.Width / 2F, _sprite.Height / 2F), SpriteEffects.None, 
+                0f);
         }
 
         public Vector2 Gravity(Vector2 objectPosition) {
 
-            if (Math.Sqrt(Math.Pow(_position.X - objectPosition.X, 2) + Math.Pow(_position.Y - objectPosition.Y, 2)) > 1000)
+            var (x, y) = objectPosition;
+
+            if (Math.Sqrt(Math.Pow(_position.X - x, 2) + Math.Pow(_position.Y - y, 2)) > 1000)
                 return Vector2.Zero;
 
-            float acceleration = (float)(_gravityStrength * _mass / (Math.Pow((_position.X - objectPosition.X) / 180, 2) + Math.Pow((_position.Y - objectPosition.Y) / 180, 2)));
+            float acceleration = (float)(_gravityStrength * _mass / (Math.Pow((_position.X - x) / 180, 2) + Math.Pow((_position.Y - y) / 180, 2)));
 
             float angle = 0;
 
-            if (_position.X - objectPosition.X > 0 && _position.Y - objectPosition.Y > 0)
-                angle = (float)Math.Atan((_position.Y - objectPosition.Y) / (_position.X - objectPosition.X));
+            if (_position.X - x > 0 && _position.Y - y > 0)
+                angle = (float)Math.Atan((_position.Y - y) / (_position.X - x));
 
-            else if (_position.X - objectPosition.X < 0 && _position.Y - objectPosition.Y > 0)
-                angle = (float)(Math.Atan((_position.Y - objectPosition.Y) / (_position.X - objectPosition.X)) + Math.PI);
+            else if (_position.X - x < 0 && _position.Y - y > 0)
+                angle = (float)(Math.Atan((_position.Y - y) / (_position.X - x)) + Math.PI);
 
-            else if (_position.X - objectPosition.X < 0 && _position.Y - objectPosition.Y < 0)
-                angle = (float)(Math.Atan((_position.Y - objectPosition.Y) / (_position.X - objectPosition.X)) + Math.PI);
+            else if (_position.X - x < 0 && _position.Y - y < 0)
+                angle = (float)(Math.Atan((_position.Y - y) / (_position.X - x)) + Math.PI);
 
-            else if (_position.X - objectPosition.X > 0 && _position.Y - objectPosition.Y < 0)
-                angle = (float)(Math.Atan((_position.Y - objectPosition.Y) / (_position.X - objectPosition.X)) + 2 * Math.PI);
+            else if (_position.X - x > 0 && _position.Y - y < 0)
+                angle = (float)(Math.Atan((_position.Y - y) / (_position.X - x)) + 2 * Math.PI);
 
             angle %= (float)Math.PI * 2;
 
