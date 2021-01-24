@@ -38,13 +38,13 @@ namespace SuperNova.Code.Object  {
 
         private void CheckCollision() {
             
-            foreach (var asteroid in WorldManager.Asteroids) {
+            for (int i = WorldManager.Asteroids.Count - 1; i >= 0; i--) {
 
-                if (IsCollision(asteroid)) {
+                if (IsCollision(WorldManager.Asteroids[i])) {
 
                     Console.WriteLine("BULLET-ASTEROID COLLISION");
                     
-                    // WorldManager.Asteroids.Remove(asteroid);
+                    WorldManager.Asteroids.Remove(WorldManager.Asteroids[i]);
                 }
 
             }

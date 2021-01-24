@@ -80,16 +80,16 @@ namespace SuperNova.Code.Object {
 
         private static void CheckCollision() {
 
-            foreach (var asteroid in WorldManager.Asteroids) {
+            for (int i = WorldManager.Asteroids.Count - 1; i >= 0; i--) {
 
-                if (IsCollisionAsteroid(asteroid))
-                {
+                if (IsCollisionAsteroid(WorldManager.Asteroids[i])) {
 
                     Console.WriteLine("ASTEROID COLLISION");
 
+                    velocity.X *= 0.5f;
                     velocity.Y += (float)Math.PI;
-                    // WorldManager.Asteroids.Remove(asteroid);
-                    Health -= (float)Math.Sqrt(Math.Pow(asteroid._velocity.X, 2) + Math.Pow(asteroid._velocity.Y, 2)) / 10;
+                    WorldManager.Asteroids.Remove(WorldManager.Asteroids[i]);
+                    Health -= (float)Math.Sqrt(Math.Pow(WorldManager.Asteroids[i]._velocity.X, 2) + Math.Pow(WorldManager.Asteroids[i]._velocity.Y, 2)) / 10;
                     Console.WriteLine(Health);
                 }
 
