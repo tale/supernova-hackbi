@@ -46,14 +46,17 @@ namespace SuperNova.Code.Object {
             _position.Y += _velocity.Y;
         }
 
-        public void Render(SpriteBatch spriteBatch) {
-            spriteBatch.Draw(SpriteManager.GetTexture("MISSING"), _position, Color.White);
+        public void Render(SpriteBatch _spriteBatch) {
+
+            _spriteBatch.Draw(_sprite, new Rectangle((int)(Camera.GetWidthScalar() * (_position.X - _radius + Camera.GetX())), (int)(Camera.GetHeightScalar() * (_position.Y - _radius + Camera.GetY())), (int)(Camera.GetWidthScalar() * _radius * 2), (int)(Camera.GetHeightScalar() * _radius * 2)), Color.White);
         }
         
 
         private static Texture2D MakeAstroidTexture() {
 
             int type = (int)(rand.Next(1));
+
+            return SpriteManager.GetTexture("NULL");
 
             switch (type) {
 
