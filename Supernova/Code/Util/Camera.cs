@@ -22,6 +22,11 @@ namespace SuperNova.Code.Util {
             _flippedCoordinates.X = x;
         }
 
+        public static void SetPosition(Vector2 _flippedCoordinates) {
+
+           Camera._flippedCoordinates = _flippedCoordinates;
+        }
+
         public static int GetY() {
 
             return (int)_flippedCoordinates.Y;

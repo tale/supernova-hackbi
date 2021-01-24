@@ -79,16 +79,16 @@ namespace Supernova.Code {
                     WorldManager.WorldTick();
 
                     if (keyBoardState.IsKeyDown(Keys.A))
-                        Camera.SetX(Camera.GetX() + 5);
+                        Player.SetAngle(Player.GetAngle() - .05f);
 
                     if (keyBoardState.IsKeyDown(Keys.D))
-                        Camera.SetX(Camera.GetX() - 5);
-
-                    if (keyBoardState.IsKeyDown(Keys.S))
-                        Camera.SetY(Camera.GetY() - 5);
+                        Player.SetAngle(Player.GetAngle() + .05f);
 
                     if (keyBoardState.IsKeyDown(Keys.W))
-                        Camera.SetY(Camera.GetY() + 5);
+                        Player.addToVelocity(.1f);
+                    
+
+                    Player.Tick();
 
                     break;
                 case GameState.LoseScreen:
