@@ -103,14 +103,47 @@ namespace SuperNova.Code.Object {
 
                         Console.WriteLine("PLANET COLLISION");
 
-                        velocity.Y += (float)Math.PI;
-                        Vector2.Multiply(velocity, -5f);
-                        if (velocity.Length() <= 4) {
-                            UpdateHealth(0.5F);
-                            Console.WriteLine(Health);
+                        float x = position.X - planet.X;
+                        float y = position.Y - planet.Y;
+
+                        float ang = 0;
+
+                        if (x >= 0 && y >= 0)
+                            ang = (float)Math.Atan((y) / (x));
+
+                        else if (x <= 0 && y >= 0)
+                            ang = (float)(Math.Atan((y) / (x)) + Math.PI);
+
+                        else if (x <= 0 && y <= 0)
+                            ang = (float)(Math.Atan((y) / (x)) + Math.PI);
+
+                        else if (x >= 0 && y <= 0)
+                            ang = (float)(Math.Atan((y) / (x)) + 2 * Math.PI);
+
+
+                        while(IsCollisionPlanet(planet)) {
+
+                            position.X += .01f * (float)Math.Cos(ang);
+                            position.Y += .01f * (float)Math.Sin(ang);
                         }
 
-                        Fuel += 1F;
+                        //addToVelocity(planet.Gravity(position).Length() * 1f, ang - (float)Math.PI / 2.9f);
+
+                        KeyboardState keyboardState = Keyboard.GetState();
+                       
+                        if (!keyboardState.IsKeyDown(Keys.W)) {
+                            velocity.X *= .5f;
+                        }
+
+
+                        if (velocity.Length() <= 1) {
+                            UpdateHealth(0.5F);
+                            Fuel += .03F;
+                            Health += .01f;
+                        } else {
+
+                            
+                        }
                     }
 
                 }
@@ -124,8 +157,11 @@ namespace SuperNova.Code.Object {
         }
 
         private static bool IsCollisionPlanet(Planet planet) {
-            
-            return IsCollisionBody(planet.X, planet.Y, planet.Radius);
+
+            float distance = Vector2.Distance(new Vector2(planet.X, planet.Y) , position);
+
+            return (distance < planet.getRadius() + Size.X / 2 - 8 );
+            //return IsCollisionBody(planet.X, planet.Y, planet.getRadius());
         }
         
         private static bool IsCollisionBody(double bodyX, double bodyY, double bodyRadius)
@@ -155,7 +191,7 @@ namespace SuperNova.Code.Object {
             if (Math.Abs(distLineClosest1 + distLineClosest2 - lineLen) > 0.5)
                 return false;
             double distCircleClosest = distance(circleX, circleY, closestX, closestY);
-            return distCircleClosest < radius;
+            return distCircleClosest < radius * 1.3;
         }
 
         private static double distance(double x1, double y1, double x2, double y2) {
@@ -218,8 +254,8 @@ namespace SuperNova.Code.Object {
             if (!engine)
                 _spriteBatch.Draw(sprite, destinationRectangle: 
                     new Rectangle(
-                        (int)(Camera.GetWidthScalar() * (DrawPosition.X - Size.X / 2 - sprite2.Width / 2F)),
-                        (int)(Camera.GetHeightScalar() * (DrawPosition.Y - Size.Y / 2 - sprite2.Height / 2F)),
+                        (int)(Camera.GetWidthScalar() * (DrawPosition.X - Size.X / 2)),
+                        (int)(Camera.GetHeightScalar() * (DrawPosition.Y - Size.Y / 2)),
                         (int)(Camera.GetWidthScalar() * (Size.X)),
                         (int)(Camera.GetHeightScalar() * Size.Y)),
                     null, Color.White,
@@ -230,8 +266,8 @@ namespace SuperNova.Code.Object {
             else
                 _spriteBatch.Draw(sprite2, destinationRectangle: 
                     new Rectangle(
-                        (int)(Camera.GetWidthScalar() * (DrawPosition.X - Size.X / 2 - sprite2.Width / 2F)),
-                        (int)(Camera.GetHeightScalar() * (DrawPosition.Y - Size.Y / 2) - sprite2.Height / 2F), 
+                        (int)(Camera.GetWidthScalar() * (DrawPosition.X - Size.X / 2)),
+                        (int)(Camera.GetHeightScalar() * (DrawPosition.Y - Size.Y / 2)), 
                         (int)(Camera.GetWidthScalar() * (Size.X)),
                         (int)(Camera.GetHeightScalar() * Size.Y)),
                     null, Color.White,

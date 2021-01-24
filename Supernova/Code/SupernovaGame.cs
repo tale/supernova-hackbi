@@ -78,7 +78,7 @@ namespace Supernova.Code {
                     break;
                 case GameState.GameScreen:
                     WorldManager.WorldTick();
-                    SupernovaObject.Tick();
+                    //SupernovaObject.Tick();
                     if (keyBoardState.IsKeyDown(Keys.A))
                         Player.Angle -= .05f;
 
@@ -116,7 +116,7 @@ namespace Supernova.Code {
 
             GraphicsDevice.Clear(Color.Black);
 
-            _spriteBatch.Begin(SpriteSortMode.FrontToBack, null, SamplerState.PointClamp);
+            _spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp);
 
             switch (_gameState) {
                 case GameState.StartScreen:

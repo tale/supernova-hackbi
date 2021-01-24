@@ -21,7 +21,7 @@ namespace Supernova.Code.World {
         private Planet[] GeneratePlanetMap(NoiseGenerator noiseGenerator) {
             // Noise Constants
             
-            var array = new Planet[5];
+            var array = new Planet[10];
 
             int iteration = 1000000;
             int number = 0;
@@ -40,7 +40,7 @@ namespace Supernova.Code.World {
                     number++;
                 }
                 iteration--;
-            } while (iteration > 0 && number < 5);                
+            } while (iteration > 0 && number < 10);                
 
 
 
@@ -55,7 +55,7 @@ namespace Supernova.Code.World {
 
                 var (x2, y2) = prev;
 
-                if (Math.Sqrt(Math.Pow(x - x2, 2) + Math.Pow(y - y2, 2)) < 700) {
+                if (Math.Sqrt(Math.Pow(x - x2, 2) + Math.Pow(y - y2, 2)) < 300) {
                     return false;
                 }
 

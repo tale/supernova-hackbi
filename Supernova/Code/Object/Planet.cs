@@ -13,12 +13,14 @@ namespace SuperNova.Code.Object {
         private float _mass, _changeInRotation, _rotation;
         private Vector2 _position { get; }
 
+        private float radius;
+
         private Texture2D _sprite;
 
         public Planet(Vector2 position, float radius, float mass, float changeInRotation) {
 
             IsVisible = true;
-            Radius = radius;
+            this.radius = radius;
             _position = position;
             _mass = mass;
             _sprite = MakePlanetTexture();
@@ -27,8 +29,7 @@ namespace SuperNova.Code.Object {
         }
         
         public bool IsVisible { get; set; }
-        
-        public float Radius { get; }
+     
 
         public float X {
             get { return _position.X; }
@@ -44,17 +45,18 @@ namespace SuperNova.Code.Object {
 
         }
 
+        public float getRadius() {
+            return radius;
+        }
+
         public void Render(SpriteBatch _spriteBatch) {
 
             _spriteBatch.Draw(_sprite, new Rectangle(
-                    (int)(Camera.GetWidthScalar() * (_position.X - Radius + Camera.GetX())), 
-                (int)(Camera.GetHeightScalar() * (_position.Y - Radius + Camera.GetY())),
-                    (int)(Camera.GetWidthScalar() * (Radius * 2)), 
-                (int)(Camera.GetHeightScalar() * Radius * 2)), 
-                null, Color.White, 
-                (_rotation + (float)Math.PI / 4) % ((float)Math.PI * 2), 
-                new Vector2(Radius * 2, Radius * 2), SpriteEffects.None, 
-                0f);
+                    (int)(Camera.GetWidthScalar() * (_position.X - radius * 1.3 + Camera.GetX())), 
+                (int)(Camera.GetHeightScalar() * (_position.Y - radius * 1.3 + Camera.GetY())),
+                    (int)(Camera.GetWidthScalar() * radius * 2), 
+                (int)(Camera.GetHeightScalar() * radius * 2)), 
+                null, Color.White);
         }
 
         public Vector2 Gravity(Vector2 objectPosition) {
