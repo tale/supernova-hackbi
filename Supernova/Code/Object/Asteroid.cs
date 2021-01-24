@@ -86,21 +86,18 @@ namespace SuperNova.Code.Object {
 
         private static Texture2D MakeAstroidTexture() {
 
-            var type = rand.Next(1);
-
-            return SpriteManager.GetTexture("ASTEROID");
-
+            var type = rand.Next(2);
 
             switch (type) {
 
                 case 0:
-                    return null;
+                    return SpriteManager.GetTexture("ASTEROID"); ;
 
                 case 1:
-                    return null;
+                    return SpriteManager.GetTexture("ASTEROID2"); ;
 
                 default:
-                    return null;
+                    return SpriteManager.GetTexture("ASTEROID"); ;
 
             }
         }
