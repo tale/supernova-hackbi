@@ -19,6 +19,7 @@ namespace Supernova.Code {
 
         private int _delay = 0;
         private Button start;
+        private Image title;
         Planet test;
         
         private GameState _gameState = GameState.StartScreen;
@@ -42,7 +43,8 @@ namespace Supernova.Code {
             SpriteManager.LoadAssets(this);
             base.Initialize();
 
-            start = new Button(360, 250, 240, 60, SpriteManager.GetTexture("START"));
+            start = new Button(360, 350, 240, 60, SpriteManager.GetTexture("START"));
+            title = new Image(360, 150, 360, 280, SpriteManager.GetTexture("SUPERNOVA"));
         }
 
         protected override void LoadContent() {
@@ -112,12 +114,14 @@ namespace Supernova.Code {
             switch (_gameState) {
                 case GameState.StartScreen:
                     start.render(_spriteBatch);
+                    title.render(_spriteBatch);
+
                     break;
                 case GameState.GameScreen:
                     WorldManager.WorldRender(_spriteBatch);
+                    Player.render(_spriteBatch);
                     break;
                 case GameState.LoseScreen:
-                    Player.render(_spriteBatch);
                     break;
                 case GameState.MenuScreen:
                     break;
