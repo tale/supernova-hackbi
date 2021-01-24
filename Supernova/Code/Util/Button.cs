@@ -6,48 +6,47 @@ using SuperNova.Code.Util;
 namespace SuperNova.Code.Utilities {
     public class Button {
 
-        private Vector2 position, dimensions;
+        private Vector2 _position, _dimensions;
 
-        private float expand = 1;
+        private float _expand = 1;
 
-        private Texture2D texture;
+        private Texture2D _texture;
 
         public Button(int x, int y, int width, int height, Texture2D texture) {
 
-            position.X = x;
-            position.Y = y;
+            _position.X = x;
+            _position.Y = y;
 
-            dimensions.X = width;
-            dimensions.Y = height;
+            _dimensions.X = width;
+            _dimensions.Y = height;
 
-            this.texture = texture;
+            _texture = texture;
         }
 
         public Button(Vector2 position, Vector2 dimensions, Texture2D texture) {
 
-            this.position = position;
-            this.dimensions = dimensions;
-
-            this.texture = texture;
+            _position = position;
+            _dimensions = dimensions;
+            _texture = texture;
         }
 
 
         public bool Tick(int mouseX, int mouseY) {
 
 
-            if (mouseX > Camera.GetWidthScalar() * (position.X - dimensions.X / 2 * expand) && mouseX < Camera.GetWidthScalar() * (position.X + dimensions.X / 2 * expand) && mouseY > Camera.GetHeightScalar() * (position.Y - dimensions.Y / 2 * expand) && mouseY < Camera.GetHeightScalar() * (position.Y + dimensions.Y / 2 * expand)) {
+            if (mouseX > Camera.GetWidthScalar() * (_position.X - _dimensions.X / 2 * _expand) && mouseX < Camera.GetWidthScalar() * (_position.X + _dimensions.X / 2 * _expand) && mouseY > Camera.GetHeightScalar() * (_position.Y - _dimensions.Y / 2 * _expand) && mouseY < Camera.GetHeightScalar() * (_position.Y + _dimensions.Y / 2 * _expand)) {
 
-                expand = (float)Math.Min(expand + .05, 1.15);
+                _expand = (float)Math.Min(_expand + .05, 1.15);
                 return true;
             }
-            expand = (float)Math.Max(expand - .05, 1);
+            _expand = (float)Math.Max(_expand - .05, 1);
             return false;
         }
 
 
         public void Render(SpriteBatch _spriteBatch) {
 
-            _spriteBatch.Draw(texture, destinationRectangle: new Rectangle((int)(Camera.GetWidthScalar() * (position.X - dimensions.X / 2 * expand)), (int)(Camera.GetHeightScalar() * (position.Y - dimensions.Y / 2 * expand)), (int)(Camera.GetWidthScalar() * (dimensions.X * expand)), (int)(Camera.GetHeightScalar() * (dimensions.Y * expand))), Color.White);
+            _spriteBatch.Draw(_texture, destinationRectangle: new Rectangle((int)(Camera.GetWidthScalar() * (_position.X - _dimensions.X / 2 * _expand)), (int)(Camera.GetHeightScalar() * (_position.Y - _dimensions.Y / 2 * _expand)), (int)(Camera.GetWidthScalar() * (_dimensions.X * _expand)), (int)(Camera.GetHeightScalar() * (_dimensions.Y * _expand))), Color.White);
         }
     }
 }

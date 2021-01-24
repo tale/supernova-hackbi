@@ -7,22 +7,22 @@ namespace SuperNova.Code.Object {
     public class Supernova {
 
         private const double radius = 10;
-        private double yPosition, yVelocity, yAcceleration;
+        private double _yPosition, _yVelocity, _yAcceleration;
 
-        private Texture2D sprite;
+        private Texture2D _sprite;
 
         public Supernova(double yPosition, double yVelocity, double yAcceleration) {
 
-            this.yPosition = yPosition;
-            this.yVelocity = yVelocity;
-            this.yAcceleration = yAcceleration;
-            this.sprite = makeSupernovaTexture();
+            _yPosition = yPosition;
+            _yVelocity = yVelocity;
+            _yAcceleration = yAcceleration;
+            _sprite = MakeSupernovaTexture();
         }
 
         public void Tick() {
 
-            yPosition += yVelocity;
-            yVelocity += yAcceleration;
+            _yPosition += _yVelocity;
+            _yVelocity += _yAcceleration;
         }
 
         public void Render() {
@@ -32,7 +32,7 @@ namespace SuperNova.Code.Object {
         }
         
 
-        private static Texture2D makeSupernovaTexture() {
+        private static Texture2D MakeSupernovaTexture() {
 
             return null;
 

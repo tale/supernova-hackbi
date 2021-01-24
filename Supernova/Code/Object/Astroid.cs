@@ -8,43 +8,41 @@ namespace SuperNova.Code.Object {
 
         static Random rand = new Random();
         
-        public Boolean isVisible = false;
+        private bool _isVisible = false;
 
-        public float radius;
-        private float changeInRotation, rotation;
-        private Vector2 position, velocity, accleration;
-
-        private Texture2D sprite;
+        private float _changeInRotation, _rotation, _radius;
+        private Vector2 _position, _velocity, _accleration;
+        private Texture2D _sprite;
 
         public Astroid(Vector2 position, Vector2 velocity, float radius, float changeInRotation) {
 
-            this.position = position;
-            this.velocity = velocity;
-            this.accleration = new Vector2();
-            this.radius = radius;
-            this.sprite = MakeAstroidTexture();
-            this.changeInRotation = changeInRotation;
-            this.rotation = (float)(rand.NextDouble() * Math.PI * 2);
+            _position = position;
+            _velocity = velocity;
+            _accleration = new Vector2();
+            _radius = radius;
+            _sprite = MakeAstroidTexture();
+            _changeInRotation = changeInRotation;
+            _rotation = (float)(rand.NextDouble() * Math.PI * 2);
         }
 
         public float GetX() {
-            return position.X;
+            return _position.X;
         }
         
         public float GetY() {
-            return position.Y;
+            return _position.Y;
         }
 
         public float GetRadius() {
-            return radius;
+            return _radius;
         }
         
         public void Tick() {
 
-            rotation = (float)((rotation + changeInRotation) % (Math.PI * 2));
+            _rotation = (float)((_rotation + _changeInRotation) % (Math.PI * 2));
 
-            position.X += velocity.X;
-            position.Y += velocity.Y;
+            _position.X += _velocity.X;
+            _position.Y += _velocity.Y;
         }
 
         public void Render() {

@@ -9,40 +9,40 @@ namespace SuperNova.Code.Object {
 
         static Random rand = new Random();
 
-        private const double gravityStrength = 0.000000000000001;
-        private float radius, mass, changeInRotation, rotation;
-        public Vector2 position;
+        private const double _gravityStrength = 0.000000000000001;
+        private float _radius, _mass, _changeInRotation, _rotation;
+        private Vector2 _position;
 
-        private Texture2D sprite;
+        private Texture2D _sprite;
 
         public Planet(Vector2 position, float radius, float mass, float changeInRotation) {
 
-            this.position = position;
-            this.radius = radius;
-            this.mass = mass;
-            this.sprite = MakePlanetTexture();
-            this.changeInRotation = changeInRotation;
-            this.rotation = (float)(rand.NextDouble() * Math.PI * 2);
+            _position = position;
+            _radius = radius;
+            _mass = mass;
+            _sprite = MakePlanetTexture();
+            _changeInRotation = changeInRotation;
+            _rotation = (float)(rand.NextDouble() * Math.PI * 2);
         }
 
         public void Tick() {
 
-            rotation = (float)((rotation + changeInRotation) % (Math.PI * 2));
+            _rotation = (float)((_rotation + _changeInRotation) % (Math.PI * 2));
 
         }
 
         public void Render(SpriteBatch _spriteBatch) {
 
-            _spriteBatch.Draw(sprite, new Rectangle((int)(Camera.GetWidthScalar() * (position.X - radius + Camera.GetX())), (int)(Camera.GetHeightScalar() * (position.Y - radius + Camera.GetY())), (int)(Camera.GetWidthScalar() * radius * 2), (int)(Camera.GetHeightScalar() * radius * 2)), Color.White);
+            _spriteBatch.Draw(_sprite, new Rectangle((int)(Camera.GetWidthScalar() * (_position.X - _radius + Camera.GetX())), (int)(Camera.GetHeightScalar() * (_position.Y - _radius + Camera.GetY())), (int)(Camera.GetWidthScalar() * _radius * 2), (int)(Camera.GetHeightScalar() * _radius * 2)), Color.White);
 
 
         }
 
         public Vector2 Gravity(Vector2 ObjectPosition) {
 
-            float acceleration = (float)(gravityStrength * mass / Hypot(position.X - ObjectPosition.X, position.Y - ObjectPosition.Y));
+            float acceleration = (float)(_gravityStrength * _mass / Hypot(_position.X - ObjectPosition.X, _position.Y - ObjectPosition.Y));
 
-            float angle = (float)Math.Atan((position.Y - ObjectPosition.Y) / (position.X - ObjectPosition.X));
+            float angle = (float)Math.Atan((_position.Y - ObjectPosition.Y) / (_position.X - ObjectPosition.X));
 
             return new Vector2((float)(acceleration * Math.Cos(angle)), (float)(acceleration * Math.Sin(angle)));
 

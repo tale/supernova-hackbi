@@ -6,43 +6,43 @@ namespace SuperNova.Code.Object  {
     
     public class Bullet  {
         
-        public Boolean isVisible = false;
-        private float timer, angle;
-        private Vector2 position, size, velocity;
-        private const float speed = -100f;
-        private Texture2D sprite;
+        private bool _isVisible = false;
+        private float _timer, _angle;
+        private Vector2 _position, _size, _velocity;
+        private const float _speed = -100f;
+        private Texture2D _sprite;
 
         public Bullet(Vector2 position, Vector2 size) {
 
-            this.position = position;
-            this.size = size;
-            this.velocity = new Vector2((float)(speed * Math.Sin(angle)), (float)(speed * Math.Cos(angle)));
-            this.sprite = MakeBulletTexture();
+            _position = position;
+            _size = size;
+            _velocity = new Vector2((float)(_speed * Math.Sin(_angle)), (float)(_speed * Math.Cos(_angle)));
+            _sprite = MakeBulletTexture();
         }
         
         public void Tick() {
 
-            position.X += velocity.X;
-            position.Y += velocity.Y;
+            _position.X += _velocity.X;
+            _position.Y += _velocity.Y;
         }
 
         private void CheckCollision() {
             
         }
         
-        private Boolean IsCollision(Astroid asteroid) {
+        private bool IsCollision(Astroid asteroid) {
 
-            double bulletX = position.X + size.X / 2, bulletY = position.Y + size.Y / 2;
-            double asteroidXTemp = Math.Cos(angle + 90) * (asteroid.GetX() - bulletX) -
-                                   Math.Sin(angle + 90) * (asteroid.GetY() - bulletY) + bulletX;
-            double asteroidYTemp = Math.Sin(angle + 90) * (asteroid.GetX() - bulletX) +
-                                   Math.Cos(angle + 90) * (asteroid.GetY() - bulletY) + bulletY;
+            double bulletX = _position.X + _size.X / 2, bulletY = _position.Y + _size.Y / 2;
+            double asteroidXTemp = Math.Cos(_angle + 90) * (asteroid.GetX() - bulletX) -
+                                   Math.Sin(_angle + 90) * (asteroid.GetY() - bulletY) + bulletX;
+            double asteroidYTemp = Math.Sin(_angle + 90) * (asteroid.GetX() - bulletX) +
+                                   Math.Cos(_angle + 90) * (asteroid.GetY() - bulletY) + bulletY;
             double closestX, closestY;
-            if (asteroidXTemp < position.X) closestX = position.X;
-            else if (asteroidXTemp > position.X + size.X) closestX = position.X + size.X;
+            if (asteroidXTemp < _position.X) closestX = _position.X;
+            else if (asteroidXTemp > _position.X + _size.X) closestX = _position.X + _size.X;
             else closestX = asteroidXTemp;
-            if (asteroidYTemp < position.Y) closestY = position.Y;
-            else if (asteroidYTemp > position.Y + size.Y) closestY = position.Y + size.Y;
+            if (asteroidYTemp < _position.Y) closestY = _position.Y;
+            else if (asteroidYTemp > _position.Y + _size.Y) closestY = _position.Y + _size.Y;
             else closestY = asteroidYTemp;
             double distance = Math.Sqrt(Math.Pow(asteroidXTemp - closestX, 2) + Math.Pow(asteroidYTemp - closestY, 2));
             return distance < asteroid.GetRadius();
