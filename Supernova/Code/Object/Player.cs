@@ -194,7 +194,7 @@ namespace SuperNova.Code.Object {
 
             KeyboardState keyboardState = Keyboard.GetState();
             timer += 1;
-            if (keyboardState.IsKeyDown(Keys.Space) && timer > 10) {
+            if (keyboardState.IsKeyDown(Keys.Space) && timer > 50) {
                 Shoot();
                 timer = 0;
             }
@@ -207,7 +207,9 @@ namespace SuperNova.Code.Object {
         
         
         private static void Shoot() {
-            WorldManager.Bullets.Add(new Bullet(DrawPosition, Angle));
+            // WorldManager.Bullets.Add(new Bullet(new Vector2(position.X - 5, position.Y), Angle));
+            // WorldManager.Bullets.Add(new Bullet(new Vector2(position.X + 5, position.Y), Angle));
+            WorldManager.Bullets.Add(new Bullet(position, Angle));
         }
 
 
