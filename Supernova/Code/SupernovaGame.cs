@@ -79,13 +79,13 @@ namespace Supernova.Code {
                     WorldManager.WorldTick();
 
                     if (keyBoardState.IsKeyDown(Keys.A))
-                        Player.SetAngle(Player.GetAngle() - .05f);
+                        Player.Angle -= .05f;
 
                     if (keyBoardState.IsKeyDown(Keys.D))
-                        Player.SetAngle(Player.GetAngle() + .05f);
+                        Player.Angle += .05f;
 
                     if (keyBoardState.IsKeyDown(Keys.W))
-                        Player.addToVelocity(.1f, Player.GetAngle());
+                        Player.addToVelocity(.1f, Player.Angle);
                     
 
                     Player.Tick();

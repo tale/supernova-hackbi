@@ -10,31 +10,32 @@ namespace SuperNova.Code.Object {
         static Random rand = new Random();
 
         private const double _gravityStrength = .001;
-        private float _radius, _mass, _changeInRotation, _rotation;
+        private float _mass, _changeInRotation, _rotation;
         private Vector2 _position;
 
         private Texture2D _sprite;
 
         public Planet(Vector2 position, float radius, float mass, float changeInRotation) {
 
+            IsVisible = true;
+            Radius = radius;
             _position = position;
-            _radius = radius;
             _mass = mass;
             _sprite = MakePlanetTexture();
             _changeInRotation = changeInRotation;
             _rotation = (float)(rand.NextDouble() * Math.PI * 2);
         }
         
-        public float GetX() {
-            return _position.X;
+        public bool IsVisible { get; set; }
+        
+        public float Radius { get; }
+
+        public float X {
+            get { return _position.X; }
         }
         
-        public float GetY() {
-            return _position.Y;
-        }
-
-        public float GetRadius() {
-            return _radius;
+        public float Y {
+            get { return _position.Y; }
         }
 
         public void Tick() {
@@ -45,7 +46,7 @@ namespace SuperNova.Code.Object {
 
         public void Render(SpriteBatch _spriteBatch) {
 
-            _spriteBatch.Draw(_sprite, new Rectangle((int)(Camera.GetWidthScalar() * (_position.X - _radius + Camera.GetX())), (int)(Camera.GetHeightScalar() * (_position.Y - _radius + Camera.GetY())), (int)(Camera.GetWidthScalar() * _radius * 2), (int)(Camera.GetHeightScalar() * _radius * 2)), Color.White);
+            _spriteBatch.Draw(_sprite, new Rectangle((int)(Camera.GetWidthScalar() * (_position.X - Radius + Camera.GetX())), (int)(Camera.GetHeightScalar() * (_position.Y - Radius + Camera.GetY())), (int)(Camera.GetWidthScalar() * Radius * 2), (int)(Camera.GetHeightScalar() * Radius * 2)), Color.White);
 
 
         }

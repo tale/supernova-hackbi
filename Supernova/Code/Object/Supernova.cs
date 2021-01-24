@@ -6,12 +6,12 @@ namespace SuperNova.Code.Object {
 
     public class Supernova {
 
-        private const double radius = 10;
-        private double _yPosition, _yVelocity, _yAcceleration;
+        private const float _radius = 10;
+        private float _yPosition, _yVelocity, _yAcceleration;
 
         private Texture2D _sprite;
 
-        public Supernova(double yPosition, double yVelocity, double yAcceleration) {
+        public Supernova(float yPosition, float yVelocity, float yAcceleration) {
 
             _yPosition = yPosition;
             _yVelocity = yVelocity;
@@ -19,6 +19,22 @@ namespace SuperNova.Code.Object {
             _sprite = MakeSupernovaTexture();
         }
 
+        public float Radius {
+            get { return _radius; }
+        }
+        
+        public float Y {
+            get { return _yPosition; }
+        }
+        
+        public float VY {
+            get { return _yVelocity; }
+        }
+        
+        public float AY {
+            get { return _yAcceleration; }
+        }
+        
         public void Tick() {
 
             _yPosition -= _yVelocity;
