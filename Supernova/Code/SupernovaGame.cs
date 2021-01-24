@@ -77,7 +77,7 @@ namespace Supernova.Code {
                     break;
                 case GameState.GameScreen:
                     WorldManager.WorldTick();
-
+                    SupernovaObject.Tick();
                     if (keyBoardState.IsKeyDown(Keys.A))
                         Player.Angle -= .05f;
 
@@ -87,6 +87,10 @@ namespace Supernova.Code {
                     if (keyBoardState.IsKeyDown(Keys.W))
                         Player.addToVelocity(.065f, Player.Angle);
 
+                    if(Player.Health <= 0) {
+                        _gameState = GameState.LoseScreen;
+                        Update(gameTime);
+                    }
                     
 
                     Player.Tick();
@@ -122,6 +126,7 @@ namespace Supernova.Code {
                 case GameState.GameScreen:
                     WorldManager.WorldRender(_spriteBatch);
                     Player.Render(_spriteBatch);
+                    SupernovaObject.Render(_spriteBatch);
                     break;
                 case GameState.LoseScreen:
                     break;
