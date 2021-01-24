@@ -10,15 +10,18 @@ namespace SuperNova.Code.Object {
     public static class Player {
 
         private static readonly Vector2 drawPosition = new Vector2(360, 225);
-        private static Vector2 dimensions = new Vector2(24, 24);
+        private static Vector2 dimensions = new Vector2(32, 32);
 
         private static Vector2 position = new Vector2(360, 225);
         private static Vector2 velocity = new Vector2(.00001f, (float) Math.PI * 3 / 2);
 
         private static float angle = (float) Math.PI * 3 / 2;
 
+        private static Boolean engine = false;
+
 
         private static Texture2D sprite = SpriteManager.GetTexture("PLAYER");
+        private static Texture2D sprite2 = SpriteManager.GetTexture("PLAYER1");
         private static float timer = 0f;
         
         public static Vector2 GetDrawPosition() {
@@ -59,16 +62,16 @@ namespace SuperNova.Code.Object {
 
             velocity.X = (float) Math.Sqrt(Math.Pow(CVX + NVX, 2) + Math.Pow(CVY + NVY, 2));
 
-            if (CVX + NVX > 0 && CVY + NVY > 0)
+            if (CVX + NVX >= 0 && CVY + NVY >= 0)
                 velocity.Y = (float)Math.Atan((CVY + NVY)/(CVX + NVX));
 
-            else if (CVX + NVX < 0 && CVY + NVY > 0)
+            else if (CVX + NVX <= 0 && CVY + NVY >= 0)
                 velocity.Y = (float)(Math.Atan((CVY + NVY) / (CVX + NVX)) + Math.PI);
 
-            else if (CVX + NVX < 0 && CVY + NVY < 0)
+            else if (CVX + NVX <= 0 && CVY + NVY <= 0)
                 velocity.Y = (float)(Math.Atan((CVY + NVY) / (CVX + NVX)) + Math.PI);
 
-            else if (CVX + NVX > 0 && CVY + NVY < 0)
+            else if (CVX + NVX >= 0 && CVY + NVY <= 0)
                 velocity.Y = (float)(Math.Atan((CVY + NVY) / (CVX + NVX)) + 2 * Math.PI);
 
         }
@@ -157,6 +160,11 @@ namespace SuperNova.Code.Object {
                 Shoot();
                 timer = 0f;
             }
+
+            if (Keyboard.GetState().IsKeyDown(Keys.W))
+                engine = true;
+            else
+                engine = false;
         }
         
         
@@ -168,8 +176,11 @@ namespace SuperNova.Code.Object {
 
         public static void Render(SpriteBatch _spriteBatch) {
 
-            _spriteBatch.Draw(sprite, destinationRectangle: new Rectangle((int)(Camera.GetWidthScalar() * (drawPosition.X - dimensions.X / 2)), (int)(Camera.GetHeightScalar() * (drawPosition.Y - dimensions.Y / 2)), (int)(Camera.GetWidthScalar() * (dimensions.X)), (int)(Camera.GetHeightScalar() * dimensions.Y)), Color.White);
+            if (!engine)
+                _spriteBatch.Draw(sprite, destinationRectangle: new Rectangle((int)(Camera.GetWidthScalar() * (drawPosition.X - dimensions.X / 2)), (int)(Camera.GetHeightScalar() * (drawPosition.Y - dimensions.Y / 2)), (int)(Camera.GetWidthScalar() * (dimensions.X)), (int)(Camera.GetHeightScalar() * dimensions.Y)),null, Color.White, (angle + (float)Math.PI / 2) % ((float)Math.PI * 2), new Vector2(dimensions.X / 2 * Camera.GetWidthScalar(), Camera.GetHeightScalar() * (dimensions.Y / 2 -2)) , SpriteEffects.None, 0f);
 
+            else
+                _spriteBatch.Draw(sprite2, destinationRectangle: new Rectangle((int)(Camera.GetWidthScalar() * (drawPosition.X - dimensions.X / 2)), (int)(Camera.GetHeightScalar() * (drawPosition.Y - dimensions.Y / 2)), (int)(Camera.GetWidthScalar() * (dimensions.X)), (int)(Camera.GetHeightScalar() * dimensions.Y)), null, Color.White, (angle + (float)Math.PI / 2) % ((float)Math.PI * 2), new Vector2(dimensions.X / 2 * Camera.GetWidthScalar(), Camera.GetHeightScalar() * (dimensions.Y / 2 - 2)), SpriteEffects.None, 0f);
 
         }
     }
