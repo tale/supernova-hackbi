@@ -13,8 +13,8 @@ namespace Supernova.Code.World {
         
         private static (int, int)[] loaded = new (int, int)[9];
         
-        private static Dictionary<(int, int), Chunk> Chunks { get; } = new Dictionary<(int, int), Chunk>();
-        private static List<Asteroid> Asteroids { get; } = new List<Asteroid>();
+        public static Dictionary<(int, int), Chunk> Chunks { get; } = new Dictionary<(int, int), Chunk>();
+        public static List<Asteroid> Asteroids { get; } = new List<Asteroid>();
 
         //private static Planet planet = new Planet(new Vector2(600, 100), 128, 50, 1);
 

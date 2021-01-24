@@ -23,6 +23,8 @@ namespace SuperNova.Code.Object {
         public static Vector2 Size { get; } = new Vector2(48, 48);
         
         public static float Angle { get; set; } = (float) Math.PI * 3 / 2;
+        
+        public static float Health { get; set; } = 1f;
 
         public static Vector2 GetPosition() {
             return position;
@@ -71,9 +73,39 @@ namespace SuperNova.Code.Object {
         private static void UpdateHealth() {
             
         }
-        
+
         private static void CheckCollision() {
-            
+
+            foreach (var asteroid in WorldManager.Asteroids) {
+
+                if (IsCollisionAsteroid(asteroid))
+                {
+
+                    Console.WriteLine("ASTEROID COLLISION");
+                    
+                    Vector2.Multiply(velocity, 0.5f);
+                    // WorldManager.Asteroids.Remove(asteroid);
+                    Health -= 0.2f; // temp
+                }
+
+            }
+
+            foreach (var chunk in WorldManager.Chunks.Values) {
+
+                foreach (var planet in chunk.Planets) {
+
+                    if (IsCollisionPlanet(planet)) {
+
+                        Console.WriteLine("PLANET COLLISION");
+
+                        Vector2.Multiply(velocity, -5f);
+                        
+                        Health -= 0.3f; // temp
+                    }
+
+                }
+
+            }
         }
 
         private static bool IsCollisionAsteroid(Asteroid asteroid) {
@@ -89,14 +121,15 @@ namespace SuperNova.Code.Object {
         private static bool IsCollisionBody(double bodyX, double bodyY, double bodyRadius)
         {
 
-            double pointX1 = DrawPosition.X,
-                pointY1 = DrawPosition.Y - Size.Y / 2,
-                pointX2 = DrawPosition.X - Size.X / 2,
-                pointY2 = DrawPosition.Y + Size.Y / 2,
-                pointX3 = DrawPosition.X + Size.X / 2,
-                pointY3 = DrawPosition.Y + Size.Y / 2;
+            double pointX1 = position.X,
+                pointY1 = position.Y - Size.Y / 2,
+                pointX2 = position.X - Size.X / 2,
+                pointY2 = position.Y + Size.Y / 2,
+                pointX3 = position.X + Size.X / 2,
+                pointY3 = position.Y + Size.Y / 2;
             return isCollisionLineCircle(pointX1, pointY1, pointX2, pointY2, bodyX, bodyY, bodyRadius)
-                   || isCollisionLineCircle(pointX1, pointY1, pointX3, pointY3, bodyX, bodyY, bodyRadius);
+                   || isCollisionLineCircle(pointX1, pointY1, pointX3, pointY3, bodyX, bodyY, bodyRadius)
+                   || isCollisionLineCircle(pointX2, pointY2, pointX3, pointY3, bodyX, bodyY, bodyRadius);
         }
 
         private static bool isCollisionLineCircle(double lineX1, double lineY1, double lineX2, double lineY2, double circleX,
@@ -140,8 +173,11 @@ namespace SuperNova.Code.Object {
 
             Angle = (float) (Angle % (Math.PI * 2));
 
+            CheckCollision();
+
             position.X += (float) (velocity.X * Math.Cos(velocity.Y));
             position.Y += (float) (velocity.X * Math.Sin(velocity.Y));
+            
 
             Camera.SetX(-(position.X - 640));
             Camera.SetY(-(position.Y - 620));
