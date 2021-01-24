@@ -10,12 +10,12 @@ using Supernova.Code.Util;
 namespace Supernova.Code.World {
     public class Chunk {
         private Vector2 _position;
-        private Planet[] _planets;
         private static Random random = new Random();
+        public Planet[] Planets { get; }
         
         public Chunk(float x, float y) {
             _position = new Vector2(x, y);
-            _planets = GeneratePlanetMap(WorldManager.Generator);
+            Planets = GeneratePlanetMap(WorldManager.Generator);
         }
 
         private Planet[] GeneratePlanetMap(NoiseGenerator noiseGenerator) {
@@ -71,10 +71,10 @@ namespace Supernova.Code.World {
 
             Vector2 acceleration = Vector2.Zero;
 
-            for (int n = 0; n < _planets.Length; n++) {
+            for (int n = 0; n < Planets.Length; n++) {
 
 
-                Vector2 temp = _planets[n].Gravity(positition);
+                Vector2 temp = Planets[n].Gravity(positition);
 
                 acceleration.X += temp.X;
                 acceleration.Y += temp.Y;
@@ -94,13 +94,9 @@ namespace Supernova.Code.World {
 
         public void Render(SpriteBatch _spritebatch) {
 
-            foreach (var planet in _planets) {
+            foreach (var planet in Planets) {
                 if (planet != null) planet.Render(_spritebatch);
             }
-        }
-
-        public Planet[] getPlanets() {
-            return _planets;
         }
     }
 }
