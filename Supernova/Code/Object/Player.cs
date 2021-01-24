@@ -263,12 +263,12 @@ namespace SuperNova.Code.Object {
 
             KeyboardState keyboardState = Keyboard.GetState();
             timer += 1;
-            if (keyboardState.IsKeyDown(Keys.Space) && timer > 50) {
+            if (keyboardState.IsKeyDown(Keys.Space) && timer > 20) {
                 Shoot();
                 timer = 0;
             }
 
-            engine = (keyboardState.IsKeyDown(Keys.W) && Fuel > 0) ? true : false;
+            engine = keyboardState.IsKeyDown(Keys.W) && Fuel > 0;
 
             if (timer2 == 4) {
                 gif = !gif;
