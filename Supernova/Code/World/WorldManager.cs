@@ -130,7 +130,7 @@ namespace Supernova.Code.World {
                 asteroid?.Render(_spriteBatch);
             }
             foreach (var bullet in Bullets) {
-                bullet?.Render(_spriteBatch);
+                bullet.Render(_spriteBatch);
             }
         }
     }

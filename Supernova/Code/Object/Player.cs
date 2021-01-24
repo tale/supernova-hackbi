@@ -86,8 +86,8 @@ namespace SuperNova.Code.Object {
                 {
 
                     Console.WriteLine("ASTEROID COLLISION");
-                    
-                    Vector2.Multiply(velocity, 0.5f);
+
+                    velocity.Y += (float)Math.PI;
                     // WorldManager.Asteroids.Remove(asteroid);
                     Health -= (float)Math.Sqrt(Math.Pow(asteroid._velocity.X, 2) + Math.Pow(asteroid._velocity.Y, 2)) / 10;
                     Console.WriteLine(Health);
@@ -103,6 +103,7 @@ namespace SuperNova.Code.Object {
 
                         Console.WriteLine("PLANET COLLISION");
 
+                        velocity.Y += (float)Math.PI;
                         Vector2.Multiply(velocity, -5f);
                         if (velocity.Length() <= 4) {
                             UpdateHealth(0.5F);
@@ -193,7 +194,7 @@ namespace SuperNova.Code.Object {
 
             KeyboardState keyboardState = Keyboard.GetState();
             timer += 1;
-            if (keyboardState.IsKeyDown(Keys.Space) && timer > 10) {
+            if (keyboardState.IsKeyDown(Keys.Space) && timer > 50) {
                 Shoot();
                 timer = 0;
             }
@@ -206,7 +207,9 @@ namespace SuperNova.Code.Object {
         
         
         private static void Shoot() {
-            WorldManager.Bullets.Add(new Bullet(DrawPosition, Angle));
+            // WorldManager.Bullets.Add(new Bullet(new Vector2(position.X - 5, position.Y), Angle));
+            // WorldManager.Bullets.Add(new Bullet(new Vector2(position.X + 5, position.Y), Angle));
+            WorldManager.Bullets.Add(new Bullet(position, Angle));
         }
 
 
@@ -215,8 +218,8 @@ namespace SuperNova.Code.Object {
             if (!engine)
                 _spriteBatch.Draw(sprite, destinationRectangle: 
                     new Rectangle(
-                        (int)(Camera.GetWidthScalar() * (DrawPosition.X - Size.X / 2)),
-                        (int)(Camera.GetHeightScalar() * (DrawPosition.Y - Size.Y / 2)),
+                        (int)(Camera.GetWidthScalar() * (DrawPosition.X - Size.X / 2 - sprite2.Width / 2F)),
+                        (int)(Camera.GetHeightScalar() * (DrawPosition.Y - Size.Y / 2 - sprite2.Height / 2F)),
                         (int)(Camera.GetWidthScalar() * (Size.X)),
                         (int)(Camera.GetHeightScalar() * Size.Y)),
                     null, Color.White,
@@ -227,8 +230,8 @@ namespace SuperNova.Code.Object {
             else
                 _spriteBatch.Draw(sprite2, destinationRectangle: 
                     new Rectangle(
-                        (int)(Camera.GetWidthScalar() * (DrawPosition.X - Size.X / 2)),
-                        (int)(Camera.GetHeightScalar() * (DrawPosition.Y - Size.Y / 2)), 
+                        (int)(Camera.GetWidthScalar() * (DrawPosition.X - Size.X / 2 - sprite2.Width / 2F)),
+                        (int)(Camera.GetHeightScalar() * (DrawPosition.Y - Size.Y / 2) - sprite2.Height / 2F), 
                         (int)(Camera.GetWidthScalar() * (Size.X)),
                         (int)(Camera.GetHeightScalar() * Size.Y)),
                     null, Color.White,

@@ -46,12 +46,14 @@ namespace SuperNova.Code.Object {
 
         public void Render(SpriteBatch _spriteBatch) {
 
-            _spriteBatch.Draw(_sprite, new Rectangle((int)(Camera.GetWidthScalar() * (_position.X - Radius + Camera.GetX())), 
-                (int)(Camera.GetHeightScalar() * (_position.Y - Radius + Camera.GetY())), (int)(Camera.GetWidthScalar() * (Radius * 2)), 
+            _spriteBatch.Draw(_sprite, new Rectangle(
+                    (int)(Camera.GetWidthScalar() * (_position.X - Radius + Camera.GetX())), 
+                (int)(Camera.GetHeightScalar() * (_position.Y - Radius + Camera.GetY())),
+                    (int)(Camera.GetWidthScalar() * (Radius * 2)), 
                 (int)(Camera.GetHeightScalar() * Radius * 2)), 
                 null, Color.White, 
                 (_rotation + (float)Math.PI / 4) % ((float)Math.PI * 2), 
-                new Vector2(_sprite.Width / 2F, _sprite.Height / 2F), SpriteEffects.None, 
+                new Vector2(Radius * 2, Radius * 2), SpriteEffects.None, 
                 0f);
         }
 
