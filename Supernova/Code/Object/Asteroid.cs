@@ -59,6 +59,23 @@ namespace SuperNova.Code.Object {
         }
 
 
+        public Boolean hitPlanet(Planet[] planets) {
+
+            for (int n = 0; n < planets.Length; n++) {
+
+                float distance = Vector2.Distance(new Vector2(planets[n].X, planets[n].Y), _position);
+
+                if (distance < planets[n].getRadius() + Radius) {
+
+                    return true;
+                }
+
+            }
+
+            return false;
+
+        }
+
         private static Texture2D MakeAstroidTexture() {
 
             var type = rand.Next(1);

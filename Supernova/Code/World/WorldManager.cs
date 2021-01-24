@@ -48,9 +48,9 @@ namespace Supernova.Code.World {
             }
 
             var rand = _random.RandomGauss();
-            if (rand > 2.8) {
+            if (rand > 2.2) {
 
-                int spawnAmount = (int)(rand * 1.75f);
+                int spawnAmount = (int)(rand * 2f);
 
                 for (int n = 0; n < spawnAmount; n++) {
          
@@ -93,7 +93,19 @@ namespace Supernova.Code.World {
 
                 if (Vector2.Distance(new Vector2(Asteroids[n].X, Asteroids[n].Y), Player.GetPosition()) > 2000) {
                     Asteroids.Remove(Asteroids[n]);
+                    n -= 1;
+                } else {
+
+                    for (int c = 0; c < 9; c++) {
+
+                        if (Asteroids[n].hitPlanet(Chunks[loaded[c]].Planets)) {
+                            Asteroids.Remove(Asteroids[n]);
+                            n -= 1;
+                            break;
+                        }
+                    }
                 }
+
             }
         }
         public static Vector2 getGravityEffects(Vector2 positition) {
