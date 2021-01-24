@@ -89,15 +89,18 @@ namespace SuperNova.Code.Object {
 
         private static Texture2D MakePlanetTexture() {
 
-            int type = (int)(rand.Next(1));
+            int type = rand.Next(3);
 
             switch (type) {
 
                 case 0:
-                    return SpriteManager.GetTexture("PLANET");
+                    return SpriteManager.GetTexture("EARTH_PLANET");
 
                 case 1:
-                    return SpriteManager.GetTexture("PLANET");
+                    return SpriteManager.GetTexture("MARS_PLANET");
+
+                case 2:
+                    return SpriteManager.GetTexture("SAND_PLANET");
 
                 default:
                     return SpriteManager.GetTexture("PLANET");
