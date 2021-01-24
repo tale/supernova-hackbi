@@ -25,15 +25,15 @@ namespace Supernova.Code.World {
             int cordX = -Camera.GetX();
             int cordY = -Camera.GetY();
 
-            cordX = (cordX < 0 ? cordX -= 5000 : cordX) / 5000;
-            cordY = (cordY < 0 ? cordY -= 5000 : cordY) / 5000;
+            cordX = (cordX < 0 ? cordX -= 2000 : cordX) / 2000;
+            cordY = (cordY < 0 ? cordY -= 2000 : cordY) / 2000;
 
             for (int j = -1; j <= 1; j++) {
 
                 for (int n = -1; n <= 1; n++) {
 
                     if (!Chunks.ContainsKey((cordX + n, cordY + j)))
-                        Chunks.Add((cordX + n, cordY + j), new Chunk((cordX + n) * 5000, (cordY + j) * 5000));
+                        Chunks.Add((cordX + n, cordY + j), new Chunk((cordX + n) * 2000, (cordY + j) * 2000));
 
                     loaded[(j + 1) * 3 + (n + 1)] = (cordX + n, cordY + j);
 
@@ -63,11 +63,11 @@ namespace Supernova.Code.World {
                 }
             }
 
-            foreach (var asteroid in Asteroids) {
-                asteroid.Tick();
+            for (int n = 0; n < Asteroids.Count; n++) {
+                Asteroids[n].Tick();
 
-                if (Vector2.Distance(new Vector2(asteroid.X, asteroid.Y), Player.GetPosition()) > 50000) {
-                    Asteroids.Remove(asteroid);
+                if (Vector2.Distance(new Vector2(Asteroids[n].X, Asteroids[n].Y), Player.GetPosition()) > 2000) {
+                    Asteroids.Remove(Asteroids[n]);
                 }
             }
 

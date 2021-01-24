@@ -127,8 +127,8 @@ namespace SuperNova.Code.Object {
             addToVelocity(gravity.X, gravity.Y);
 
 
-            velocity.X = Math.Min(velocity.X, 2.5f);
-            velocity.X = Math.Max(velocity.X, -2.5f);
+            velocity.X = Math.Min(velocity.X, 3.5f);
+            velocity.X = Math.Max(velocity.X, -3.5f);
 
             if (velocity.Y < 0)
                 velocity.Y = (float) Math.PI * 2 + velocity.Y;
@@ -143,8 +143,8 @@ namespace SuperNova.Code.Object {
             position.X += (float) (velocity.X * Math.Cos(velocity.Y));
             position.Y += (float) (velocity.X * Math.Sin(velocity.Y));
 
-            Camera.SetX(-(position.X - 360));
-            Camera.SetY(-(position.Y - 225));
+            Camera.SetX(-(position.X - 640));
+            Camera.SetY(-(position.Y - 620));
 
             KeyboardState keyboardState = Keyboard.GetState();
             timer += 1;

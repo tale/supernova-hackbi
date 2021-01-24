@@ -20,10 +20,8 @@ namespace Supernova.Code.World {
 
         private Planet[] GeneratePlanetMap(NoiseGenerator noiseGenerator) {
             // Noise Constants
-            const int noiseMultiplier1 = 5000;
-
             
-            var array = new Planet[30];
+            var array = new Planet[5];
 
             int iteration = 1000000;
             int number = 0;
@@ -31,8 +29,8 @@ namespace Supernova.Code.World {
             List<(int, int)> previous = new List<(int, int)>();
 
             do {
-                var x = random.Next(5000);
-                var y = random.Next(5000);
+                var x = random.Next(1800) + 100;
+                var y = random.Next(1800) + 100;
 
                 //var noiseLevel = (float)noiseGenerator.evaluate((x + _position.X) * noiseMultiplier1, (y + _position.Y)) * noiseMultiplier1;
 
@@ -42,7 +40,7 @@ namespace Supernova.Code.World {
                     number++;
                 }
                 iteration--;
-            } while (iteration > 0 && number < 30);                
+            } while (iteration > 0 && number < 5);                
 
 
 
