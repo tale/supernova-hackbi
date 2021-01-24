@@ -120,7 +120,7 @@ namespace Supernova.Code {
                     break;
                 case GameState.GameScreen:
                     WorldManager.WorldRender(_spriteBatch);
-                    Player.render(_spriteBatch);
+                    Player.Render(_spriteBatch);
                     break;
                 case GameState.LoseScreen:
                     break;
