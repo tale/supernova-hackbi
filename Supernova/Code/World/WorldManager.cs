@@ -64,7 +64,7 @@ namespace Supernova.Code.World {
             for (int n = 0; n < Bullets.Count; n++) {
                 Bullets[n].Tick();
 
-                if (Vector2.Distance(new Vector2(Bullets[n].X, Bullets[n].Y), Player.GetPosition()) > 2000) {
+                if (Vector2.Distance(new Vector2(Bullets[n].X, Bullets[n].Y), Player.GetPosition()) > 1000) {
                     Bullets.Remove(Bullets[n]);
                 }
             }
