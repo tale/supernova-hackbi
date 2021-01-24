@@ -66,7 +66,7 @@ namespace Supernova.Code {
             switch (_gameState) {
                 case GameState.StartScreen:
 
-                    if (start.tick(mouseState.X, mouseState.Y) && mouseState.LeftButton == ButtonState.Pressed && _delay <= 0) {
+                    if (start.Tick(mouseState.X, mouseState.Y) && mouseState.LeftButton == ButtonState.Pressed && _delay <= 0) {
                         _gameState = GameState.GameScreen;
                         _delay = 10;
                         Camera.SetX(0);
@@ -113,8 +113,8 @@ namespace Supernova.Code {
 
             switch (_gameState) {
                 case GameState.StartScreen:
-                    start.render(_spriteBatch);
-                    title.render(_spriteBatch);
+                    start.Render(_spriteBatch);
+                    title.Render(_spriteBatch);
 
                     break;
                 case GameState.GameScreen:

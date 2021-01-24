@@ -20,18 +20,17 @@ namespace SuperNova.Code.Object  {
             this.sprite = MakeBulletTexture();
         }
         
-        public void tick() {
+        public void Tick() {
 
             position.X += velocity.X;
             position.Y += velocity.Y;
         }
 
-        private void checkCollision()
-        {
+        private void CheckCollision() {
             
         }
         
-        private Boolean isCollision(Astroid asteroid) {
+        private Boolean IsCollision(Astroid asteroid) {
 
             double bulletX = position.X + size.X / 2, bulletY = position.Y + size.Y / 2;
             double asteroidXTemp = Math.Cos(angle + 90) * (asteroid.GetX() - bulletX) -
@@ -49,8 +48,7 @@ namespace SuperNova.Code.Object  {
             return distance < asteroid.GetRadius();
         }
 
-        private static Texture2D MakeBulletTexture()
-        {
+        private static Texture2D MakeBulletTexture() {
 
             return null;
         }

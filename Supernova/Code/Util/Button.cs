@@ -32,7 +32,7 @@ namespace SuperNova.Code.Utilities {
         }
 
 
-        public bool tick(int mouseX, int mouseY) {
+        public bool Tick(int mouseX, int mouseY) {
 
 
             if (mouseX > Camera.GetWidthScalar() * (position.X - dimensions.X / 2 * expand) && mouseX < Camera.GetWidthScalar() * (position.X + dimensions.X / 2 * expand) && mouseY > Camera.GetHeightScalar() * (position.Y - dimensions.Y / 2 * expand) && mouseY < Camera.GetHeightScalar() * (position.Y + dimensions.Y / 2 * expand)) {
@@ -45,7 +45,7 @@ namespace SuperNova.Code.Utilities {
         }
 
 
-        public void render(SpriteBatch _spriteBatch) {
+        public void Render(SpriteBatch _spriteBatch) {
 
             _spriteBatch.Draw(texture, destinationRectangle: new Rectangle((int)(Camera.GetWidthScalar() * (position.X - dimensions.X / 2 * expand)), (int)(Camera.GetHeightScalar() * (position.Y - dimensions.Y / 2 * expand)), (int)(Camera.GetWidthScalar() * (dimensions.X * expand)), (int)(Camera.GetHeightScalar() * (dimensions.Y * expand))), Color.White);
         }

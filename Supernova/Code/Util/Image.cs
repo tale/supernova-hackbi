@@ -23,7 +23,7 @@ namespace SuperNova.Code.Utilities {
         }
 
 
-        public void render(SpriteBatch _spriteBatch) {
+        public void Render(SpriteBatch _spriteBatch) {
 
             _spriteBatch.Draw(texture, destinationRectangle: new Rectangle((int)(Camera.GetWidthScalar() * (position.X - dimensions.X / 2)), (int)(Camera.GetHeightScalar() * (position.Y - dimensions.Y / 2 )), (int)(Camera.GetWidthScalar() * dimensions.X), (int)(Camera.GetHeightScalar() * dimensions.Y)), Color.White);
         }

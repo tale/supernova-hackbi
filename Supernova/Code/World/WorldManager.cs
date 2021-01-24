@@ -38,7 +38,7 @@ namespace Supernova.Code.World {
 
                 for (int n = -1; n <= 1; n++) {
 
-                    chunks[(0, 0)].render(_spriteBatch);
+                    chunks[(0, 0)].Render(_spriteBatch);
 
                 }
             }

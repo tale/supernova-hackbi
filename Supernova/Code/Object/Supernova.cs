@@ -19,13 +19,13 @@ namespace SuperNova.Code.Object {
             this.sprite = makeSupernovaTexture();
         }
 
-        public void tick() {
+        public void Tick() {
 
             yPosition += yVelocity;
             yVelocity += yAcceleration;
         }
 
-        public void render() {
+        public void Render() {
 
 
 

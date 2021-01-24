@@ -20,25 +20,25 @@ namespace SuperNova.Code.Object {
             this.position = position;
             this.radius = radius;
             this.mass = mass;
-            this.sprite = makePlanetTexture();
+            this.sprite = MakePlanetTexture();
             this.changeInRotation = changeInRotation;
             this.rotation = (float)(rand.NextDouble() * Math.PI * 2);
         }
 
-        public void tick() {
+        public void Tick() {
 
             rotation = (float)((rotation + changeInRotation) % (Math.PI * 2));
 
         }
 
-        public void render(SpriteBatch _spriteBatch) {
+        public void Render(SpriteBatch _spriteBatch) {
 
             _spriteBatch.Draw(sprite, new Rectangle((int)(Camera.GetWidthScalar() * (position.X - radius + Camera.GetX())), (int)(Camera.GetHeightScalar() * (position.Y - radius + Camera.GetY())), (int)(Camera.GetWidthScalar() * radius * 2), (int)(Camera.GetHeightScalar() * radius * 2)), Color.White);
 
 
         }
 
-        public Vector2 gravity(Vector2 ObjectPosition) {
+        public Vector2 Gravity(Vector2 ObjectPosition) {
 
             float acceleration = (float)(gravityStrength * mass / Hypot(position.X - ObjectPosition.X, position.Y - ObjectPosition.Y));
 
@@ -46,22 +46,18 @@ namespace SuperNova.Code.Object {
 
             return new Vector2((float)(acceleration * Math.Cos(angle)), (float)(acceleration * Math.Sin(angle)));
 
-
-
         }
 
         private static float Hypot(float a, float b) {
 
             return (float)Math.Sqrt(Math.Pow(a, 2) + Math.Pow(b, 2));
-
-
         }
             
             
             
             
 
-        private static Texture2D makePlanetTexture() {
+        private static Texture2D MakePlanetTexture() {
 
             int type = (int)(rand.Next(1));
 

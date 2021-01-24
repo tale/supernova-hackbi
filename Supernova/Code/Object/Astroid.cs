@@ -22,7 +22,7 @@ namespace SuperNova.Code.Object {
             this.velocity = velocity;
             this.accleration = new Vector2();
             this.radius = radius;
-            this.sprite = makeAstroidTexture();
+            this.sprite = MakeAstroidTexture();
             this.changeInRotation = changeInRotation;
             this.rotation = (float)(rand.NextDouble() * Math.PI * 2);
         }
@@ -39,7 +39,7 @@ namespace SuperNova.Code.Object {
             return radius;
         }
         
-        public void tick() {
+        public void Tick() {
 
             rotation = (float)((rotation + changeInRotation) % (Math.PI * 2));
 
@@ -47,16 +47,12 @@ namespace SuperNova.Code.Object {
             position.Y += velocity.Y;
         }
 
-        public void render() {
-
-
+        public void Render() {
 
         }
+        
 
-
-
-
-        private static Texture2D makeAstroidTexture() {
+        private static Texture2D MakeAstroidTexture() {
 
             int type = (int)(rand.Next(1));
 
@@ -72,9 +68,6 @@ namespace SuperNova.Code.Object {
                     return null;
 
             }
-
-
-
         }
     }
 

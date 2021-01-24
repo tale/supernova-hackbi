@@ -49,11 +49,11 @@ namespace Supernova.Code.World {
             return array;
         }
 
-        public void render(SpriteBatch _spritebatch) {
+        public void Render(SpriteBatch _spritebatch) {
 
             for (var i = 0; i < planets.GetLength(0); i++) {
                 for (var j = 0; j < planets.GetLength(1); j++) {
-                    if (planets[i, j] != null) planets[i, j].render(_spritebatch);
+                    if (planets[i, j] != null) planets[i, j].Render(_spritebatch);
                 }
             }
         }

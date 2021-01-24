@@ -16,7 +16,7 @@ namespace SuperNova.Code.Object {
 
 
 
-        public static void tick() {
+        public static void Tick() {
 
         }
 
