@@ -61,9 +61,9 @@ namespace Supernova.Code.World {
                     var x = _random.RandomGauss();
                     var y = Math.Abs(_random.RandomGauss());
 
-                    Vector2 spawnPoint = new Vector2((float)rand * 360 - Camera.GetX(), -100 - Camera.GetY());
+                    Vector2 spawnPoint = new Vector2((float)rand * 360 + 640 - Camera.GetX(), -100 - Camera.GetY());
 
-                    Asteroids.Add(new Asteroid(spawnPoint, new Vector2((float)x / 2, (float)y) / 2, 10, 23));
+                    Asteroids.Add(new Asteroid(spawnPoint, new Vector2((float)x / 2, (float)y) / 2, 23, 23));
                 }
             }
             
@@ -80,6 +80,17 @@ namespace Supernova.Code.World {
 
         public static void WorldTick2() {
 
+
+            for (int n = 0; n < Asteroids.Count; n++) {
+
+                if (Asteroids[n].dead) {
+                    Asteroids.Remove(Asteroids[n]);
+                    n -= 1;
+                }
+
+            }
+
+
             for (int n = 0; n<Bullets.Count; n++) {
                 Bullets[n].Tick();
 
@@ -92,15 +103,15 @@ namespace Supernova.Code.World {
                 Asteroids[n].Tick();
 
                 if (Vector2.Distance(new Vector2(Asteroids[n].X, Asteroids[n].Y), Player.GetPosition()) > 2000) {
-                    Asteroids.Remove(Asteroids[n]);
-                    n -= 1;
+                    Asteroids[n].dead = true;
+
                 } else {
 
                     for (int c = 0; c < 9; c++) {
 
                         if (Asteroids[n].hitPlanet(Chunks[loaded[c]].Planets)) {
-                            Asteroids.Remove(Asteroids[n]);
-                            n -= 1;
+
+                            Asteroids[n].dead = true;
                             break;
                         }
                     }

@@ -12,8 +12,10 @@ namespace SuperNova.Code.Object {
 
         private readonly float _changeInRotation;
         private float _rotation;
-        private Vector2 _position, _acceleration;
+        private Vector2 _position;
         private readonly Texture2D _sprite;
+        private static Texture2D exp = SpriteManager.GetTexture("EXPLOSION");
+        public Boolean dead = false;
 
         public Asteroid(Vector2 position, Vector2 velocity, float radius, float changeInRotation) {
 
@@ -21,7 +23,6 @@ namespace SuperNova.Code.Object {
             Radius = radius;
             _position = position;
             _velocity = velocity;
-            _acceleration = new Vector2();
             _sprite = MakeAstroidTexture();
             _changeInRotation = changeInRotation;
             _rotation = (float)(rand.NextDouble() * Math.PI * 2);
@@ -53,7 +54,14 @@ namespace SuperNova.Code.Object {
 
         public void Render(SpriteBatch _spriteBatch) {
 
+
+            if(!dead)
             _spriteBatch.Draw(_sprite,
+                new Rectangle((int)(Camera.GetWidthScalar() * (_position.X - Radius + Camera.GetX())), (int)(Camera.GetHeightScalar() * (_position.Y - Radius + Camera.GetY())), (int)(Camera.GetWidthScalar() * Radius * 2),
+                    (int)(Camera.GetHeightScalar() * Radius * 2)), Color.White);
+
+            else
+                _spriteBatch.Draw(exp,
                 new Rectangle((int)(Camera.GetWidthScalar() * (_position.X - Radius + Camera.GetX())), (int)(Camera.GetHeightScalar() * (_position.Y - Radius + Camera.GetY())), (int)(Camera.GetWidthScalar() * Radius * 2),
                     (int)(Camera.GetHeightScalar() * Radius * 2)), Color.White);
         }
@@ -80,7 +88,7 @@ namespace SuperNova.Code.Object {
 
             var type = rand.Next(1);
 
-            return SpriteManager.GetTexture("NULL");
+            return SpriteManager.GetTexture("ASTEROID");
 
 
             switch (type) {
