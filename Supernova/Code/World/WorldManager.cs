@@ -66,7 +66,7 @@ namespace Supernova.Code.World {
             foreach (var asteroid in _asteroids) {
                 asteroid.Tick();
 
-                if (Vector2.Distance(new Vector2(asteroid.GetX(), asteroid.GetY()), Player.GetPosition()) > 50000) {
+                if (Vector2.Distance(new Vector2(asteroid.X, asteroid.Y), Player.GetPosition()) > 50000) {
                     _asteroids.Remove(asteroid);
                 }
             }

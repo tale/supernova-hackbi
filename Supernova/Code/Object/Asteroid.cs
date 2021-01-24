@@ -8,35 +8,35 @@ namespace SuperNova.Code.Object {
     public class Asteroid {
 
         static Random rand = new Random();
-        
-        private bool _isVisible = false;
 
-        private float _changeInRotation, _rotation, _radius;
-        private Vector2 _position, _velocity, _accleration;
+        private float _changeInRotation, _rotation;
+        private Vector2 _position, _velocity, _acceleration;
         private Texture2D _sprite;
 
         public Asteroid(Vector2 position, Vector2 velocity, float radius, float changeInRotation) {
 
+            IsVisible = true;
+            Radius = radius;
             _position = position;
             _velocity = velocity;
-            _accleration = new Vector2();
-            _radius = radius;
+            _acceleration = new Vector2();
             _sprite = MakeAstroidTexture();
             _changeInRotation = changeInRotation;
             _rotation = (float)(rand.NextDouble() * Math.PI * 2);
         }
 
-        public float GetX() {
-            return _position.X;
+        public bool IsVisible { get; set; }
+        
+        public float Radius { get; }
+
+        public float X {
+            get { return _position.X; }
         }
         
-        public float GetY() {
-            return _position.Y;
+        public float Y {
+            get { return _position.Y; }
         }
 
-        public float GetRadius() {
-            return _radius;
-        }
         
         public void Tick() {
 
@@ -48,7 +48,7 @@ namespace SuperNova.Code.Object {
 
         public void Render(SpriteBatch _spriteBatch) {
 
-            _spriteBatch.Draw(_sprite, new Rectangle((int)(Camera.GetWidthScalar() * (_position.X - _radius + Camera.GetX())), (int)(Camera.GetHeightScalar() * (_position.Y - _radius + Camera.GetY())), (int)(Camera.GetWidthScalar() * _radius * 2), (int)(Camera.GetHeightScalar() * _radius * 2)), Color.White);
+            _spriteBatch.Draw(_sprite, new Rectangle((int)(Camera.GetWidthScalar() * (_position.X - Radius + Camera.GetX())), (int)(Camera.GetHeightScalar() * (_position.Y - Radius + Camera.GetY())), (int)(Camera.GetWidthScalar() * Radius * 2), (int)(Camera.GetHeightScalar() * Radius * 2)), Color.White);
         }
         
 

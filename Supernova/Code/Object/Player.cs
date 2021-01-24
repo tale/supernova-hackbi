@@ -8,7 +8,7 @@ using SuperNova.Code.Util;
 namespace SuperNova.Code.Object {
 
     public static class Player {
-
+        
         private static readonly Vector2 drawPosition = new Vector2(360, 225);
         private static Vector2 dimensions = new Vector2(32, 32);
 
@@ -18,40 +18,45 @@ namespace SuperNova.Code.Object {
         private static float angle = (float) Math.PI * 3 / 2;
 
         private static Boolean engine = false;
-
-
+        
         private static Texture2D sprite = SpriteManager.GetTexture("PLAYER");
         private static Texture2D sprite2 = SpriteManager.GetTexture("PLAYER1");
         private static float timer = 0f;
         
-        public static Vector2 GetDrawPosition() {
-            return drawPosition;
-        }
+        public static Vector2 DrawPosition { get; } = new Vector2(360, 225);
+        
+        public static Vector2 Size { get; } = new Vector2(24, 24);
+        
+        public static float Angle { get; set; } = angle;
 
         public static Vector2 GetPosition() {
             return position;
         }
 
-        public static Vector2 GetVelocity() {
-            return velocity;
-        }
-
-        public static float GetXVelocity() {
-            return velocity.X;
-        }
-
-        public static float GetYVelocity() {
-            return velocity.Y;
-        }
-
-        public static float GetAngle() {
+        public static float getAngle() {
             return angle;
         }
 
-        public static void SetAngle(float angle) {
+        public static void setAngle(float angle)  {
             Player.angle = angle;
         }
-
+        
+        public static float X {
+            get { return position.X; }
+        }
+        
+        public static float Y {
+            get { return position.Y; }
+        }
+        
+        public static float VX {
+            get { return velocity.X; }
+        }
+        
+        public static float VY {
+            get { return velocity.Y; }
+        }
+        
         public static void addToVelocity(float amount, float angle) {
 
             float CVX = (float) (velocity.X * Math.Cos(velocity.Y));
@@ -86,23 +91,23 @@ namespace SuperNova.Code.Object {
 
         private static bool IsCollisionAsteroid(Asteroid asteroid) {
             
-            return IsCollisionBody(asteroid.GetX(), asteroid.GetY(), asteroid.GetRadius());
+            return IsCollisionBody(asteroid.X, asteroid.Y, asteroid.Radius);
         }
 
         private static bool IsCollisionPlanet(Planet planet) {
             
-            return IsCollisionBody(planet.GetX(), planet.GetY(), planet.GetRadius());
+            return IsCollisionBody(planet.X, planet.Y, planet.Radius);
         }
         
         private static bool IsCollisionBody(double bodyX, double bodyY, double bodyRadius)
         {
 
-            double pointX1 = drawPosition.X,
-                pointY1 = drawPosition.Y - dimensions.Y / 2,
-                pointX2 = drawPosition.X - dimensions.X / 2,
-                pointY2 = drawPosition.Y + dimensions.Y / 2,
-                pointX3 = drawPosition.X + dimensions.X / 2,
-                pointY3 = drawPosition.Y + dimensions.Y / 2;
+            double pointX1 = DrawPosition.X,
+                pointY1 = DrawPosition.Y - Size.Y / 2,
+                pointX2 = DrawPosition.X - Size.X / 2,
+                pointY2 = DrawPosition.Y + Size.Y / 2,
+                pointX3 = DrawPosition.X + Size.X / 2,
+                pointY3 = DrawPosition.Y + Size.Y / 2;
             return isCollisionLineCircle(pointX1, pointY1, pointX2, pointY2, bodyX, bodyY, bodyRadius)
                    || isCollisionLineCircle(pointX1, pointY1, pointX3, pointY3, bodyX, bodyY, bodyRadius);
         }
@@ -143,10 +148,10 @@ namespace SuperNova.Code.Object {
 
             velocity.Y = (float) (velocity.Y % (Math.PI * 2));
 
-            if (angle < 0)
-                angle = (float) Math.PI * 2 + angle;
+            if (Angle < 0)
+                Angle = (float) Math.PI * 2 + Angle;
 
-            angle = (float) (angle % (Math.PI * 2));
+            Angle = (float) (Angle % (Math.PI * 2));
 
             position.X += (float) (velocity.X * Math.Cos(velocity.Y));
             position.Y += (float) (velocity.X * Math.Sin(velocity.Y));
@@ -170,12 +175,12 @@ namespace SuperNova.Code.Object {
         
         private static void Shoot() {
             
-            Bullet bullet = new Bullet(position, angle);
+            Bullet bullet = new Bullet(position, Angle);
         }
 
 
         public static void Render(SpriteBatch _spriteBatch) {
-
+            
             if (!engine)
                 _spriteBatch.Draw(sprite, destinationRectangle: new Rectangle((int)(Camera.GetWidthScalar() * (drawPosition.X - dimensions.X / 2)), (int)(Camera.GetHeightScalar() * (drawPosition.Y - dimensions.Y / 2)), (int)(Camera.GetWidthScalar() * (dimensions.X)), (int)(Camera.GetHeightScalar() * dimensions.Y)),null, Color.White, (angle + (float)Math.PI / 2) % ((float)Math.PI * 2), new Vector2(dimensions.X / 2 * Camera.GetWidthScalar(), Camera.GetHeightScalar() * (dimensions.Y / 2 -2)) , SpriteEffects.None, 0f);
 
