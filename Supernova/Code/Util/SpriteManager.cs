@@ -12,17 +12,21 @@ namespace SuperNova.Code.Util {
             _spriteMap = new Dictionary<string, Texture2D>();
             var assetsPath = Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly()?.Location);
 
+            string separator;
+            
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) {
                 assetsPath = assetsPath?.Substring(0, assetsPath.IndexOf("bin", StringComparison.Ordinal)) + "Assets\\";
+                separator = "\\";
             }
             else {
                 assetsPath = assetsPath?.Substring(0, assetsPath.IndexOf("bin", StringComparison.Ordinal)) + "Assets/";
+                separator = "/";
             }
 
             var files = Directory.EnumerateFiles(assetsPath, "*.png", SearchOption.AllDirectories);
 
             foreach (var file in files) {
-                var identifier = file.Substring(file.LastIndexOf("/", StringComparison.Ordinal) + 1);
+                var identifier = file.Substring(file.LastIndexOf(separator, StringComparison.Ordinal) + 1);
                 identifier = identifier.Substring(0, identifier.IndexOf(".png", StringComparison.Ordinal)).ToUpper();
                 _spriteMap.Add(identifier, Texture2D.FromFile(game.GraphicsDevice, file));
                 Console.WriteLine($"Loaded {identifier}");
