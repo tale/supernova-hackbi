@@ -41,10 +41,10 @@ namespace Supernova.Code.World {
             return array;
         }
 
-        public void render(SpriteBatch _spritebatch) {
+        public void Render(SpriteBatch _spritebatch) {
 
             foreach (var planet in _planets) {
-                if (planet != null) planet.render(_spritebatch);
+                if (planet != null) planet.Render(_spritebatch);
             }
         }
     }
