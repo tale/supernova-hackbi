@@ -49,7 +49,7 @@ namespace Supernova.Code {
             base.Initialize();
 
             start = new Button(640, 600, 480, 120, SpriteManager.GetTexture("START"));
-            end = new Button(640, 600, 480, 120, "OK");
+            end = new Button(640, 600, 480, 120, SpriteManager.GetTexture("END"));
             title = new Image(640, 360, 880, 684, SpriteManager.GetTexture("SUPERNOVA"));
         }
 
@@ -184,7 +184,6 @@ namespace Supernova.Code {
                         Vector2.One, 
                         SpriteEffects.None, 
                         0);
-                    Console.WriteLine($"Final Score is {Player.Score}");
                     end.Render(_spriteBatch);
                     break;
                 default:

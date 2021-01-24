@@ -51,10 +51,10 @@ namespace SuperNova.Code.Object  {
         private bool IsCollision(Asteroid asteroid) {
 
             double bulletX = _position.X + Size.X / 2, bulletY = _position.Y + Size.Y / 2;
-            double asteroidXTemp = Math.Cos(_angle + 90) * (asteroid.X - bulletX) -
-                                   Math.Sin(_angle + 90) * (asteroid.Y - bulletY) + bulletX;
-            double asteroidYTemp = Math.Sin(_angle + 90) * (asteroid.X - bulletX) +
-                                   Math.Cos(_angle + 90) * (asteroid.Y - bulletY) + bulletY;
+            double asteroidXTemp = Math.Cos(_angle + Math.PI / 2) * (asteroid.X - bulletX) -
+                                   Math.Sin(_angle + Math.PI / 2) * (asteroid.Y - bulletY) + bulletX;
+            double asteroidYTemp = Math.Sin(_angle + Math.PI / 2) * (asteroid.X - bulletX) +
+                                   Math.Cos(_angle + Math.PI / 2) * (asteroid.Y - bulletY) + bulletY;
             
             double closestX, closestY;
             if (asteroidXTemp < _position.X) closestX = _position.X;

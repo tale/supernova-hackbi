@@ -33,6 +33,7 @@ namespace SuperNova.Code.Object {
         public static float Health { get; set; } = 100F;
         public static float Fuel { get; set; } = 100F;
         public static int Score { get; set; } = 0;
+        private static int _interval = 20;
 
         public static void Reset() {
             position = new Vector2(640, 620);
@@ -90,13 +91,14 @@ namespace SuperNova.Code.Object {
         }
         
          private static void UpdateHealth(float health) {
-             while (Health <= 100) {
+             while (Health <= 100 && _interval <= 20) {
                  Health += health;
+                 _interval++;
              }
          }
         
          private static void UpdateFuel(float fuel) {
-             while (Fuel <= 100) {
+             while (Fuel <= 100 && _interval <= 20) {
                  Fuel += fuel;
              }
          }
@@ -109,7 +111,7 @@ namespace SuperNova.Code.Object {
 
                     velocity.X *= 0.5f;
                     velocity.Y += (float)Math.PI;
-                    Health -= (float)Math.Sqrt(Math.Pow(WorldManager.Asteroids[i]._velocity.X, 2) + Math.Pow(WorldManager.Asteroids[i]._velocity.Y, 2)) / 10;
+                    Health -= 20 * (float)Math.Sqrt(Math.Pow(WorldManager.Asteroids[i]._velocity.X, 2) + Math.Pow(WorldManager.Asteroids[i]._velocity.Y, 2)) / 10;
                     WorldManager.Asteroids.Remove(WorldManager.Asteroids[i]);
                 }
 
@@ -145,6 +147,7 @@ namespace SuperNova.Code.Object {
                         } else {
                             while (IsCollisionPlanet(planet)) {
 
+                                _interval = 0;
                                 position.X += .01f * (float)Math.Cos(ang);
                                 position.Y += .01f * (float)Math.Sin(ang);
                             }
@@ -158,8 +161,8 @@ namespace SuperNova.Code.Object {
                             }
 
                             if (velocity.X <= 1) {
-                                UpdateHealth(0.001f);
-                                UpdateFuel(0.5f);
+                                UpdateHealth(1F);
+                                UpdateFuel(2F);
                             }
 
                         }
