@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-
+using SuperNova.Code.Util;
 
 namespace SuperNova.Code.Object {
 
@@ -11,9 +11,9 @@ namespace SuperNova.Code.Object {
 
         private const double gravityStrength = 0.000000000000001;
         private float radius, mass, changeInRotation, rotation;
-        private Vector2 position;
+        public Vector2 position;
 
-        private Texture sprite;
+        private Texture2D sprite;
 
         public Planet(Vector2 position, float radius, float mass, float changeInRotation) {
 
@@ -31,9 +31,9 @@ namespace SuperNova.Code.Object {
 
         }
 
-        public void render(SpriteBatch spriteBatch) {
+        public void render(SpriteBatch _spriteBatch) {
 
-
+            _spriteBatch.Draw(sprite, new Rectangle((int)(Camera.GetWidthScalar() * (position.X - radius + Camera.GetX())), (int)(Camera.GetHeightScalar() * (position.Y - radius + Camera.GetY())), (int)(Camera.GetWidthScalar() * radius * 2), (int)(Camera.GetHeightScalar() * radius * 2)), Color.White);
 
 
         }
@@ -56,25 +56,25 @@ namespace SuperNova.Code.Object {
 
 
         }
+            
+            
+            
+            
 
-
-
-
-
-        private static Texture makePlanetTexture() {
+        private static Texture2D makePlanetTexture() {
 
             int type = (int)(rand.Next(1));
 
             switch (type) {
 
                 case 0:
-                    return null;
+                    return SpriteManager.GetTexture("PLANET");
 
                 case 1:
-                    return null;
+                    return SpriteManager.GetTexture("PLANET");
 
                 default:
-                    return null;
+                    return SpriteManager.GetTexture("PLANET");
 
             }
 
