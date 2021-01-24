@@ -15,6 +15,7 @@ namespace Supernova.Code.World {
         
         public static Dictionary<(int, int), Chunk> Chunks { get; } = new Dictionary<(int, int), Chunk>();
         public static List<Asteroid> Asteroids { get; } = new List<Asteroid>();
+        public static List<Bullet> Bullets { get; } = new List<Bullet>();
 
         //private static Planet planet = new Planet(new Vector2(600, 100), 128, 50, 1);
 
@@ -57,6 +58,14 @@ namespace Supernova.Code.World {
                     Vector2 spawnPoint = new Vector2((float)rand * 360 - Camera.GetX(), -100 - Camera.GetY());
 
                     Asteroids.Add(new Asteroid(spawnPoint, new Vector2((float)x / 2, (float)y) / 2, 10, 23));
+                }
+            }
+            
+            for (int n = 0; n < Bullets.Count; n++) {
+                Bullets[n].Tick();
+
+                if (Vector2.Distance(new Vector2(Bullets[n].X, Bullets[n].Y), Player.GetPosition()) > 2000) {
+                    Bullets.Remove(Bullets[n]);
                 }
             }
 
@@ -119,6 +128,9 @@ namespace Supernova.Code.World {
 
             foreach (var asteroid in Asteroids) {
                 asteroid?.Render(_spriteBatch);
+            }
+            foreach (var bullet in Bullets) {
+                bullet?.Render(_spriteBatch);
             }
         }
     }

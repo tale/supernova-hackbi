@@ -16,7 +16,7 @@ namespace SuperNova.Code.Object {
         
         private static Texture2D sprite = SpriteManager.GetTexture("PLAYER");
         private static Texture2D sprite2 = SpriteManager.GetTexture("PLAYER1");
-        private static float timer = 0f;
+        private static int timer = 0;
         
         public static Vector2 DrawPosition { get; } = new Vector2(640, 620);
         
@@ -193,12 +193,12 @@ namespace SuperNova.Code.Object {
 
             KeyboardState keyboardState = Keyboard.GetState();
             timer += 1;
-            if (Keyboard.GetState().IsKeyDown(Keys.Space) && timer > 100) {
+            if (keyboardState.IsKeyDown(Keys.Space) && timer > 10) {
                 Shoot();
-                timer = 0f;
+                timer = 0;
             }
 
-            if (Keyboard.GetState().IsKeyDown(Keys.W))
+            if (keyboardState.IsKeyDown(Keys.W))
                 engine = true;
             else
                 engine = false;
@@ -206,8 +206,7 @@ namespace SuperNova.Code.Object {
         
         
         private static void Shoot() {
-            
-            Bullet bullet = new Bullet(position, Angle);
+            WorldManager.Bullets.Add(new Bullet(DrawPosition, Angle));
         }
 
 

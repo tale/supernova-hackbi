@@ -1,6 +1,8 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Supernova.Code.World;
+using SuperNova.Code.Util;
 
 namespace SuperNova.Code.Object  {
     
@@ -8,7 +10,7 @@ namespace SuperNova.Code.Object  {
         
         private float _timer, _angle;
         private Vector2 _position, _velocity;
-        private const float _speed = -100f;
+        private const float _speed = -1f;
         private Texture2D _sprite;
 
         public Bullet(Vector2 position, float angle) {
@@ -23,13 +25,9 @@ namespace SuperNova.Code.Object  {
         
         public Vector2 Size { get; } = new Vector2(3, 20);
         
-        public float X {
-            get { return _position.X; }
-        }
-        
-        public float Y {
-            get { return _position.Y; }
-        }
+        public float X => _position.X;
+
+        public float Y => _position.Y;
         
         public void Tick() {
 
@@ -39,6 +37,16 @@ namespace SuperNova.Code.Object  {
 
         private void CheckCollision() {
             
+            foreach (var asteroid in WorldManager.Asteroids) {
+
+                if (IsCollision(asteroid)) {
+
+                    Console.WriteLine("BULLET-ASTEROID COLLISION");
+                    
+                    WorldManager.Asteroids.Remove(asteroid);
+                }
+
+            }
         }
         
         private bool IsCollision(Asteroid asteroid) {
@@ -61,9 +69,15 @@ namespace SuperNova.Code.Object  {
             return distance < asteroid.Radius;
         }
 
-        private static Texture2D MakeBulletTexture() {
+        public void Render(SpriteBatch _spriteBatch) {
+            _spriteBatch.Draw(_sprite,
+                new Rectangle((int)(Camera.GetWidthScalar() * (_position.X - Size.X / 2 + Camera.GetX())), (int)(Camera.GetHeightScalar() * (_position.Y - Size.Y / 2 + Camera.GetY())), (int)(Camera.GetWidthScalar() * Size.X),
+                    (int)(Camera.GetHeightScalar() * Size.Y)), Color.White);
+        }
 
-            return null;
+        private static Texture2D MakeBulletTexture() {
+            
+            return SpriteManager.GetTexture("NULL");
         }
     }
 }
