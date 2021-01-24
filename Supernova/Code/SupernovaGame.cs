@@ -6,6 +6,7 @@ using SuperNova.Code.Object;
 using SuperNova.Code.Utilities;
 using Microsoft.Xna.Framework.Graphics;
 using Supernova.Code.World;
+using Supernova.Code.Object;
 
 namespace Supernova.Code {
     internal enum GameState {
@@ -127,6 +128,7 @@ namespace Supernova.Code {
                     WorldManager.WorldRender(_spriteBatch);
                     Player.Render(_spriteBatch);
                     SupernovaObject.Render(_spriteBatch);
+                    HealthBar.Render(_spriteBatch);
                     break;
                 case GameState.LoseScreen:
                     break;

@@ -24,7 +24,7 @@ namespace SuperNova.Code.Object {
         
         public static float Angle { get; set; } = (float) Math.PI * 3 / 2;
 
-        private static float Health { get; set; } = 100F;
+        public static float Health { get; set; } = 100F;
         private static float Fuel { get; set; } = 100F;
         private static int Score { get; set; } = 0;
 
