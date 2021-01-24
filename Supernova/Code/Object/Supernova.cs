@@ -21,7 +21,7 @@ namespace SuperNova.Code.Object {
 
         public void Tick() {
 
-            _yPosition += _yVelocity;
+            _yPosition -= _yVelocity;
             _yVelocity += _yAcceleration;
         }
 

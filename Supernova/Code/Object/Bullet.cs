@@ -8,14 +8,14 @@ namespace SuperNova.Code.Object  {
         
         private bool _isVisible = false;
         private float _timer, _angle;
-        private Vector2 _position, _size, _velocity;
+        private Vector2 _position, _velocity, _size = new Vector2(3, 20);
         private const float _speed = -100f;
         private Texture2D _sprite;
 
-        public Bullet(Vector2 position, Vector2 size) {
+        public Bullet(Vector2 position, float angle) {
 
             _position = position;
-            _size = size;
+            _angle = angle;
             _velocity = new Vector2((float)(_speed * Math.Sin(_angle)), (float)(_speed * Math.Cos(_angle)));
             _sprite = MakeBulletTexture();
         }
@@ -37,6 +37,7 @@ namespace SuperNova.Code.Object  {
                                    Math.Sin(_angle + 90) * (asteroid.GetY() - bulletY) + bulletX;
             double asteroidYTemp = Math.Sin(_angle + 90) * (asteroid.GetX() - bulletX) +
                                    Math.Cos(_angle + 90) * (asteroid.GetY() - bulletY) + bulletY;
+            
             double closestX, closestY;
             if (asteroidXTemp < _position.X) closestX = _position.X;
             else if (asteroidXTemp > _position.X + _size.X) closestX = _position.X + _size.X;
@@ -44,6 +45,7 @@ namespace SuperNova.Code.Object  {
             if (asteroidYTemp < _position.Y) closestY = _position.Y;
             else if (asteroidYTemp > _position.Y + _size.Y) closestY = _position.Y + _size.Y;
             else closestY = asteroidYTemp;
+            
             double distance = Math.Sqrt(Math.Pow(asteroidXTemp - closestX, 2) + Math.Pow(asteroidYTemp - closestY, 2));
             return distance < asteroid.GetRadius();
         }
