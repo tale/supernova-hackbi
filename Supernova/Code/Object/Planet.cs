@@ -11,32 +11,32 @@ namespace SuperNova.Code.Object {
 
         private const double _gravityStrength = .001;
         private float _mass, _changeInRotation, _rotation;
-        private Vector2 _position { get; }
-
-        private float radius;
-
+        
         private Texture2D _sprite;
 
         public Planet(Vector2 position, float radius, float mass, float changeInRotation) {
 
             IsVisible = true;
-            this.radius = radius;
-            _position = position;
+            this.Radius = radius;
+            Position = position;
             _mass = mass;
             _sprite = MakePlanetTexture();
             _changeInRotation = changeInRotation;
             _rotation = (float)(rand.NextDouble() * Math.PI * 2);
         }
         
+        private Vector2 Position { get; }
+        
         public bool IsVisible { get; set; }
      
+        public double Radius { get; set; }
 
         public float X {
-            get { return _position.X; }
+            get { return Position.X; }
         }
         
         public float Y {
-            get { return _position.Y; }
+            get { return Position.Y; }
         }
 
         public void Tick() {
@@ -45,17 +45,13 @@ namespace SuperNova.Code.Object {
 
         }
 
-        public float getRadius() {
-            return radius;
-        }
-
         public void Render(SpriteBatch _spriteBatch) {
 
             _spriteBatch.Draw(_sprite, new Rectangle(
-                    (int)(Camera.GetWidthScalar() * (_position.X - radius * 1.3 + Camera.GetX())), 
-                (int)(Camera.GetHeightScalar() * (_position.Y - radius * 1.3 + Camera.GetY())),
-                    (int)(Camera.GetWidthScalar() * radius * 2), 
-                (int)(Camera.GetHeightScalar() * radius * 2)), 
+                    (int)(Camera.GetWidthScalar() * (Position.X - Radius * 1.3 + Camera.GetX())), 
+                (int)(Camera.GetHeightScalar() * (Position.Y - Radius * 1.3 + Camera.GetY())),
+                    (int)(Camera.GetWidthScalar() * Radius * 2), 
+                (int)(Camera.GetHeightScalar() * Radius * 2)), 
                 null, Color.White);
         }
 
@@ -63,24 +59,24 @@ namespace SuperNova.Code.Object {
 
             var (x, y) = objectPosition;
 
-            if (Math.Sqrt(Math.Pow(_position.X - x, 2) + Math.Pow(_position.Y - y, 2)) > 1000)
+            if (Math.Sqrt(Math.Pow(Position.X - x, 2) + Math.Pow(Position.Y - y, 2)) > 1000)
                 return Vector2.Zero;
 
-            float acceleration = (float)(_gravityStrength * _mass / (Math.Pow((_position.X - x) / 180, 2) + Math.Pow((_position.Y - y) / 180, 2)));
+            float acceleration = (float)(_gravityStrength * _mass / (Math.Pow((Position.X - x) / 180, 2) + Math.Pow((Position.Y - y) / 180, 2)));
 
             float angle = 0;
 
-            if (_position.X - x > 0 && _position.Y - y > 0)
-                angle = (float)Math.Atan((_position.Y - y) / (_position.X - x));
+            if (Position.X - x > 0 && Position.Y - y > 0)
+                angle = (float)Math.Atan((Position.Y - y) / (Position.X - x));
 
-            else if (_position.X - x < 0 && _position.Y - y > 0)
-                angle = (float)(Math.Atan((_position.Y - y) / (_position.X - x)) + Math.PI);
+            else if (Position.X - x < 0 && Position.Y - y > 0)
+                angle = (float)(Math.Atan((Position.Y - y) / (Position.X - x)) + Math.PI);
 
-            else if (_position.X - x < 0 && _position.Y - y < 0)
-                angle = (float)(Math.Atan((_position.Y - y) / (_position.X - x)) + Math.PI);
+            else if (Position.X - x < 0 && Position.Y - y < 0)
+                angle = (float)(Math.Atan((Position.Y - y) / (Position.X - x)) + Math.PI);
 
-            else if (_position.X - x > 0 && _position.Y - y < 0)
-                angle = (float)(Math.Atan((_position.Y - y) / (_position.X - x)) + 2 * Math.PI);
+            else if (Position.X - x > 0 && Position.Y - y < 0)
+                angle = (float)(Math.Atan((Position.Y - y) / (Position.X - x)) + 2 * Math.PI);
 
             angle %= (float)Math.PI * 2;
 

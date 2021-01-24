@@ -137,6 +137,7 @@ namespace Supernova.Code {
                     Player.Render(_spriteBatch);
                     SupernovaObject.Render(_spriteBatch);
                     HealthBar.Render(_spriteBatch);
+                    FuelBar.Render(_spriteBatch);
                     break;
                 case GameState.LoseScreen:
                     // _spriteBatch.DrawString(new SpriteFont(), Player.Score.ToString(), Vector2.Zero, Color.White);

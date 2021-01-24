@@ -73,7 +73,7 @@ namespace SuperNova.Code.Object {
 
                 float distance = Vector2.Distance(new Vector2(planets[n].X, planets[n].Y), _position);
 
-                if (distance < planets[n].getRadius() + Radius) {
+                if (distance < planets[n].Radius + Radius) {
 
                     return true;
                 }
