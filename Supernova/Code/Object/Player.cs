@@ -25,7 +25,7 @@ namespace SuperNova.Code.Object {
         public static float Angle { get; set; } = (float) Math.PI * 3 / 2;
 
         public static float Health { get; set; } = 100F;
-        private static float Fuel { get; set; } = 100F;
+        public static float Fuel { get; set; } = 100F;
         public static int Score { get; set; } = 0;
 
         public static void Reset() {
@@ -88,6 +88,12 @@ namespace SuperNova.Code.Object {
                 Health += health;
             }
         }
+        
+        private static void UpdateFuel(float fuel) {
+            while (Fuel <= 100) {
+                Fuel += fuel;
+            }
+        }
 
         private static void CheckCollision() {
 
@@ -99,8 +105,8 @@ namespace SuperNova.Code.Object {
 
                     velocity.X *= 0.5f;
                     velocity.Y += (float)Math.PI;
-                    WorldManager.Asteroids.Remove(WorldManager.Asteroids[i]);
                     Health -= (float)Math.Sqrt(Math.Pow(WorldManager.Asteroids[i]._velocity.X, 2) + Math.Pow(WorldManager.Asteroids[i]._velocity.Y, 2)) / 10;
+                    WorldManager.Asteroids.Remove(WorldManager.Asteroids[i]);
                     Console.WriteLine(Health);
                 }
 
@@ -109,9 +115,8 @@ namespace SuperNova.Code.Object {
             foreach (var chunk in WorldManager.Chunks.Values) {
 
                 foreach (var planet in chunk.Planets) {
-
+                    
                     if (IsCollisionPlanet(planet)) {
-
                         Console.WriteLine("PLANET COLLISION");
 
                         float x = position.X - planet.X;
@@ -132,31 +137,21 @@ namespace SuperNova.Code.Object {
                             ang = (float)(Math.Atan((y) / (x)) + 2 * Math.PI);
 
 
-                        while(IsCollisionPlanet(planet)) {
+                        while (IsCollisionPlanet(planet)) {
 
                             position.X += .01f * (float)Math.Cos(ang);
                             position.Y += .01f * (float)Math.Sin(ang);
                         }
-
-                        //addToVelocity(planet.Gravity(position).Length() * 1f, ang - (float)Math.PI / 2.9f);
-
-                        KeyboardState keyboardState = Keyboard.GetState();
-                       
-                        if (!keyboardState.IsKeyDown(Keys.W)) {
+                        
+                        if (!engine) { 
                             velocity.X *= .5f;
                         }
-
-
-                        if (velocity.Length() <= 1) {
-                            UpdateHealth(0.5F);
-                            Fuel += .03F;
-                            Health += .01f;
-                        } else {
-
                             
+                        if (velocity.Length() <= 1) {
+                            UpdateHealth(0.5f);
+                            UpdateFuel(0.5f);
                         }
                     }
-
                 }
 
             }
@@ -168,11 +163,9 @@ namespace SuperNova.Code.Object {
         }
 
         private static bool IsCollisionPlanet(Planet planet) {
-
             float distance = Vector2.Distance(new Vector2(planet.X, planet.Y) , position);
-
-            return (distance < planet.getRadius() + Size.X / 2 - 8 );
-            //return IsCollisionBody(planet.X, planet.Y, planet.getRadius());
+            return distance < planet.Radius + Size.X / 2 - 8;
+            // return IsCollisionBody(planet.X, planet.Y, planet.Radius);
         }
         
         private static bool IsCollisionBody(double bodyX, double bodyY, double bodyRadius)
@@ -234,6 +227,7 @@ namespace SuperNova.Code.Object {
             position.X += (float) (velocity.X * Math.Cos(velocity.Y));
             position.Y += (float) (velocity.X * Math.Sin(velocity.Y));
             
+            Fuel -= 0.1f;
 
             Camera.SetX(-(position.X - 640));
             Camera.SetY(-(position.Y - 620));
