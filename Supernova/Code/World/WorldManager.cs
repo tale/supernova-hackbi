@@ -41,25 +41,22 @@ namespace Supernova.Code.World {
             }
 
             var rand = _random.RandomGauss();
-            if (rand > 2.2) {
-                int spawnAmount = new Random().Next(10, 20);
+            if (rand > 2.8) {
+
+                int spawnAmount = (int)(rand * 1.75f);
 
                 for (int n = 0; n < spawnAmount; n++) {
-                    Vector2 spawnPoint = Vector2.Zero;
-                    int spawnLocation = new Random().Next(0, 2);
+         
 
-                    switch (spawnLocation) {
-                        case 0:
-                            spawnPoint = new Vector2(cordX * -1 * spawnLocation * 30 - Camera.GetX(), cordY * -1 * spawnLocation * 30 - Camera.GetY());
-                            break;
-                        case 1:
-                            spawnPoint = new Vector2(cordX * 1 * spawnLocation * 30 - Camera.GetX(), cordY * -1 * spawnLocation * 30 - Camera.GetY());
-                            break;
-                        case 2:
-                            spawnPoint = new Vector2(cordX * 1 * spawnLocation * 30 + -Camera.GetX(), cordY * -1 * spawnLocation * 30 - Camera.GetY());
-                            break;
-                    }
-                    Asteroids.Add(new Asteroid(spawnPoint, new Vector2((float)rand / 2, (float)rand) / 2, 10, 23));
+
+                    rand = _random.RandomGauss();
+
+                    var x = _random.RandomGauss();
+                    var y = Math.Abs(_random.RandomGauss());
+
+                    Vector2 spawnPoint = new Vector2((float)rand * 360 - Camera.GetX(), -100 - Camera.GetY());
+
+                    Asteroids.Add(new Asteroid(spawnPoint, new Vector2((float)x / 2, (float)y) / 2, 10, 23));
                 }
             }
 
