@@ -73,7 +73,7 @@ namespace Supernova.Code.World {
 
             for (int n = 0; n < 9; n++) {
 
-                chunks[loaded[n]].Tick();
+                Chunks[loaded[n]].Tick();
             }
 
 

@@ -86,7 +86,7 @@ namespace Supernova.Code.World {
 
         public void Tick() {
 
-            foreach (var planet in _planets) {
+            foreach (var planet in Planets) {
                 if (planet != null) planet.Tick();
             }
 
