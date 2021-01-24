@@ -83,17 +83,17 @@ namespace SuperNova.Code.Object {
 
         }
         
-        // private static void UpdateHealth(float health) {
-        //     while (Health <= 100) {
-        //         Health += health;
-        //     }
-        // }
-        //
-        // private static void UpdateFuel(float fuel) {
-        //     while (Fuel <= 100) {
-        //         Fuel += fuel;
-        //     }
-        // }
+         private static void UpdateHealth(float health) {
+             while (Health <= 100) {
+                 Health += health;
+             }
+         }
+        
+         private static void UpdateFuel(float fuel) {
+             while (Fuel <= 100) {
+                 Fuel += fuel;
+             }
+         }
 
         private static void CheckCollision() {
 
