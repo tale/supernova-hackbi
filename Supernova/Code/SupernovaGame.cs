@@ -45,8 +45,8 @@ namespace Supernova.Code {
             SpriteManager.LoadAssets(this);
             base.Initialize();
 
-            start = new Button(360, 350, 240, 60, SpriteManager.GetTexture("START"));
-            title = new Image(360, 150, 360, 280, SpriteManager.GetTexture("SUPERNOVA"));
+            start = new Button(640, 600, 480, 120, SpriteManager.GetTexture("START"));
+            title = new Image(640, 360, 880, 684, SpriteManager.GetTexture("SUPERNOVA"));
         }
 
         protected override void LoadContent() {
@@ -120,8 +120,9 @@ namespace Supernova.Code {
 
             switch (_gameState) {
                 case GameState.StartScreen:
-                    start.Render(_spriteBatch);
                     title.Render(_spriteBatch);
+                    start.Render(_spriteBatch);
+  
 
                     break;
                 case GameState.GameScreen:
