@@ -127,8 +127,8 @@ namespace SuperNova.Code.Object {
             addToVelocity(gravity.X, gravity.Y);
 
 
-            velocity.X = Math.Min(velocity.X, 5);
-            velocity.X = Math.Max(velocity.X, -5);
+            velocity.X = Math.Min(velocity.X, 2.5f);
+            velocity.X = Math.Max(velocity.X, -2.5f);
 
             if (velocity.Y < 0)
                 velocity.Y = (float) Math.PI * 2 + velocity.Y;

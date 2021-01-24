@@ -85,7 +85,7 @@ namespace Supernova.Code {
                         Player.Angle += .05f;
 
                     if (keyBoardState.IsKeyDown(Keys.W))
-                        Player.addToVelocity(.13f, Player.Angle);
+                        Player.addToVelocity(.065f, Player.Angle);
 
                     
 

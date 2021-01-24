@@ -71,7 +71,13 @@ namespace Supernova.Code.World {
                 }
             }
 
-  
+            for (int n = 0; n < 9; n++) {
+
+                chunks[loaded[n]].Tick();
+            }
+
+
+
         }
 
         public static Vector2 getGravityEffects(Vector2 positition) {
@@ -84,7 +90,7 @@ namespace Supernova.Code.World {
             }
             //acceleration = planet.Gravity(positition);
 
-            float mangnitude = Math.Min((float)Math.Sqrt(Math.Pow(acceleration.X, 2) + Math.Pow(acceleration.Y, 2)), .085f);
+            float mangnitude = Math.Min((float)Math.Sqrt(Math.Pow(acceleration.X, 2) + Math.Pow(acceleration.Y, 2)), .0425f);
 
             float angle = 0;
 

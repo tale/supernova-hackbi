@@ -9,7 +9,7 @@ namespace SuperNova.Code.Object {
 
         static Random rand = new Random();
 
-        private const double _gravityStrength = .001;
+        private const double _gravityStrength = .0005;
         private float _mass, _changeInRotation, _rotation;
         private Vector2 _position;
 
@@ -46,8 +46,7 @@ namespace SuperNova.Code.Object {
 
         public void Render(SpriteBatch _spriteBatch) {
 
-            _spriteBatch.Draw(_sprite, new Rectangle((int)(Camera.GetWidthScalar() * (_position.X - Radius + Camera.GetX())), (int)(Camera.GetHeightScalar() * (_position.Y - Radius + Camera.GetY())), (int)(Camera.GetWidthScalar() * Radius * 2), (int)(Camera.GetHeightScalar() * Radius * 2)), Color.White);
-
+            _spriteBatch.Draw(_sprite, destinationRectangle: new Rectangle((int)(Camera.GetWidthScalar() * (_position.X - Radius + Camera.GetX())), (int)(Camera.GetHeightScalar() * (_position.Y - Radius + Camera.GetY())), (int)(Camera.GetWidthScalar() * (Radius * 2)), (int)(Camera.GetHeightScalar() * Radius * 2)), null, Color.White, (_rotation + (float)Math.PI / 2) % ((float)Math.PI * 2), new Vector2(Radius * Camera.GetWidthScalar(), Camera.GetHeightScalar() * (Radius - 2)), SpriteEffects.None, 0f);
 
         }
 
