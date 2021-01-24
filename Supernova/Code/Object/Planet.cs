@@ -9,7 +9,7 @@ namespace SuperNova.Code.Object {
 
         static Random rand = new Random();
 
-        private const double _gravityStrength = .00001;
+        private const double _gravityStrength = .001;
         private float _radius, _mass, _changeInRotation, _rotation;
         private Vector2 _position;
 
@@ -52,19 +52,25 @@ namespace SuperNova.Code.Object {
 
         public Vector2 Gravity(Vector2 objectPosition) {
 
-            float accelerationX = (float)(_gravityStrength * _mass / Math.Pow(_position.X - objectPosition.X, 2));
+            float acceleration = (float)(_gravityStrength * _mass / (Math.Pow((_position.X - objectPosition.X) / 140, 2) + Math.Pow((_position.Y - objectPosition.Y) / 140, 2)));
 
-            float accelerationY = (float)(_gravityStrength * _mass / Math.Pow(_position.Y - objectPosition.Y, 2));
+            float angle = 0;
 
-            if (_position.X < objectPosition.X)
-                accelerationX *= -1;
+            if (_position.X - objectPosition.X > 0 && _position.Y - objectPosition.Y > 0)
+                angle = (float)Math.Atan((_position.Y - objectPosition.Y) / (_position.X - objectPosition.X));
 
-            if (_position.Y < objectPosition.Y)
-                accelerationY *= -1;
+            else if (_position.X - objectPosition.X < 0 && _position.Y - objectPosition.Y > 0)
+                angle = (float)(Math.Atan((_position.Y - objectPosition.Y) / (_position.X - objectPosition.X)) + Math.PI);
 
+            else if (_position.X - objectPosition.X < 0 && _position.Y - objectPosition.Y < 0)
+                angle = (float)(Math.Atan((_position.Y - objectPosition.Y) / (_position.X - objectPosition.X)) + Math.PI);
 
+            else if (_position.X - objectPosition.X > 0 && _position.Y - objectPosition.Y < 0)
+                angle = (float)(Math.Atan((_position.Y - objectPosition.Y) / (_position.X - objectPosition.X)) + 2 * Math.PI);
 
-            return new Vector2(accelerationX, accelerationY);
+            angle %= (float)Math.PI * 2;
+
+            return new Vector2((float)(acceleration * Math.Cos(angle)), (float)(acceleration * Math.Sin(angle)));
 
         }
 

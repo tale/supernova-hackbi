@@ -9,10 +9,10 @@ namespace SuperNova.Code.Object {
 
     public static class Player {
 
-        private static readonly Vector2 drawPosition = new Vector2(360, 400);
-        private static Vector2 dimensions = new Vector2(48, 48);
+        private static readonly Vector2 drawPosition = new Vector2(360, 225);
+        private static Vector2 dimensions = new Vector2(24, 24);
 
-        private static Vector2 position = new Vector2(0, 0);
+        private static Vector2 position = new Vector2(360, 225);
         private static Vector2 velocity = new Vector2(.00001f, (float) Math.PI * 3 / 2);
 
         private static float angle = (float) Math.PI * 3 / 2;
@@ -132,8 +132,8 @@ namespace SuperNova.Code.Object {
             addToVelocity(gravity.X, gravity.Y);
 
 
-            velocity.X = Math.Min(velocity.X, 10);
-            velocity.X = Math.Max(velocity.X, -10);
+            velocity.X = Math.Min(velocity.X, 5);
+            velocity.X = Math.Max(velocity.X, -5);
 
             if (velocity.Y < 0)
                 velocity.Y = (float) Math.PI * 2 + velocity.Y;
@@ -148,8 +148,8 @@ namespace SuperNova.Code.Object {
             position.X += (float) (velocity.X * Math.Cos(velocity.Y));
             position.Y += (float) (velocity.X * Math.Sin(velocity.Y));
 
-            Camera.SetX(-position.X);
-            Camera.SetY(-position.Y);
+            Camera.SetX(-(position.X - 360));
+            Camera.SetY(-(position.Y - 225));
 
             KeyboardState keyboardState = Keyboard.GetState();
             timer += 1;

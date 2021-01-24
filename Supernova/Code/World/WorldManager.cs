@@ -16,6 +16,8 @@ namespace Supernova.Code.World {
         private static List<Asteroid> _asteroids = new List<Asteroid>();
         private static (int, int)[] loaded = new (int, int)[9];
 
+        //private static Planet planet = new Planet(new Vector2(600, 100), 128, 50, 1);
+
 
         public static void WorldTick() {
 
@@ -80,7 +82,7 @@ namespace Supernova.Code.World {
 
                 acceleration += chunks[loaded[n]].getGravityEffects(positition);
             }
-
+            //acceleration = planet.Gravity(positition);
 
             float mangnitude = (float)Math.Sqrt(Math.Pow(acceleration.X, 2) + Math.Pow(acceleration.Y, 2));
 
@@ -109,6 +111,8 @@ namespace Supernova.Code.World {
 
                 chunks[loaded[n]].Render(_spriteBatch);
             }
+
+            //planet.Render(_spriteBatch);
 
             foreach (var asteroid in _asteroids) {
                 asteroid?.Render(_spriteBatch);
