@@ -14,7 +14,7 @@ namespace Supernova.Code.World {
         private static (int, int)[] loaded = new (int, int)[9];
         
         public static Dictionary<(int, int), Chunk> Chunks { get; } = new Dictionary<(int, int), Chunk>();
-        public static List<Asteroid> Asteroids { get; }
+        public static List<Asteroid> Asteroids { get; } = new List<Asteroid>();
 
         //private static Planet planet = new Planet(new Vector2(600, 100), 128, 50, 1);
 
@@ -42,13 +42,13 @@ namespace Supernova.Code.World {
 
             var rand = _random.RandomGauss();
             if (rand > 2.2) {
-                int spawnAmount = new Random().Next(10, 20);
+                int spawnAmount = new Random().Next(5, 10);
 
                 for (int n = 0; n < spawnAmount; n++) {
                     Vector2 spawnPoint = Vector2.Zero;
                     int spawnLocation = new Random().Next(0, 2);
 
-                    switch (spawnLocation) {
+                    /*switch (spawnLocation) {
                         case 0:
                             spawnPoint = new Vector2(cordX * -1 * spawnLocation * 30 - Camera.GetX(), cordY * -1 * spawnLocation * 30 - Camera.GetY());
                             break;
@@ -58,22 +58,29 @@ namespace Supernova.Code.World {
                         case 2:
                             spawnPoint = new Vector2(cordX * 1 * spawnLocation * 30 + -Camera.GetX(), cordY * -1 * spawnLocation * 30 - Camera.GetY());
                             break;
+                    }*/
+
+                    rand = _random.RandomGauss();
+
+                    var x = _random.RandomGauss();
+                    var y = Math.Abs(_random.RandomGauss());
+
+                    spawnPoint = new Vector2((float)rand * 360 - Camera.GetX(), -100 - Camera.GetY());
+                    Asteroids.Add(new Asteroid(spawnPoint, new Vector2((float)x / 2, (float)y) / 2, 10, 23));
+                }
+            }
+
+                foreach (var asteroid in Asteroids) {
+                    asteroid.Tick();
+
+                    if (Vector2.Distance(new Vector2(asteroid.X, asteroid.Y), Player.GetPosition()) > 50000) {
+                        Asteroids.Remove(asteroid);
                     }
-                    Asteroids.Add(new Asteroid(spawnPoint, new Vector2((float)rand / 2, (float)rand) / 2, 10, 23));
                 }
-            }
-
-            foreach (var asteroid in Asteroids) {
-                asteroid.Tick();
-
-                if (Vector2.Distance(new Vector2(asteroid.X, asteroid.Y), Player.GetPosition()) > 50000) {
-                    Asteroids.Remove(asteroid);
-                }
-            }
 
             for (int n = 0; n < 9; n++) {
 
-                chunks[loaded[n]].Tick();
+                Chunks[loaded[n]].Tick();
             }
 
 

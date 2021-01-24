@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Supernova.Code.World;
 using SuperNova.Code.Util;
 
 namespace SuperNova.Code.Object {
@@ -39,6 +40,12 @@ namespace SuperNova.Code.Object {
 
         
         public void Tick() {
+
+
+            Vector2 accel = WorldManager.getGravityEffects(_position);
+
+            _velocity.X += accel.X * (float)Math.Cos(accel.Y);
+            _velocity.Y += accel.X * (float)Math.Sin(accel.Y);
 
             _rotation = (float)((_rotation + _changeInRotation) % (Math.PI * 2));
 
