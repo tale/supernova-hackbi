@@ -40,21 +40,38 @@ namespace SuperNova.Code.Object  {
             
             for (int i = WorldManager.Asteroids.Count - 1; i >= 0; i--) {
 
-                if (IsCollision(WorldManager.Asteroids[i])) {
+                if (IsCollision(WorldManager.Asteroids[i].X, WorldManager.Asteroids[i].Y, WorldManager.Asteroids[i].Radius)) {
 
                     WorldManager.Asteroids[i].dead = true;
                 }
 
             }
+
+        }
+
+        public bool isPlanetCollision() {
+            
+            foreach (var chunk in WorldManager.Chunks.Values) {
+
+                foreach (var planet in chunk.Planets) {
+
+                    if (IsCollision(planet.X, planet.Y, planet.Radius)) {
+
+                        return true;
+                    }
+                }
+            }
+
+            return false;
         }
         
-        private bool IsCollision(Asteroid asteroid) {
+        private bool IsCollision(float asteroidX, float asteroidY, float asteroidRadius) {
 
             double bulletX = _position.X + Size.X / 2, bulletY = _position.Y + Size.Y / 2;
-            double asteroidXTemp = Math.Cos(_angle + Math.PI / 2) * (asteroid.X - bulletX) -
-                                   Math.Sin(_angle + Math.PI / 2) * (asteroid.Y - bulletY) + bulletX;
-            double asteroidYTemp = Math.Sin(_angle + Math.PI / 2) * (asteroid.X - bulletX) +
-                                   Math.Cos(_angle + Math.PI / 2) * (asteroid.Y - bulletY) + bulletY;
+            double asteroidXTemp = Math.Cos(_angle + Math.PI / 2) * (asteroidX - bulletX) -
+                                   Math.Sin(_angle + Math.PI / 2) * (asteroidY - bulletY) + bulletX;
+            double asteroidYTemp = Math.Sin(_angle + Math.PI / 2) * (asteroidX - bulletX) +
+                                   Math.Cos(_angle + Math.PI / 2) * (asteroidY - bulletY) + bulletY;
             
             double closestX, closestY;
             if (asteroidXTemp < _position.X) closestX = _position.X;
@@ -65,7 +82,7 @@ namespace SuperNova.Code.Object  {
             else closestY = asteroidYTemp;
             
             double distance = Math.Sqrt(Math.Pow(asteroidXTemp - closestX, 2) + Math.Pow(asteroidYTemp - closestY, 2));
-            return distance < asteroid.Radius;
+            return distance < asteroidRadius;
         }
 
         public void Render(SpriteBatch _spriteBatch) {

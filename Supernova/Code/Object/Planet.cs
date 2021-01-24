@@ -29,7 +29,7 @@ namespace SuperNova.Code.Object {
         
         public bool IsVisible { get; set; }
      
-        public double Radius { get; set; }
+        public float Radius { get; set; }
 
         public float X {
             get { return Position.X; }

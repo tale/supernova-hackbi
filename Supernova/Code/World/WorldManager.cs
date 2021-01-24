@@ -91,10 +91,10 @@ namespace Supernova.Code.World {
             }
 
 
-            for (int n = 0; n<Bullets.Count; n++) {
+            for (int n = Bullets.Count - 1; n >= 0; n--) {
                 Bullets[n].Tick();
 
-                if (Vector2.Distance(new Vector2(Bullets[n].X, Bullets[n].Y), Player.GetPosition()) > 1000) {
+                if (Vector2.Distance(new Vector2(Bullets[n].X, Bullets[n].Y), Player.GetPosition()) > 1000 || Bullets[n].isPlanetCollision()) {
                     Bullets.Remove(Bullets[n]);
                 }
             }
