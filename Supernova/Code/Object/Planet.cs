@@ -24,6 +24,18 @@ namespace SuperNova.Code.Object {
             _changeInRotation = changeInRotation;
             _rotation = (float)(rand.NextDouble() * Math.PI * 2);
         }
+        
+        public float GetX() {
+            return _position.X;
+        }
+        
+        public float GetY() {
+            return _position.Y;
+        }
+
+        public float GetRadius() {
+            return _radius;
+        }
 
         public void Tick() {
 

@@ -71,7 +71,58 @@ namespace SuperNova.Code.Object {
                 velocity.Y = (float)(Math.Atan((CVY + NVY) / (CVX + NVX)) + 2 * Math.PI);
 
         }
+        
+        private static void UpdateHealth() {
+            
+        }
+        
+        private static void CheckCollision() {
+            
+        }
 
+        private static bool IsCollisionAsteroid(Asteroid asteroid) {
+            
+            return IsCollisionBody(asteroid.GetX(), asteroid.GetY(), asteroid.GetRadius());
+        }
+
+        private static bool IsCollisionPlanet(Planet planet) {
+            
+            return IsCollisionBody(planet.GetX(), planet.GetY(), planet.GetRadius());
+        }
+        
+        private static bool IsCollisionBody(double bodyX, double bodyY, double bodyRadius)
+        {
+
+            double pointX1 = drawPosition.X,
+                pointY1 = drawPosition.Y - dimensions.Y / 2,
+                pointX2 = drawPosition.X - dimensions.X / 2,
+                pointY2 = drawPosition.Y + dimensions.Y / 2,
+                pointX3 = drawPosition.X + dimensions.X / 2,
+                pointY3 = drawPosition.Y + dimensions.Y / 2;
+            return isCollisionLineCircle(pointX1, pointY1, pointX2, pointY2, bodyX, bodyY, bodyRadius)
+                   || isCollisionLineCircle(pointX1, pointY1, pointX3, pointY3, bodyX, bodyY, bodyRadius);
+        }
+
+        private static bool isCollisionLineCircle(double lineX1, double lineY1, double lineX2, double lineY2, double circleX,
+            double circleY, double radius) {
+
+            double lineLen = distance(lineX1, lineY1, lineX2, lineY2);
+            double dotProduct = ((circleX - lineX1) * (lineX2 - lineX1) + (circleY - lineY1) * (lineY2 - lineY1)) /
+                                Math.Pow(lineLen, 2);
+            double closestX = dotProduct * (lineX2 - lineX1) + lineX1;
+            double closestY = dotProduct * (lineY2 - lineY1) + lineY1;
+            double distLineClosest1 = distance(lineX1, lineY1, closestX, closestY);
+            double distLineClosest2 = distance(lineX2, lineY2, closestX, closestY);
+            if (Math.Abs(distLineClosest1 + distLineClosest2 - lineLen) > 0.5)
+                return false;
+            double distCircleClosest = distance(circleX, circleY, closestX, closestY);
+            return distCircleClosest < radius;
+        }
+
+        private static double distance(double x1, double y1, double x2, double y2) {
+            
+            return Math.Sqrt(Math.Pow(x1 - x2, 2) + Math.Pow(y1 - y2, 2));
+        }
 
         public static void Tick()
         {
