@@ -101,13 +101,10 @@ namespace SuperNova.Code.Object {
 
                 if (IsCollisionAsteroid(WorldManager.Asteroids[i])) {
 
-                    Console.WriteLine("ASTEROID COLLISION");
-
                     velocity.X *= 0.5f;
                     velocity.Y += (float)Math.PI;
                     Health -= (float)Math.Sqrt(Math.Pow(WorldManager.Asteroids[i]._velocity.X, 2) + Math.Pow(WorldManager.Asteroids[i]._velocity.Y, 2)) / 10;
                     WorldManager.Asteroids.Remove(WorldManager.Asteroids[i]);
-                    Console.WriteLine(Health);
                 }
 
             }
@@ -117,7 +114,6 @@ namespace SuperNova.Code.Object {
                 foreach (var planet in chunk.Planets) {
                     
                     if (IsCollisionPlanet(planet)) {
-                        Console.WriteLine("PLANET COLLISION");
 
                         float x = position.X - planet.X;
                         float y = position.Y - planet.Y;
@@ -137,19 +133,29 @@ namespace SuperNova.Code.Object {
                             ang = (float)(Math.Atan((y) / (x)) + 2 * Math.PI);
 
 
-                        while (IsCollisionPlanet(planet)) {
+                        if (velocity.X > 1.25) {
 
-                            position.X += .01f * (float)Math.Cos(ang);
-                            position.Y += .01f * (float)Math.Sin(ang);
-                        }
-                        
-                        if (!engine) { 
-                            velocity.X *= .5f;
-                        }
-                            
-                        if (velocity.Length() <= 1) {
-                            UpdateHealth(0.5f);
-                            UpdateFuel(0.5f);
+                            addToVelocity(3, ang);
+                                
+                        } else {
+                            while (IsCollisionPlanet(planet)) {
+
+                                position.X += .01f * (float)Math.Cos(ang);
+                                position.Y += .01f * (float)Math.Sin(ang);
+                            }
+
+                            if (!engine) {
+
+                                Angle = ang;
+
+                                velocity.X *= .5f;
+
+                            }
+
+                            if (velocity.X <= 1) {
+                                UpdateHealth(0.001f);
+                                UpdateFuel(0.5f);
+                            }
                         }
                     }
                 }
@@ -226,8 +232,7 @@ namespace SuperNova.Code.Object {
 
             position.X += (float) (velocity.X * Math.Cos(velocity.Y));
             position.Y += (float) (velocity.X * Math.Sin(velocity.Y));
-            
-            Fuel -= 0.1f;
+        
 
             Camera.SetX(-(position.X - 640));
             Camera.SetY(-(position.Y - 620));
@@ -239,7 +244,7 @@ namespace SuperNova.Code.Object {
                 timer = 0;
             }
 
-            if (keyboardState.IsKeyDown(Keys.W))
+            if (keyboardState.IsKeyDown(Keys.W) && Fuel > 0)
                 engine = true;
             else
                 engine = false;
@@ -251,7 +256,7 @@ namespace SuperNova.Code.Object {
         private static void Shoot() {
             // WorldManager.Bullets.Add(new Bullet(new Vector2(position.X - 5, position.Y), Angle));
             // WorldManager.Bullets.Add(new Bullet(new Vector2(position.X + 5, position.Y), Angle));
-            WorldManager.Bullets.Add(new Bullet(position, Angle));
+            WorldManager.Bullets.Add(new Bullet(position - Size / 2, Angle));
         }
 
 

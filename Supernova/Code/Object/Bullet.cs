@@ -42,9 +42,7 @@ namespace SuperNova.Code.Object  {
 
                 if (IsCollision(WorldManager.Asteroids[i])) {
 
-                    Console.WriteLine("BULLET-ASTEROID COLLISION");
-                    
-                    WorldManager.Asteroids.Remove(WorldManager.Asteroids[i]);
+                    WorldManager.Asteroids[i].dead = true;
                 }
 
             }
