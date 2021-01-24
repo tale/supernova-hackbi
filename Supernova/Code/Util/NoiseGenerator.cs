@@ -21,7 +21,7 @@ namespace Supernova.Code.Util {
         private readonly short[] permutation;
 
         /**
-         * Initialzes the Noise Generator using a permutation from a specified 64 Bit seed
+         * Initializes the Noise Generator using a permutation from a specified 64 Bit seed
          *
          * @param seed 64 Bit Long
          */

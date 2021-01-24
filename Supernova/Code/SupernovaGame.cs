@@ -22,7 +22,7 @@ namespace Supernova.Code {
         private Image title;
         Planet test;
         
-        private GameState _gameState = GameState.StartScreen;
+        private GameState _gameState = GameState.GameScreen;
         private readonly GraphicsDeviceManager _graphicsDeviceManager;
         private SpriteBatch _spriteBatch;
 
@@ -35,6 +35,7 @@ namespace Supernova.Code {
         protected override void Initialize() {
             _graphicsDeviceManager.PreferredBackBufferHeight = 450;
             _graphicsDeviceManager.PreferredBackBufferWidth = 720;
+            _graphicsDeviceManager.PreferMultiSampling = true;
 
             Window.AllowUserResizing = true;
             Window.IsBorderless = false;

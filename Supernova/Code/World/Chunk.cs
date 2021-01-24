@@ -9,52 +9,42 @@ using Supernova.Code.Util;
 
 namespace Supernova.Code.World {
     public class Chunk {
-
-        private static Random rand = new Random();
-
-      
-        protected Vector2 position = Vector2.Zero;
-        protected Planet[,] planets;
-
-
+        private Vector2 _position;
+        private Planet[] _planets;
+        
         public Chunk(float x, float y) {
-
-            position.X = x;
-            position.Y = y;
-
-            planets = GeneratePlanetMap(new NoiseGenerator(69));
+            _position = new Vector2(x, y);
+            _planets = GeneratePlanetMap(WorldManager.Generator);
         }
 
-        private Planet[,] GeneratePlanetMap(NoiseGenerator noiseGenerator) {
-            var array = new Planet[16, 16];
+        private Planet[] GeneratePlanetMap(NoiseGenerator noiseGenerator) {
+            // Noise Constants
+            const int noiseMultiplier1 = 5000;
+            const int noiseMultiplier2 = 125;
+            const float radiusDivider = 2F;
+            
+            var array = new Planet[16];
+            var (x, y) = _position;
 
-            for (var i = 0; i < array.GetLength(0); i++) {
-                for (var j = 0; j < array.GetLength(1); j++) {
-                    const int multiplier = 125;
-                    const float divider = 2f;
+            for (var iter = 0; iter < array.GetLength(0); iter++) {
+                var iterMultiplier = iter * noiseMultiplier2;
+                var noiseLevel = (float)noiseGenerator.evaluate(x * noiseMultiplier1 + iterMultiplier, y * noiseMultiplier1 + iterMultiplier) * noiseMultiplier1;
 
-                    var prefix = (float)noiseGenerator.evaluate(position.X * 5000 + i * multiplier, position.Y * 5000 + j * multiplier) * multiplier;
-
-                    // -10 and +10 are from Perlin
-                    if (prefix > 10) {
-                        array[i, j] = new Planet(new Vector2(position.X * 5000 + i * multiplier, position.Y * 5000 + j * multiplier), prefix / divider, 100, 23);
-                    }
-                    else {
-                        array[i, j] = null;
-                    }
-                    
+                if (noiseLevel > 10) {
+                    array[iter] = new Planet(new Vector2(x * noiseMultiplier1 + iterMultiplier, y * noiseMultiplier1 + iterMultiplier), noiseLevel / radiusDivider, 100, 23);
+                }
+                else {
+                    array[iter] = null;
                 }
             }
 
             return array;
         }
 
-        public void Render(SpriteBatch _spritebatch) {
+        public void render(SpriteBatch _spritebatch) {
 
-            for (var i = 0; i < planets.GetLength(0); i++) {
-                for (var j = 0; j < planets.GetLength(1); j++) {
-                    if (planets[i, j] != null) planets[i, j].Render(_spritebatch);
-                }
+            foreach (var planet in _planets) {
+                if (planet != null) planet.render(_spritebatch);
             }
         }
     }

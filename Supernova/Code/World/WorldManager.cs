@@ -1,10 +1,12 @@
+using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework.Graphics;
+using Supernova.Code.Util;
 using SuperNova.Code.Util;
 
 namespace Supernova.Code.World {
     public static class WorldManager {
-
+        public static readonly NoiseGenerator Generator = new NoiseGenerator(new Random().Next(10000, 1000000));
         private static Dictionary<(int, int), Chunk> chunks = new Dictionary<(int, int), Chunk>();
 
 
@@ -42,10 +44,6 @@ namespace Supernova.Code.World {
 
                 }
             }
-
         }
-
-
-
     }
 }
