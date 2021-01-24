@@ -1,4 +1,4 @@
-# supernova
+# Supernova
 HackBI 2021 Game
 
 ## Inspiration
