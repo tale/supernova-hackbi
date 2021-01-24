@@ -103,7 +103,7 @@ namespace SuperNova.Code.Object {
 
                     velocity.X *= 0.5f;
                     velocity.Y += (float)Math.PI;
-                    Health -= (float)Math.Sqrt(Math.Pow(WorldManager.Asteroids[i]._velocity.X, 2) + Math.Pow(WorldManager.Asteroids[i]._velocity.Y, 2)) / 10;
+                    Health -= 20 * (float)Math.Sqrt(Math.Pow(WorldManager.Asteroids[i]._velocity.X, 2) + Math.Pow(WorldManager.Asteroids[i]._velocity.Y, 2)) / 10;
                     WorldManager.Asteroids.Remove(WorldManager.Asteroids[i]);
                 }
 
