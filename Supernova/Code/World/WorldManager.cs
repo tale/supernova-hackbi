@@ -8,7 +8,7 @@ namespace Supernova.Code.World {
     public static class WorldManager {
         public static readonly NoiseGenerator Generator = new NoiseGenerator(new Random().Next(10000, 1000000));
         private static Dictionary<(int, int), Chunk> chunks = new Dictionary<(int, int), Chunk>();
-
+        private static (int, int)[] loaded = new (int, int)[9];
 
 
         public static void WorldTick() {
@@ -27,6 +27,7 @@ namespace Supernova.Code.World {
                     if (!chunks.ContainsKey((cordX + n, cordY + j)))
                         chunks.Add((cordX + n, cordY + j), new Chunk((cordX + n) * 5000, (cordY + j) * 5000));
 
+                    loaded[(j + 1) * 3 + (n + 1)] = (cordX + n, cordY + j);
 
                 }
             }
@@ -36,13 +37,10 @@ namespace Supernova.Code.World {
 
         public static void WorldRender(SpriteBatch _spriteBatch) {
 
-            for (int j = -1; j <= 1; j++) {
 
-                for (int n = -1; n <= 1; n++) {
+            for (int n = 0; n < 9; n++) {
 
-                    chunks[(0, 0)].Render(_spriteBatch);
-
-                }
+                chunks[loaded[n]].render(_spriteBatch);
             }
         }
     }

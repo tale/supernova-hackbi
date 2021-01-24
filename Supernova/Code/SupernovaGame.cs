@@ -22,7 +22,7 @@ namespace Supernova.Code {
         private Image title;
         Planet test;
         
-        private GameState _gameState = GameState.GameScreen;
+        private GameState _gameState = GameState.StartScreen;
         private readonly GraphicsDeviceManager _graphicsDeviceManager;
         private SpriteBatch _spriteBatch;
 
