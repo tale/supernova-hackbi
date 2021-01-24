@@ -7,8 +7,11 @@ namespace SuperNova.Code.Object {
     public class Astroid {
 
         static Random rand = new Random();
+        
+        public Boolean isVisible = false;
 
-        private float radius, changeInRotation, rotation;
+        public float radius;
+        private float changeInRotation, rotation;
         private Vector2 position, velocity, accleration;
 
         private Texture2D sprite;
@@ -24,6 +27,18 @@ namespace SuperNova.Code.Object {
             this.rotation = (float)(rand.NextDouble() * Math.PI * 2);
         }
 
+        public float GetX() {
+            return position.X;
+        }
+        
+        public float GetY() {
+            return position.Y;
+        }
+
+        public float GetRadius() {
+            return radius;
+        }
+        
         public void tick() {
 
             rotation = (float)((rotation + changeInRotation) % (Math.PI * 2));
