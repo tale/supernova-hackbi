@@ -13,6 +13,9 @@ namespace SuperNova.Code.Object {
 
         private static Texture2D _sprite = SpriteManager.GetTexture("EXPANDING_SUPERNOVA");
 
+        public static void Reset() {
+            _yPosition = 900;
+        }
 
         public static float Radius {
             get { return _radius; }
