@@ -11,7 +11,7 @@ namespace Supernova.Code.Object {
 
         private static Vector2 _position = new Vector2(60, 75);
         private static Vector2 _dimensions = new Vector2(20, 100);
-        private static Texture2D _texture = SpriteManager.GetTexture("HEALTH");
+        private static Texture2D _texture = SpriteManager.GetTexture("FUEL");
         private static Texture2D _texture2 = SpriteManager.GetTexture("HEALTH_BACKGROUND");
 
         public static void Render(SpriteBatch _spriteBatch) {

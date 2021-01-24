@@ -16,7 +16,13 @@ namespace SuperNova.Code.Object {
         
         private static Texture2D sprite = SpriteManager.GetTexture("PLAYER");
         private static Texture2D sprite2 = SpriteManager.GetTexture("PLAYER1");
+        private static Texture2D sprite3 = SpriteManager.GetTexture("PLAYER2");
+
         private static int timer = 0;
+
+        private static Boolean gif = false;
+
+        private static int timer2 = 0;
         
         public static Vector2 DrawPosition { get; } = new Vector2(640, 620);
         
@@ -137,6 +143,7 @@ namespace SuperNova.Code.Object {
 
                         if (velocity.X > 1.25) {
                             addToVelocity(3, ang);
+                            UpdateHealth(-5 * velocity.X);
                                 
                         } else {
                             while (IsCollisionPlanet(planet)) {
@@ -254,6 +261,12 @@ namespace SuperNova.Code.Object {
 
             engine = (keyboardState.IsKeyDown(Keys.W) && Fuel > 0) ? true : false;
 
+            if (timer2 == 4) {
+                gif = !gif;
+                timer2 = 0;
+            } else {
+                timer2++;
+            }
 
             Score++;
         }
@@ -267,9 +280,9 @@ namespace SuperNova.Code.Object {
 
 
         public static void Render(SpriteBatch _spriteBatch) {
-            
+
             if (!engine)
-                _spriteBatch.Draw(sprite, destinationRectangle: 
+                _spriteBatch.Draw(sprite, destinationRectangle:
                     new Rectangle(
                         (int)(Camera.GetWidthScalar() * (DrawPosition.X - Size.X / 2)),
                         (int)(Camera.GetHeightScalar() * (DrawPosition.Y - Size.Y / 2)),
@@ -277,20 +290,34 @@ namespace SuperNova.Code.Object {
                         (int)(Camera.GetHeightScalar() * Size.Y)),
                     null, Color.White,
                     (Angle + (float)Math.PI / 2) % ((float)Math.PI * 2),
-                    new Vector2(sprite.Width / 2F, sprite.Height / 2F) , SpriteEffects.None,
+                    new Vector2(sprite.Width / 2F, sprite.Height / 2F), SpriteEffects.None,
                     0f);
 
-            else
-                _spriteBatch.Draw(sprite2, destinationRectangle: 
+            else if (gif) {
+                _spriteBatch.Draw(sprite2, destinationRectangle:
                     new Rectangle(
                         (int)(Camera.GetWidthScalar() * (DrawPosition.X - Size.X / 2)),
-                        (int)(Camera.GetHeightScalar() * (DrawPosition.Y - Size.Y / 2)), 
+                        (int)(Camera.GetHeightScalar() * (DrawPosition.Y - Size.Y / 2)),
                         (int)(Camera.GetWidthScalar() * (Size.X)),
                         (int)(Camera.GetHeightScalar() * Size.Y)),
                     null, Color.White,
                     (Angle + (float)Math.PI / 2) % ((float)Math.PI * 2),
                     new Vector2(sprite2.Width / 2F, sprite2.Height / 2F), SpriteEffects.None,
                     0f);
+            }
+            else if (!gif) {
+                _spriteBatch.Draw(sprite3, destinationRectangle:
+                    new Rectangle(
+                        (int)(Camera.GetWidthScalar() * (DrawPosition.X - Size.X / 2)),
+                        (int)(Camera.GetHeightScalar() * (DrawPosition.Y - Size.Y / 2)),
+                        (int)(Camera.GetWidthScalar() * (Size.X)),
+                        (int)(Camera.GetHeightScalar() * Size.Y)),
+                    null, Color.White,
+                    (Angle + (float)Math.PI / 2) % ((float)Math.PI * 2),
+                    new Vector2(sprite3.Width / 2F, sprite3.Height / 2F), SpriteEffects.None,
+                    0f);
+
+            }
 
         }
     }

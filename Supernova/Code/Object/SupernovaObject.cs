@@ -40,7 +40,8 @@ namespace SuperNova.Code.Object {
         }
 
         public static void Render(SpriteBatch _spriteBatch) {
-            _spriteBatch.Draw(_sprite, destinationRectangle: new Rectangle(0, (int)(Camera.GetHeightScalar() * (_yPosition + Camera.GetY())), (int)(Camera.GetWidthScalar() * 1280), (int)(Camera.GetHeightScalar() * 1600)), Color.White);
+            _spriteBatch.Draw(_sprite, destinationRectangle: new Rectangle(0, (int)(Camera.GetHeightScalar() * (_yPosition + Camera.GetY())), (int)(Camera.GetWidthScalar() * 1280), (int)(Camera.GetHeightScalar() * 800)), Color.White);
+            _spriteBatch.Draw(_sprite, destinationRectangle: new Rectangle(0, (int)(Camera.GetHeightScalar() * (_yPosition + Camera.GetY()) + 800), (int)(Camera.GetWidthScalar() * 1280), (int)(Camera.GetHeightScalar() * 800)), Color.White);
 
 
         }
