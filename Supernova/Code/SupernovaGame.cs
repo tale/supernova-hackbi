@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Numerics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using SuperNova.Code.Util;
@@ -7,6 +8,7 @@ using SuperNova.Code.Utilities;
 using Microsoft.Xna.Framework.Graphics;
 using Supernova.Code.World;
 using Supernova.Code.Object;
+using Vector2 = Microsoft.Xna.Framework.Vector2;
 
 namespace Supernova.Code {
     internal enum GameState {
@@ -21,6 +23,8 @@ namespace Supernova.Code {
         private Button end;
         private Image title;
         Planet test;
+
+        public static SpriteFont font;
         
         private GameState _gameState = GameState.StartScreen;
         private readonly GraphicsDeviceManager _graphicsDeviceManager;
@@ -45,7 +49,7 @@ namespace Supernova.Code {
             base.Initialize();
 
             start = new Button(640, 600, 480, 120, SpriteManager.GetTexture("START"));
-            end = new Button(640, 600, 480, 120, SpriteManager.GetTexture("END"));
+            end = new Button(640, 600, 480, 120, "OK");
             title = new Image(640, 360, 880, 684, SpriteManager.GetTexture("SUPERNOVA"));
         }
 
@@ -143,7 +147,44 @@ namespace Supernova.Code {
                     FuelBar.Render(_spriteBatch);
                     break;
                 case GameState.LoseScreen:
-                    // _spriteBatch.DrawString(new SpriteFont(), Player.Score.ToString(), Vector2.Zero, Color.White);
+                    font = Content.Load<SpriteFont>("BaseFont");
+                    String score = Player.Score.ToString();
+                    
+                    _spriteBatch.DrawString(
+                        font, 
+                        "GAME OVER",
+                        new Vector2(640 * Camera.GetWidthScalar(), 50),
+                        Color.Red,
+                        0,
+                        new Vector2(font.MeasureString("GAME OVER").X / 2, 0),
+                        Vector2.One, 
+                        SpriteEffects.None,
+                        0);
+                    
+                    _spriteBatch.DrawString(
+                        font, 
+                        "Score",
+                        new Vector2(640 * Camera.GetWidthScalar(), 200),
+                        Color.Gray,
+                        0,
+                        new Vector2(font.MeasureString("Score").X / 2, 0),
+                        new Vector2(0.5F, 0.5F), 
+                        SpriteEffects.None,
+                        0);
+                    
+                    _spriteBatch.DrawString(
+                        font, 
+                        score, 
+                        new Vector2(
+                            640 * Camera.GetWidthScalar(), 
+                            360 * Camera.GetHeightScalar()), 
+                        Color.White, 
+                        0, 
+                        new Vector2(font.MeasureString(score).X / 2, font.MeasureString(score).Y / 2), 
+                        Vector2.One, 
+                        SpriteEffects.None, 
+                        0);
+                    Console.WriteLine($"Final Score is {Player.Score}");
                     end.Render(_spriteBatch);
                     break;
                 default:

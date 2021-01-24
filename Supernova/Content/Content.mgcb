@@ -13,6 +13,12 @@
 
 #---------------------------------- Content ---------------------------------#
 
+#begin BaseFont.spritefont
+/importer:FontDescriptionImporter
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:BaseFont.spritefont
+
 #begin Images/earth_planet.png
 /importer:TextureImporter
 /processor:TextureProcessor

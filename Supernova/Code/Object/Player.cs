@@ -83,17 +83,17 @@ namespace SuperNova.Code.Object {
 
         }
         
-        private static void UpdateHealth(float health) {
-            while (Health <= 100) {
-                Health += health;
-            }
-        }
-        
-        private static void UpdateFuel(float fuel) {
-            while (Fuel <= 100) {
-                Fuel += fuel;
-            }
-        }
+        // private static void UpdateHealth(float health) {
+        //     while (Health <= 100) {
+        //         Health += health;
+        //     }
+        // }
+        //
+        // private static void UpdateFuel(float fuel) {
+        //     while (Fuel <= 100) {
+        //         Fuel += fuel;
+        //     }
+        // }
 
         private static void CheckCollision() {
 
@@ -134,7 +134,6 @@ namespace SuperNova.Code.Object {
 
 
                         if (velocity.X > 1.25) {
-
                             addToVelocity(3, ang);
                                 
                         } else {
@@ -156,7 +155,13 @@ namespace SuperNova.Code.Object {
                                 UpdateHealth(0.001f);
                                 UpdateFuel(0.5f);
                             }
+
                         }
+                        
+                        if (!engine) { 
+                            velocity.X *= .5f;
+                        }
+
                     }
                 }
 
@@ -232,7 +237,7 @@ namespace SuperNova.Code.Object {
 
             position.X += (float) (velocity.X * Math.Cos(velocity.Y));
             position.Y += (float) (velocity.X * Math.Sin(velocity.Y));
-        
+
 
             Camera.SetX(-(position.X - 640));
             Camera.SetY(-(position.Y - 620));
@@ -244,10 +249,8 @@ namespace SuperNova.Code.Object {
                 timer = 0;
             }
 
-            if (keyboardState.IsKeyDown(Keys.W) && Fuel > 0)
-                engine = true;
-            else
-                engine = false;
+            engine = (keyboardState.IsKeyDown(Keys.W) && Fuel > 0) ? true : false;
+
 
             Score++;
         }
