@@ -7,9 +7,9 @@ namespace SuperNova.Code.Utilities {
 
     public class Image {
 
-        private Vector2 _position, _dimensions;
-
         private Texture2D _texture;
+
+        private Vector2 _position, _dimensions;
 
         public Image(int x, int y, int width, int height, Texture2D texture) {
 
@@ -25,7 +25,11 @@ namespace SuperNova.Code.Utilities {
 
         public void Render(SpriteBatch _spriteBatch) {
 
-            _spriteBatch.Draw(_texture, destinationRectangle: new Rectangle((int)(Camera.GetWidthScalar() * (_position.X - _dimensions.X / 2)), (int)(Camera.GetHeightScalar() * (_position.Y - _dimensions.Y / 2 )), (int)(Camera.GetWidthScalar() * _dimensions.X), (int)(Camera.GetHeightScalar() * _dimensions.Y)), Color.White);
+            _spriteBatch.Draw(_texture, destinationRectangle: new Rectangle(
+                (int)(Camera.GetWidthScalar() * (_position.X - _dimensions.X / 2)),
+                (int)(Camera.GetHeightScalar() * (_position.Y - _dimensions.Y / 2 )),
+                (int)(Camera.GetWidthScalar() * _dimensions.X),
+                (int)(Camera.GetHeightScalar() * _dimensions.Y)), Color.White);
         }
     }
 }

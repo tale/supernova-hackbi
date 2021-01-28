@@ -47,7 +47,6 @@ namespace SuperNova.Code.Utilities {
 
         public bool Tick(int mouseX, int mouseY) {
 
-
             if (mouseX > Camera.GetWidthScalar() * (_position.X - _dimensions.X / 2 * _expand) && mouseX < Camera.GetWidthScalar() * (_position.X + _dimensions.X / 2 * _expand) && mouseY > Camera.GetHeightScalar() * (_position.Y - _dimensions.Y / 2 * _expand) && mouseY < Camera.GetHeightScalar() * (_position.Y + _dimensions.Y / 2 * _expand)) {
 
                 _expand = (float)Math.Min(_expand + .05, 1.15);

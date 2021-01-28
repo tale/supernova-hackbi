@@ -9,21 +9,18 @@ namespace SuperNova.Code.Object {
 
     public static class Player {
 
-        private static Vector2 position = new Vector2(640, 620);
-        private static Vector2 velocity = new Vector2(.00001f, (float) Math.PI * 3 / 2);
-
-        private static Boolean engine = false;
-        
         private static Texture2D sprite = SpriteManager.GetTexture("PLAYER");
         private static Texture2D sprite2 = SpriteManager.GetTexture("PLAYER1");
         private static Texture2D sprite3 = SpriteManager.GetTexture("PLAYER2");
 
-        private static int timer = 0;
+        private static Vector2 position = new Vector2(640, 620);
+        private static Vector2 velocity = new Vector2(.00001f, (float) Math.PI * 3 / 2);
 
-        private static Boolean gif = false;
+        private static int _fuelTimer = 0, _gifTimer = 0, _invincibleTimer = 0;
 
-        private static int timer2 = 0, invin = 0;
-        
+        private static Boolean _engine = false;
+        private static Boolean _gifFrame = false;
+
         public static Vector2 DrawPosition { get; } = new Vector2(640, 620);
         
         public static Vector2 Size { get; } = new Vector2(48, 48);
@@ -31,19 +28,25 @@ namespace SuperNova.Code.Object {
         public static float Angle { get; set; } = (float) Math.PI * 3 / 2;
 
         public static float Health { get; set; } = 100F;
+
         public static float Fuel { get; set; } = 100F;
+
         public static int Score { get; set; } = 0;
+
         private static int _interval = 20;
 
         public static void Reset() {
             position = new Vector2(640, 620);
             velocity = new Vector2(.00001f, (float) Math.PI * 3 / 2);
-            engine = false;
-            timer = 0;
+            _engine = false;
             Angle = (float)Math.PI * 3 / 2;
             Health = 100F;
             Fuel = 100F;
             Score = 0;
+
+            _fuelTimer = 0;
+            _gifTimer = 0;
+            _invincibleTimer = 0;
         }
 
         public static Vector2 GetPosition() {
@@ -76,18 +79,14 @@ namespace SuperNova.Code.Object {
 
             velocity.X = (float) Math.Sqrt(Math.Pow(CVX + NVX, 2) + Math.Pow(CVY + NVY, 2));
 
-            if (CVX + NVX >= 0 && CVY + NVY >= 0)
-                velocity.Y = (float)Math.Atan((CVY + NVY)/(CVX + NVX));
+            velocity.Y = (float)Math.Atan((CVY + NVY) / (CVX + NVX));
 
-            else if (CVX + NVX <= 0 && CVY + NVY >= 0)
-                velocity.Y = (float)(Math.Atan((CVY + NVY) / (CVX + NVX)) + Math.PI);
 
-            else if (CVX + NVX <= 0 && CVY + NVY <= 0)
-                velocity.Y = (float)(Math.Atan((CVY + NVY) / (CVX + NVX)) + Math.PI);
+            if (CVX + NVX <= 0 && CVY + NVY >= 0 || CVX + NVX <= 0 && CVY + NVY <= 0) {
+                velocity.Y += (float)Math.PI;
+                velocity.Y %= (float)Math.PI * 2;
 
-            else if (CVX + NVX >= 0 && CVY + NVY <= 0)
-                velocity.Y = (float)(Math.Atan((CVY + NVY) / (CVX + NVX)) + 2 * Math.PI);
-
+            }
         }
         
          private static void UpdateHealth(float health) {
@@ -112,9 +111,9 @@ namespace SuperNova.Code.Object {
                     velocity.X *= 0.5f;
                     velocity.Y += (float)Math.PI;
 
-                    if (invin == 10) {
+                    if (_invincibleTimer == 10) {
                         Health -= 5 * velocity.X;
-                        invin = 0;
+                        _invincibleTimer = 0;
                     }
 
                     WorldManager.Asteroids.Remove(WorldManager.Asteroids[i]);
@@ -125,65 +124,49 @@ namespace SuperNova.Code.Object {
             foreach (var chunk in WorldManager.Chunks.Values) {
 
                 foreach (var planet in chunk.Planets) {
-                    
+
                     if (IsCollisionPlanet(planet)) {
 
                         float x = position.X - planet.X;
                         float y = position.Y - planet.Y;
 
-                        float ang = 0;
+                        float planetAngle = (float)Math.Atan(y / x);
 
-                        if (x >= 0 && y >= 0)
-                            ang = (float)Math.Atan((y) / (x));
-
-                        else if (x <= 0 && y >= 0)
-                            ang = (float)(Math.Atan((y) / (x)) + Math.PI);
-
-                        else if (x <= 0 && y <= 0)
-                            ang = (float)(Math.Atan((y) / (x)) + Math.PI);
-
-                        else if (x >= 0 && y <= 0)
-                            ang = (float)(Math.Atan((y) / (x)) + 2 * Math.PI);
-
+                        if (x <= 0 && y >= 0 || x <= 0 && y <= 0) {
+                            planetAngle += (float)Math.PI;
+                            planetAngle %= (float)Math.PI * 2;
+                        }
 
                         if (velocity.X > 1.25) {
-                            addToVelocity(3, ang);
 
-                            if (invin == 10 && velocity.X > 2) {
+                            addToVelocity(3, planetAngle);
+
+                            if (_invincibleTimer == 10 && velocity.X > 3) {
                                 Health -= 5 * velocity.X;
-                                invin = 0;
+                                _invincibleTimer = 0;
                             }
-                                
+
                         } else {
+
                             while (IsCollisionPlanet(planet)) {
 
                                 _interval = 0;
-                                position.X += .01f * (float)Math.Cos(ang);
-                                position.Y += .01f * (float)Math.Sin(ang);
+                                position.X += .01f * (float)Math.Cos(planetAngle);
+                                position.Y += .01f * (float)Math.Sin(planetAngle);
                             }
 
-                            if (!engine) {
-
-                                Angle = ang;
-
-                                velocity.X *= .5f;
-
-                            }
-
-                            if (velocity.X <= 1) {
+                            if (!_engine)
+                                Angle = planetAngle;
+                            
+                            if (velocity.X <= .5) {
                                 UpdateHealth(.025F);
                                 UpdateFuel(.1F);
                             }
-
                         }
-                        
-                        if (!engine) { 
+                        if (!_engine)
                             velocity.X *= .5f;
-                        }
-
                     }
                 }
-
             }
         }
 
@@ -195,7 +178,6 @@ namespace SuperNova.Code.Object {
         private static bool IsCollisionPlanet(Planet planet) {
             float distance = Vector2.Distance(new Vector2(planet.X, planet.Y) , position);
             return distance < planet.Radius + Size.X / 2 - 8;
-            // return IsCollisionBody(planet.X, planet.Y, planet.Radius);
         }
         
         private static bool IsCollisionBody(double bodyX, double bodyY, double bodyRadius)
@@ -229,7 +211,6 @@ namespace SuperNova.Code.Object {
         }
 
         private static double distance(double x1, double y1, double x2, double y2) {
-            
             return Math.Sqrt(Math.Pow(x1 - x2, 2) + Math.Pow(y1 - y2, 2));
         }
 
@@ -238,7 +219,6 @@ namespace SuperNova.Code.Object {
             Vector2 gravity = WorldManager.getGravityEffects(position);
 
             addToVelocity(gravity.X, gravity.Y);
-
 
             velocity.X = Math.Min(velocity.X, 7f);
 
@@ -257,42 +237,41 @@ namespace SuperNova.Code.Object {
             position.X += (float) (velocity.X * Math.Cos(velocity.Y));
             position.Y += (float) (velocity.X * Math.Sin(velocity.Y));
 
-
             Camera.SetX(-(position.X - 640));
             Camera.SetY(-(position.Y - 620));
 
             KeyboardState keyboardState = Keyboard.GetState();
-            timer += 1;
-            if (keyboardState.IsKeyDown(Keys.Space) && timer > 20) {
+
+            _fuelTimer += 1;
+
+            if (keyboardState.IsKeyDown(Keys.Space) && _fuelTimer > 20) {
                 Shoot();
-                timer = 0;
+                _fuelTimer = 0;
             }
 
-            engine = keyboardState.IsKeyDown(Keys.W) && Fuel > 0;
+            _engine = keyboardState.IsKeyDown(Keys.W) && Fuel > 0;
 
-            if (timer2 == 4) {
-                gif = !gif;
-                timer2 = 0;
-            } else {
-                timer2++;
-            }
+            if (_gifTimer == 4) {
+                _gifFrame = !_gifFrame;
+                _gifTimer = 0;
 
-            invin = Math.Min(invin + 1, 10);
+            } else
+                _gifTimer++;
+
+            _invincibleTimer = Math.Min(_invincibleTimer + 1, 10);
 
             Score++;
         }
         
         
         private static void Shoot() {
-            // WorldManager.Bullets.Add(new Bullet(new Vector2(position.X - 5, position.Y), Angle));
-            // WorldManager.Bullets.Add(new Bullet(new Vector2(position.X + 5, position.Y), Angle));
             WorldManager.Bullets.Add(new Bullet(position - Size / 2, Angle));
         }
 
 
         public static void Render(SpriteBatch _spriteBatch) {
 
-            if (!engine)
+            if (!_engine)
                 _spriteBatch.Draw(sprite, destinationRectangle:
                     new Rectangle(
                         (int)(Camera.GetWidthScalar() * (DrawPosition.X - Size.X / 2)),
@@ -304,7 +283,7 @@ namespace SuperNova.Code.Object {
                     new Vector2(sprite.Width / 2F, sprite.Height / 2F), SpriteEffects.None,
                     0f);
 
-            else if (gif) {
+            else if (_gifFrame) {
                 _spriteBatch.Draw(sprite2, destinationRectangle:
                     new Rectangle(
                         (int)(Camera.GetWidthScalar() * (DrawPosition.X - Size.X / 2)),
@@ -316,7 +295,7 @@ namespace SuperNova.Code.Object {
                     new Vector2(sprite2.Width / 2F, sprite2.Height / 2F), SpriteEffects.None,
                     0f);
             }
-            else if (!gif) {
+            else if (!_gifFrame) {
                 _spriteBatch.Draw(sprite3, destinationRectangle:
                     new Rectangle(
                         (int)(Camera.GetWidthScalar() * (DrawPosition.X - Size.X / 2)),

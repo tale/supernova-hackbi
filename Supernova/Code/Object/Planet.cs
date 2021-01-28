@@ -9,10 +9,10 @@ namespace SuperNova.Code.Object {
 
         static Random rand = new Random();
 
+        private Texture2D _sprite;
+
         private const double _gravityStrength = .001;
         private float _mass, _changeInRotation, _rotation;
-        
-        private Texture2D _sprite;
 
         public Planet(Vector2 position, float radius, float mass, float changeInRotation) {
 
@@ -31,18 +31,13 @@ namespace SuperNova.Code.Object {
      
         public float Radius { get; set; }
 
-        public float X {
-            get { return Position.X; }
-        }
-        
-        public float Y {
-            get { return Position.Y; }
-        }
+        public float X => Position.X;
+
+        public float Y => Position.Y;
 
         public void Tick() {
 
             _rotation = (float)((_rotation + _changeInRotation) % (Math.PI * 2));
-
         }
 
         public void Render(SpriteBatch _spriteBatch) {
@@ -63,35 +58,16 @@ namespace SuperNova.Code.Object {
                 return Vector2.Zero;
 
             float acceleration = (float)(_gravityStrength * _mass / (Math.Pow((Position.X - x) / 180, 2) + Math.Pow((Position.Y - y) / 180, 2)));
+            float angle = (float)(Math.Atan((Position.Y - y) / (Position.X - x)));
 
-            float angle = 0;
+            if (Position.X - x < 0 && Position.Y - y > 0 || Position.X - x < 0 && Position.Y - y < 0) {
 
-            if (Position.X - x > 0 && Position.Y - y > 0)
-                angle = (float)Math.Atan((Position.Y - y) / (Position.X - x));
-
-            else if (Position.X - x < 0 && Position.Y - y > 0)
-                angle = (float)(Math.Atan((Position.Y - y) / (Position.X - x)) + Math.PI);
-
-            else if (Position.X - x < 0 && Position.Y - y < 0)
-                angle = (float)(Math.Atan((Position.Y - y) / (Position.X - x)) + Math.PI);
-
-            else if (Position.X - x > 0 && Position.Y - y < 0)
-                angle = (float)(Math.Atan((Position.Y - y) / (Position.X - x)) + 2 * Math.PI);
-
-            angle %= (float)Math.PI * 2;
+                angle += (float)Math.PI;
+                angle %= (float)Math.PI * 2;
+            }
 
             return new Vector2((float)(acceleration * Math.Cos(angle)), (float)(acceleration * Math.Sin(angle)));
-
-        }
-
-        private static float Hypot(float a, float b) {
-
-            return (float)Math.Sqrt(Math.Pow(a, 2) + Math.Pow(b, 2));
-        }
-            
-            
-            
-            
+        }    
 
         private static Texture2D MakePlanetTexture() {
 
@@ -110,13 +86,7 @@ namespace SuperNova.Code.Object {
 
                 default:
                     return SpriteManager.GetTexture("PLANET");
-
             }
-
-
-
         }
-
-
     }
 }

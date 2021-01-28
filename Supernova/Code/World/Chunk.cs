@@ -9,17 +9,17 @@ using Supernova.Code.Util;
 
 namespace Supernova.Code.World {
     public class Chunk {
+
         private Vector2 _position;
-        private static Random random = new Random();
+        private static Random _random = new Random();
         public Planet[] Planets { get; }
         
         public Chunk(float x, float y) {
             _position = new Vector2(x, y);
-            Planets = GeneratePlanetMap(WorldManager.Generator);
+            Planets = GeneratePlanetMap();
         }
 
-        private Planet[] GeneratePlanetMap(NoiseGenerator noiseGenerator) {
-            // Noise Constants
+        private Planet[] GeneratePlanetMap() {
             
             var array = new Planet[10];
 
@@ -29,20 +29,19 @@ namespace Supernova.Code.World {
             List<(int, int)> previous = new List<(int, int)>();
 
             do {
-                var x = random.Next(1800) + 100;
-                var y = random.Next(1800) + 100;
 
-                //var noiseLevel = (float)noiseGenerator.evaluate((x + _position.X) * noiseMultiplier1, (y + _position.Y)) * noiseMultiplier1;
+                var x = _random.Next(1800) + 100;
+                var y = _random.Next(1800) + 100;
 
                 if (checkPrevious(x, y, previous)) {
-                    array[number] = new Planet(new Vector2((x + _position.X), (y + _position.Y)), 84, 100, (float)random.NextDouble() / 50 );
+                    array[number] = new Planet(new Vector2((x + _position.X), (y + _position.Y)), 84, 100, (float)_random.NextDouble() / 50 );
                     previous.Add((x, y));
                     number++;
                 }
+
                 iteration--;
+
             } while (iteration > 0 && number < 10);                
-
-
 
             return array;
         }
@@ -55,14 +54,10 @@ namespace Supernova.Code.World {
 
                 var (x2, y2) = prev;
 
-                if (Math.Sqrt(Math.Pow(x - x2, 2) + Math.Pow(y - y2, 2)) < 300) {
+                if (Math.Sqrt(Math.Pow(x - x2, 2) + Math.Pow(y - y2, 2)) < 300)
                     return false;
-                }
-
             }
-
             return true;
-
         }
 
         public Vector2 getGravityEffects(Vector2 positition) {
@@ -71,15 +66,12 @@ namespace Supernova.Code.World {
 
             for (int n = 0; n < Planets.Length; n++) {
 
-
                 Vector2 temp = Planets[n].Gravity(positition);
 
                 acceleration.X += temp.X;
                 acceleration.Y += temp.Y;
             }
-
             return acceleration;
-
         }
 
         public void Tick() {
@@ -87,7 +79,6 @@ namespace Supernova.Code.World {
             foreach (var planet in Planets) {
                 planet?.Tick();
             }
-            
         }
 
         public void Render(SpriteBatch _spritebatch) {

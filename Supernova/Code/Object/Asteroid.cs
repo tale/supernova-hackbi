@@ -10,28 +10,22 @@ namespace SuperNova.Code.Object {
 
         private static readonly Random rand = new Random();
 
-        private readonly float _changeInRotation;
-        private float _rotation;
-        private Vector2 _position;
+        private static Texture2D _exp = SpriteManager.GetTexture("EXPLOSION");
         private readonly Texture2D _sprite;
-        private static Texture2D exp = SpriteManager.GetTexture("EXPLOSION");
-        public Boolean dead = false;
 
-        public Asteroid(Vector2 position, Vector2 velocity, float radius, float changeInRotation) {
+        private Vector2 _position, _velocity;
 
-            IsVisible = true;
+        public Asteroid(Vector2 position, Vector2 velocity, float radius) {
+
             Radius = radius;
             _position = position;
             _velocity = velocity;
             _sprite = MakeAstroidTexture();
-            _changeInRotation = changeInRotation;
-            _rotation = (float)(rand.NextDouble() * Math.PI * 2);
         }
 
-        public bool IsVisible { get; set; }
+        public Boolean Dead { get; set; } = false;
 
         public float Radius { get; }
-        public Vector2 _velocity;
 
         public float X => _position.X;
 
@@ -40,13 +34,10 @@ namespace SuperNova.Code.Object {
 
         public void Tick() {
 
+            Vector2 gravityAcceleration = WorldManager.getGravityEffects(_position);
 
-            var accel = WorldManager.getGravityEffects(_position);
-
-            _velocity.X += accel.X * (float)Math.Cos(accel.Y);
-            _velocity.Y += accel.X * (float)Math.Sin(accel.Y);
-
-            _rotation = (float)((_rotation + _changeInRotation) % (Math.PI * 2));
+            _velocity.X += gravityAcceleration.X * (float)Math.Cos(gravityAcceleration.Y);
+            _velocity.Y += gravityAcceleration.X * (float)Math.Sin(gravityAcceleration.Y);
 
             _position.X += _velocity.X;
             _position.Y += _velocity.Y;
@@ -54,34 +45,28 @@ namespace SuperNova.Code.Object {
 
         public void Render(SpriteBatch _spriteBatch) {
 
-
-            if(!dead)
+            if(!Dead)
             _spriteBatch.Draw(_sprite,
                 new Rectangle((int)(Camera.GetWidthScalar() * (_position.X - Radius + Camera.GetX())), (int)(Camera.GetHeightScalar() * (_position.Y - Radius + Camera.GetY())), (int)(Camera.GetWidthScalar() * Radius * 2),
                     (int)(Camera.GetHeightScalar() * Radius * 2)), Color.White);
 
             else
-                _spriteBatch.Draw(exp,
+                _spriteBatch.Draw(_exp,
                 new Rectangle((int)(Camera.GetWidthScalar() * (_position.X - Radius + Camera.GetX())), (int)(Camera.GetHeightScalar() * (_position.Y - Radius + Camera.GetY())), (int)(Camera.GetWidthScalar() * Radius * 2),
                     (int)(Camera.GetHeightScalar() * Radius * 2)), Color.White);
         }
 
 
-        public Boolean hitPlanet(Planet[] planets) {
+        public Boolean HitPlanet(Planet[] planets) {
 
             for (int n = 0; n < planets.Length; n++) {
 
                 float distance = Vector2.Distance(new Vector2(planets[n].X, planets[n].Y), _position);
 
-                if (distance < planets[n].Radius + Radius) {
-
+                if (distance < planets[n].Radius + Radius)
                     return true;
-                }
-
             }
-
             return false;
-
         }
 
         private static Texture2D MakeAstroidTexture() {
@@ -98,9 +83,7 @@ namespace SuperNova.Code.Object {
 
                 default:
                     return SpriteManager.GetTexture("ASTEROID"); ;
-
             }
         }
     }
-
 }

@@ -7,11 +7,13 @@ using SuperNova.Code.Util;
 namespace SuperNova.Code.Object  {
     
     public class Bullet  {
-        
-        private float _timer, _angle;
-        private Vector2 _position, _velocity;
-        private const float _speed = 20f;
+
         private Texture2D _sprite;
+
+        private const float _speed = 20f;
+        private float  _angle;
+
+        private Vector2 _position, _velocity;
 
         public Bullet(Vector2 position, float angle) {
 
@@ -42,11 +44,9 @@ namespace SuperNova.Code.Object  {
 
                 if (IsCollision(WorldManager.Asteroids[i].X, WorldManager.Asteroids[i].Y, WorldManager.Asteroids[i].Radius)) {
 
-                    WorldManager.Asteroids[i].dead = true;
+                    WorldManager.Asteroids[i].Dead = true;
                 }
-
             }
-
         }
 
         public bool isPlanetCollision() {
@@ -61,13 +61,13 @@ namespace SuperNova.Code.Object  {
                     }
                 }
             }
-
             return false;
         }
         
         private bool IsCollision(float asteroidX, float asteroidY, float asteroidRadius) {
 
             double bulletX = _position.X + Size.X / 2, bulletY = _position.Y + Size.Y / 2;
+
             double asteroidXTemp = Math.Cos(_angle + Math.PI / 2) * (asteroidX - bulletX) -
                                    Math.Sin(_angle + Math.PI / 2) * (asteroidY - bulletY) + bulletX;
             double asteroidYTemp = Math.Sin(_angle + Math.PI / 2) * (asteroidX - bulletX) +
@@ -86,12 +86,14 @@ namespace SuperNova.Code.Object  {
         }
 
         public void Render(SpriteBatch _spriteBatch) {
-            _spriteBatch.Draw(_sprite, new Rectangle((int)(Camera.GetWidthScalar() * (_position.X - Size.X / 2 + Camera.GetX())), (int)(Camera.GetHeightScalar() * (_position.Y - Size.Y / 2 + Camera.GetY())), (int)(Camera.GetWidthScalar() * Size.X),
+
+            _spriteBatch.Draw(_sprite, new Rectangle((int)(Camera.GetWidthScalar() * (_position.X - Size.X / 2 + Camera.GetX())),
+                (int)(Camera.GetHeightScalar() * (_position.Y - Size.Y / 2 + Camera.GetY())),
+                (int)(Camera.GetWidthScalar() * Size.X),
                 (int)(Camera.GetHeightScalar() * Size.Y)), 
-                null, Color.White, 
-                (float)(_angle + Math.PI / 2), 
-                new Vector2(_sprite.Width / 2F, _sprite.Height / 2F), SpriteEffects.None, 
-                0f);
+                null, Color.White, (float)(_angle + Math.PI / 2), 
+                new Vector2(_sprite.Width / 2F, _sprite.Height / 2F),
+                SpriteEffects.None, 0f);
         }
 
         private static Texture2D MakeBulletTexture() {
