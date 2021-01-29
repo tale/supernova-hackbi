@@ -45,15 +45,18 @@ namespace SuperNova.Code.Object {
 
         public void Render(SpriteBatch _spriteBatch) {
 
-            if(!Dead)
-            _spriteBatch.Draw(_sprite,
-                new Rectangle((int)(Camera.GetWidthScalar() * (_position.X - Radius + Camera.GetX())), (int)(Camera.GetHeightScalar() * (_position.Y - Radius + Camera.GetY())), (int)(Camera.GetWidthScalar() * Radius * 2),
-                    (int)(Camera.GetHeightScalar() * Radius * 2)), Color.White);
+            if (Camera.IsOnScreen(_position, new Vector2(Radius * 2, Radius * 2))) {
 
-            else
-                _spriteBatch.Draw(_exp,
-                new Rectangle((int)(Camera.GetWidthScalar() * (_position.X - Radius + Camera.GetX())), (int)(Camera.GetHeightScalar() * (_position.Y - Radius + Camera.GetY())), (int)(Camera.GetWidthScalar() * Radius * 2),
-                    (int)(Camera.GetHeightScalar() * Radius * 2)), Color.White);
+                if (!Dead)
+                    _spriteBatch.Draw(_sprite,
+                        new Rectangle((int)(Camera.GetWidthScalar() * (_position.X - Radius + Camera.GetX())), (int)(Camera.GetHeightScalar() * (_position.Y - Radius + Camera.GetY())), (int)(Camera.GetWidthScalar() * Radius * 2),
+                            (int)(Camera.GetHeightScalar() * Radius * 2)), Color.White);
+
+                else
+                    _spriteBatch.Draw(_exp,
+                    new Rectangle((int)(Camera.GetWidthScalar() * (_position.X - Radius + Camera.GetX())), (int)(Camera.GetHeightScalar() * (_position.Y - Radius + Camera.GetY())), (int)(Camera.GetWidthScalar() * Radius * 2),
+                        (int)(Camera.GetHeightScalar() * Radius * 2)), Color.White);
+            }
         }
 
 

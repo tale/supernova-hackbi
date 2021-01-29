@@ -52,11 +52,12 @@ namespace SuperNova.Code.Util {
             return (float)_currentHeight / Height;
         }
 
-        public static bool IsOnScreen(Vector2 position, Vector2 dimensions) {
+        public static bool IsOnScreen(Vector2 position, Vector2 dimensions, int scaler = 1) {
             var (dimensionX, dimensionY) = dimensions;
             var (positionX, positionY) = position;
 
-            return (positionX + GetX() - dimensionX / 2 < Width && positionX + GetX() + dimensionX / 2 > 0 && positionY + GetY() - dimensionY / 2 < Height && positionY + GetY() + dimensionY / 2 > 0);
+            return (positionX + GetX() / scaler - dimensionX / 2 < Width && positionX + GetX() / scaler + dimensionX / 2 > 0 && positionY + GetY() / scaler - dimensionY / 2 < Height && positionY + GetY() / scaler + dimensionY / 2 > 0);
         }
+
     }
 }

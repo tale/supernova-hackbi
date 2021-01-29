@@ -12,8 +12,14 @@ namespace Supernova.Code.World {
         public static readonly GaussianRandom Random = new GaussianRandom();
         
         private static (int, int)[] _loaded = new (int, int)[9];
-        
+        private static (int, int)[] _parallaxLoaded1 = new (int, int)[9];
+        private static (int, int)[] _parallaxLoaded2 = new (int, int)[9];
+        private static (int, int)[] _parallaxLoaded3 = new (int, int)[9];
+
         public static Dictionary<(int, int), Chunk> Chunks { get; } = new Dictionary<(int, int), Chunk>();
+        public static Dictionary<(int, int), ParallaxChunk> ParallaxChunks1 { get; } = new Dictionary<(int, int), ParallaxChunk>();
+        public static Dictionary<(int, int), ParallaxChunk> ParallaxChunks2 { get; } = new Dictionary<(int, int), ParallaxChunk>();
+        public static Dictionary<(int, int), ParallaxChunk> ParallaxChunks3 { get; } = new Dictionary<(int, int), ParallaxChunk>();
         public static List<Asteroid> Asteroids { get; } = new List<Asteroid>();
         public static List<Bullet> Bullets { get; } = new List<Bullet>();
 
@@ -42,6 +48,10 @@ namespace Supernova.Code.World {
                 }
             }
 
+            ParallaxLayerTick(ParallaxChunks1, _parallaxLoaded1, 8, 40);
+            ParallaxLayerTick(ParallaxChunks2, _parallaxLoaded2, 4, 20);
+            ParallaxLayerTick(ParallaxChunks3, _parallaxLoaded3, 2, 10);
+
             var rand = Random.RandomGauss();
 
             if (rand > 2.2) {
@@ -66,11 +76,29 @@ namespace Supernova.Code.World {
             }
         }
 
+        private static void ParallaxLayerTick(Dictionary<(int, int), ParallaxChunk> ParallaxChunks, (int, int)[] _parallaxLoaded, int scaler, int density) {
+
+            int cordX = -Camera.GetX() / scaler;
+            int cordY = -Camera.GetY() / scaler;
+
+            cordX = (cordX < 0 ? cordX -= 2000 : cordX) / 2000;
+            cordY = (cordY < 0 ? cordY -= 2000 : cordY) / 2000;
+
+            for (int j = -1; j <= 1; j++) {
+
+                for (int n = -1; n <= 1; n++) {
+
+                    if (!ParallaxChunks.ContainsKey((cordX + n, cordY + j)))
+                        ParallaxChunks.Add((cordX + n, cordY + j), new ParallaxChunk((cordX + n) * 2000, (cordY + j) * 2000, scaler, density));
+
+                    _parallaxLoaded[(j + 1) * 3 + (n + 1)] = (cordX + n, cordY + j);
+                }
+            }
+        }
+
         public static void WorldTick2() {
 
             for (int n = 0; n < Asteroids.Count; n++) {
-
-                Console.WriteLine(Asteroids[n].Dead);
 
                 if (Asteroids[n].Dead) {
                     Asteroids.Remove(Asteroids[n]);
@@ -125,6 +153,19 @@ namespace Supernova.Code.World {
 
         public static void WorldRender(SpriteBatch _spriteBatch) {
 
+            //yes these must be seperate loops
+            for (int n = 0; n < 9; n++) {
+                ParallaxChunks1[_parallaxLoaded1[n]].Render(_spriteBatch);
+            }
+
+            for (int n = 0; n < 9; n++) {
+                ParallaxChunks2[_parallaxLoaded2[n]].Render(_spriteBatch);
+            }
+
+            for (int n = 0; n < 9; n++) {
+                ParallaxChunks3[_parallaxLoaded3[n]].Render(_spriteBatch);
+            }
+
             for (int n = 0; n < 9; n++) {
                 Chunks[_loaded[n]].Render(_spriteBatch);
             }
@@ -137,5 +178,6 @@ namespace Supernova.Code.World {
                 bullet.Render(_spriteBatch);
             }
         }
+
     }
 }

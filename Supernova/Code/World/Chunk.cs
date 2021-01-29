@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SuperNova.Code.Object;
 using Supernova.Code.Util;
+using SuperNova.Code.Utilities;
 
 //@author Peter Downey
 
@@ -30,8 +31,8 @@ namespace Supernova.Code.World {
 
             do {
 
-                var x = _random.Next(1800) + 100;
-                var y = _random.Next(1800) + 100;
+                var x = _random.Next(1850) + 75;
+                var y = _random.Next(1850) + 75;
 
                 if (checkPrevious(x, y, previous)) {
                     array[number] = new Planet(new Vector2((x + _position.X), (y + _position.Y)), 84, 100, (float)_random.NextDouble() / 50 );
@@ -45,8 +46,6 @@ namespace Supernova.Code.World {
 
             return array;
         }
-
-
 
         private Boolean checkPrevious(int x, int y, List<(int, int)> previous) {
 

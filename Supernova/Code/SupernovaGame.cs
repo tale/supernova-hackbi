@@ -22,7 +22,6 @@ namespace Supernova.Code {
         private Button start;
         private Button end;
         private Image title;
-        Planet test;
 
         public static SpriteFont font;
         
@@ -60,6 +59,8 @@ namespace Supernova.Code {
         }
 
         protected override void Update(GameTime gameTime) {
+
+            System.Threading.Thread.Sleep(5);
 
             Camera.Update(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
 

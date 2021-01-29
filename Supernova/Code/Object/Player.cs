@@ -137,16 +137,8 @@ namespace SuperNova.Code.Object {
                             planetAngle %= (float)Math.PI * 2;
                         }
 
-                        if (velocity.X > 1.25) {
 
-                            addToVelocity(3, planetAngle);
-
-                            if (_invincibleTimer == 10 && velocity.X > 3) {
-                                Health -= 5 * velocity.X;
-                                _invincibleTimer = 0;
-                            }
-
-                        } else {
+                        if (velocity.X < 1.5 && Math.Abs(planetAngle - Angle) < .7) {
 
                             while (IsCollisionPlanet(planet)) {
 
@@ -157,12 +149,23 @@ namespace SuperNova.Code.Object {
 
                             if (!_engine)
                                 Angle = planetAngle;
-                            
+
                             if (velocity.X <= .5) {
                                 UpdateHealth(.025F);
                                 UpdateFuel(.1F);
                             }
+
+                        } else {
+
+                            addToVelocity(3, planetAngle);
+
+                            if (_invincibleTimer == 10 && velocity.X > 3) {
+                                Health -= 5 * velocity.X;
+                                _invincibleTimer = 0;
+                            }
+
                         }
+
                         if (!_engine)
                             velocity.X *= .5f;
                     }

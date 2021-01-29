@@ -40,16 +40,6 @@ namespace SuperNova.Code.Object {
             _rotation = (float)((_rotation + _changeInRotation) % (Math.PI * 2));
         }
 
-        public void Render(SpriteBatch _spriteBatch) {
-
-            _spriteBatch.Draw(_sprite, new Rectangle(
-                    (int)(Camera.GetWidthScalar() * (Position.X - Radius * 1.3 + Camera.GetX())), 
-                (int)(Camera.GetHeightScalar() * (Position.Y - Radius * 1.3 + Camera.GetY())),
-                    (int)(Camera.GetWidthScalar() * Radius * 2), 
-                (int)(Camera.GetHeightScalar() * Radius * 2)), 
-                null, Color.White);
-        }
-
         public Vector2 Gravity(Vector2 objectPosition) {
 
             var (x, y) = objectPosition;
@@ -69,7 +59,7 @@ namespace SuperNova.Code.Object {
             return new Vector2((float)(acceleration * Math.Cos(angle)), (float)(acceleration * Math.Sin(angle)));
         }    
 
-        private static Texture2D MakePlanetTexture() {
+        public static Texture2D MakePlanetTexture() {
 
             int type = rand.Next(3);
 
@@ -87,6 +77,17 @@ namespace SuperNova.Code.Object {
                 default:
                     return SpriteManager.GetTexture("PLANET");
             }
+        }
+
+        public void Render(SpriteBatch _spriteBatch) {
+
+            if (Camera.IsOnScreen(Position, new Vector2(Radius * 3, Radius * 3)))
+                _spriteBatch.Draw(_sprite, new Rectangle(
+                        (int)(Camera.GetWidthScalar() * (Position.X - Radius * 1.3 + Camera.GetX())),
+                    (int)(Camera.GetHeightScalar() * (Position.Y - Radius * 1.3 + Camera.GetY())),
+                        (int)(Camera.GetWidthScalar() * Radius * 2),
+                    (int)(Camera.GetHeightScalar() * Radius * 2)),
+                    null, Color.White);
         }
     }
 }
