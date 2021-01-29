@@ -78,14 +78,11 @@ namespace SuperNova.Code.Object {
             float NVY = (float)(amount * Math.Sin(angle));
 
             velocity.X = (float) Math.Sqrt(Math.Pow(CVX + NVX, 2) + Math.Pow(CVY + NVY, 2));
-
             velocity.Y = (float)Math.Atan((CVY + NVY) / (CVX + NVX));
-
 
             if (CVX + NVX <= 0 && CVY + NVY >= 0 || CVX + NVX <= 0 && CVY + NVY <= 0) {
                 velocity.Y += (float)Math.PI;
                 velocity.Y %= (float)Math.PI * 2;
-
             }
         }
         
@@ -163,9 +160,7 @@ namespace SuperNova.Code.Object {
                                 Health -= 5 * velocity.X;
                                 _invincibleTimer = 0;
                             }
-
                         }
-
                         if (!_engine)
                             velocity.X *= .5f;
                     }
@@ -224,16 +219,7 @@ namespace SuperNova.Code.Object {
             addToVelocity(gravity.X, gravity.Y);
 
             velocity.X = Math.Min(velocity.X, 7f);
-
-            if (velocity.Y < 0)
-                velocity.Y = (float) Math.PI * 2 + velocity.Y;
-
-            velocity.Y = (float) (velocity.Y % (Math.PI * 2));
-
-            if (Angle < 0)
-                Angle = (float) Math.PI * 2 + Angle;
-
-            Angle = (float) (Angle % (Math.PI * 2));
+            velocity.Y = velocity.Y < 0 ?(float) Math.PI * 2 + velocity.Y: (float)(velocity.Y % (Math.PI * 2));
 
             CheckCollision();
 

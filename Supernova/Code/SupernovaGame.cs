@@ -84,11 +84,16 @@ namespace Supernova.Code {
                 case GameState.GameScreen:
                     WorldManager.WorldTick();
                     SupernovaObject.Tick();
-                    if (keyBoardState.IsKeyDown(Keys.A))
+                    if (keyBoardState.IsKeyDown(Keys.A)) {
                         Player.Angle -= .075f;
+                        Player.Angle = Player.Angle < 0 ? Player.Angle + (float)Math.PI * 2: Player.Angle;
+                    }
 
-                    if (keyBoardState.IsKeyDown(Keys.D))
+
+                    if (keyBoardState.IsKeyDown(Keys.D)) {
                         Player.Angle += .075f;
+                        Player.Angle %= (float)Math.PI * 2;
+                    }
 
                     if (keyBoardState.IsKeyDown(Keys.W) && Player.Fuel > 0) {
                         Player.addToVelocity(.13f, Player.Angle);

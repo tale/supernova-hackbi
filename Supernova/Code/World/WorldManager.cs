@@ -15,11 +15,13 @@ namespace Supernova.Code.World {
         private static (int, int)[] _parallaxLoaded1 = new (int, int)[9];
         private static (int, int)[] _parallaxLoaded2 = new (int, int)[9];
         private static (int, int)[] _parallaxLoaded3 = new (int, int)[9];
+        private static (int, int)[] _starParallaxLoaded = new (int, int)[9];
 
         public static Dictionary<(int, int), Chunk> Chunks { get; } = new Dictionary<(int, int), Chunk>();
         public static Dictionary<(int, int), ParallaxChunk> ParallaxChunks1 { get; } = new Dictionary<(int, int), ParallaxChunk>();
         public static Dictionary<(int, int), ParallaxChunk> ParallaxChunks2 { get; } = new Dictionary<(int, int), ParallaxChunk>();
         public static Dictionary<(int, int), ParallaxChunk> ParallaxChunks3 { get; } = new Dictionary<(int, int), ParallaxChunk>();
+        public static Dictionary<(int, int), ParallaxChunk> StarParallaxChunks { get; } = new Dictionary<(int, int), ParallaxChunk>();
         public static List<Asteroid> Asteroids { get; } = new List<Asteroid>();
         public static List<Bullet> Bullets { get; } = new List<Bullet>();
 
@@ -48,6 +50,7 @@ namespace Supernova.Code.World {
                 }
             }
 
+            ParallaxLayerTick(StarParallaxChunks, _starParallaxLoaded, 32, 160, true);
             ParallaxLayerTick(ParallaxChunks1, _parallaxLoaded1, 8, 40);
             ParallaxLayerTick(ParallaxChunks2, _parallaxLoaded2, 4, 20);
             ParallaxLayerTick(ParallaxChunks3, _parallaxLoaded3, 2, 10);
@@ -76,7 +79,7 @@ namespace Supernova.Code.World {
             }
         }
 
-        private static void ParallaxLayerTick(Dictionary<(int, int), ParallaxChunk> ParallaxChunks, (int, int)[] _parallaxLoaded, int scaler, int density) {
+        private static void ParallaxLayerTick(Dictionary<(int, int), ParallaxChunk> ParallaxChunks, (int, int)[] _parallaxLoaded, int scaler, int density, bool starChunk = false) {
 
             int cordX = -Camera.GetX() / scaler;
             int cordY = -Camera.GetY() / scaler;
@@ -89,7 +92,7 @@ namespace Supernova.Code.World {
                 for (int n = -1; n <= 1; n++) {
 
                     if (!ParallaxChunks.ContainsKey((cordX + n, cordY + j)))
-                        ParallaxChunks.Add((cordX + n, cordY + j), new ParallaxChunk((cordX + n) * 2000, (cordY + j) * 2000, scaler, density));
+                        ParallaxChunks.Add((cordX + n, cordY + j), new ParallaxChunk((cordX + n) * 2000, (cordY + j) * 2000, scaler, density, starChunk));
 
                     _parallaxLoaded[(j + 1) * 3 + (n + 1)] = (cordX + n, cordY + j);
                 }
@@ -154,6 +157,10 @@ namespace Supernova.Code.World {
         public static void WorldRender(SpriteBatch _spriteBatch) {
 
             //yes these must be seperate loops
+            for (int n = 0; n < 9; n++) {
+                StarParallaxChunks[_starParallaxLoaded[n]].Render(_spriteBatch);
+            }
+
             for (int n = 0; n < 9; n++) {
                 ParallaxChunks1[_parallaxLoaded1[n]].Render(_spriteBatch);
             }

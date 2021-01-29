@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 using SuperNova.Code.Object;
 using Supernova.Code.Util;
 using SuperNova.Code.Utilities;
+using SuperNova.Code.Util;
 
 //@author Peter Downey
 
@@ -15,14 +16,17 @@ namespace Supernova.Code.World {
 
         private Vector2 _position;
         private readonly int _scaler, _density;
+        private readonly bool _starChunk;
         
         public Image[] ParallaxImages { get; }
 
-        public ParallaxChunk(float x, float y, int scaler, int density) {
+        public ParallaxChunk(float x, float y, int scaler, int density, bool starChunk = false) {
 
             _position = new Vector2(x, y);
             _scaler = scaler;
             _density = density;
+            _starChunk = starChunk;
+
             ParallaxImages = GeneratePlanetImageMap();
         }
 
@@ -40,8 +44,14 @@ namespace Supernova.Code.World {
                 var x = _random.Next(2000 - 84 / (_scaler * 2)) + 84 / _scaler;
                 var y = _random.Next(2000 - 84 / (_scaler * 2)) + 84 / _scaler;
 
+                Texture2D image = _starChunk ? SpriteManager.GetTexture("STAR") : Planet.MakePlanetTexture();
+
                 if (checkPrevious(x, y, previous)) {
-                    array[number] = new Image(x + _position.X, y + _position.Y, 84 / _scaler, 84 / _scaler, Planet.MakePlanetTexture());
+
+                    if (!_starChunk)
+                        array[number] = new Image(x + _position.X, y + _position.Y, 84 / _scaler, 84 / _scaler, image);
+                    else
+                        array[number] = new Image(x + _position.X, y + _position.Y, 4, 4, image);
                     previous.Add((x, y));
                     number++;
                 }
