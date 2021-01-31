@@ -15,11 +15,12 @@ namespace SuperNova.Code.Object  {
 
         private Vector2 _position, _velocity;
 
-        public Bullet(Vector2 position, float angle) {
+        public Bullet(Vector2 position, Vector2 velocity, float angle) {
 
             _position = position;
             _angle = angle;
-            _velocity = new Vector2((float)(_speed * Math.Cos(_angle)), (float)(_speed * Math.Sin(_angle)));
+            _velocity = new Vector2((float)(_speed * Math.Cos(_angle) + velocity.X * Math.Cos(_angle)),
+                (float)(_speed * Math.Sin(_angle) + velocity.X * Math.Sin(_angle)));
             _sprite = MakeBulletTexture();
         }
         

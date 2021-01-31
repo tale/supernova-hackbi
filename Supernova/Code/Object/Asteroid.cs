@@ -28,9 +28,7 @@ namespace SuperNova.Code.Object {
         public float Radius { get; }
 
         public float X => _position.X;
-
         public float Y => _position.Y;
-
 
         public void Tick() {
 
@@ -48,13 +46,17 @@ namespace SuperNova.Code.Object {
             if (Camera.IsOnScreen(_position, new Vector2(Radius * 2, Radius * 2))) {
 
                 if (!Dead)
-                    _spriteBatch.Draw(_sprite,
-                        new Rectangle((int)(Camera.GetWidthScalar() * (_position.X - Radius + Camera.GetX())), (int)(Camera.GetHeightScalar() * (_position.Y - Radius + Camera.GetY())), (int)(Camera.GetWidthScalar() * Radius * 2),
+                    _spriteBatch.Draw(_sprite, new Rectangle(
+                            (int)(Camera.GetWidthScalar() * (_position.X - Radius + Camera.GetX())),
+                            (int)(Camera.GetHeightScalar() * (_position.Y - Radius + Camera.GetY())),
+                            (int)(Camera.GetWidthScalar() * Radius * 2),
                             (int)(Camera.GetHeightScalar() * Radius * 2)), Color.White);
 
                 else
-                    _spriteBatch.Draw(_exp,
-                    new Rectangle((int)(Camera.GetWidthScalar() * (_position.X - Radius + Camera.GetX())), (int)(Camera.GetHeightScalar() * (_position.Y - Radius + Camera.GetY())), (int)(Camera.GetWidthScalar() * Radius * 2),
+                    _spriteBatch.Draw(_exp, new Rectangle(
+                        (int)(Camera.GetWidthScalar() * (_position.X - Radius + Camera.GetX())),
+                        (int)(Camera.GetHeightScalar() * (_position.Y - Radius + Camera.GetY())),
+                        (int)(Camera.GetWidthScalar() * Radius * 2),
                         (int)(Camera.GetHeightScalar() * Radius * 2)), Color.White);
             }
         }

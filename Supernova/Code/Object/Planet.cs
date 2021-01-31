@@ -11,7 +11,7 @@ namespace SuperNova.Code.Object {
 
         private Texture2D _sprite;
 
-        private const double _gravityStrength = .001;
+        private const double _gravityStrength = .0015;
         private float _mass, _changeInRotation, _rotation;
 
         public Planet(Vector2 position, float radius, float mass, float changeInRotation) {
@@ -47,7 +47,7 @@ namespace SuperNova.Code.Object {
             if (Math.Sqrt(Math.Pow(Position.X - x, 2) + Math.Pow(Position.Y - y, 2)) > 1000)
                 return Vector2.Zero;
 
-            float acceleration = (float)(_gravityStrength * _mass / (Math.Pow((Position.X - x) / 180, 2) + Math.Pow((Position.Y - y) / 180, 2)));
+            float acceleration = (float)(_gravityStrength * _mass / (Math.Pow((Position.X - x) / 120, 2) + Math.Pow((Position.Y - y) / 120, 2)));
             float angle = (float)(Math.Atan((Position.Y - y) / (Position.X - x)));
 
             if (Position.X - x < 0 && Position.Y - y > 0 || Position.X - x < 0 && Position.Y - y < 0) {
@@ -86,8 +86,8 @@ namespace SuperNova.Code.Object {
 
             if (Camera.IsOnScreen(Position, new Vector2(Radius * 3, Radius * 3)))
                 _spriteBatch.Draw(_sprite, new Rectangle(
-                        (int)(Camera.GetWidthScalar() * (Position.X - Radius * 1.3 + Camera.GetX())),
-                    (int)(Camera.GetHeightScalar() * (Position.Y - Radius * 1.3 + Camera.GetY())),
+                        (int)(Camera.GetWidthScalar() * (Position.X - Radius + Camera.GetX())),
+                    (int)(Camera.GetHeightScalar() * (Position.Y - Radius + Camera.GetY())),
                         (int)(Camera.GetWidthScalar() * Radius * 2),
                     (int)(Camera.GetHeightScalar() * Radius * 2)),
                     null, Color.White);

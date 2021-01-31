@@ -21,7 +21,7 @@ namespace SuperNova.Code.Object {
         private static Boolean _engine = false;
         private static Boolean _gifFrame = false;
 
-        public static Vector2 DrawPosition { get; } = new Vector2(640, 620);
+        public static Vector2 DrawPosition { get; } = new Vector2(688, 648);
         
         public static Vector2 Size { get; } = new Vector2(48, 48);
         
@@ -40,8 +40,8 @@ namespace SuperNova.Code.Object {
             velocity = new Vector2(.00001f, (float) Math.PI * 3 / 2);
             _engine = false;
             Angle = (float)Math.PI * 3 / 2;
-            Health = 100F;
-            Fuel = 100F;
+            Health = 100f;
+            Fuel = 100f;
             Score = 0;
 
             _fuelTimer = 0;
@@ -103,17 +103,26 @@ namespace SuperNova.Code.Object {
 
             for (int i = WorldManager.Asteroids.Count - 1; i >= 0; i--) {
 
-                if (IsCollisionAsteroid(WorldManager.Asteroids[i])) {
+                if (IsCollisionAsteroid(WorldManager.Asteroids[i]) && !WorldManager.Asteroids[i].Dead) {
 
-                    velocity.X *= 0.5f;
-                    velocity.Y += (float)Math.PI;
+                    float x = position.X - WorldManager.Asteroids[i].X;
+                    float y = position.Y - WorldManager.Asteroids[i].Y;
+
+                    float asteroidAngle = (float)Math.Atan(y / x);
+
+                    if (x <= 0 && y >= 0 || x <= 0 && y <= 0) {
+                        asteroidAngle += (float)Math.PI;
+                        asteroidAngle %= (float)Math.PI * 2;
+                    }
+
+                    addToVelocity(1.5f * velocity.X * (float)Math.Abs(Math.Cos(asteroidAngle - velocity.Y)), asteroidAngle);
 
                     if (_invincibleTimer == 10) {
                         Health -= 5 * velocity.X;
                         _invincibleTimer = 0;
                     }
 
-                    WorldManager.Asteroids.Remove(WorldManager.Asteroids[i]);
+                    WorldManager.Asteroids[i].Dead = true;
                 }
 
             }
@@ -127,7 +136,7 @@ namespace SuperNova.Code.Object {
                         float x = position.X - planet.X;
                         float y = position.Y - planet.Y;
 
-                        float planetAngle = (float)Math.Atan(y / x);
+                        float planetAngle = (float)((Math.Atan(y / x) + 2 * Math.PI) % (Math.PI * 2));
 
                         if (x <= 0 && y >= 0 || x <= 0 && y <= 0) {
                             planetAngle += (float)Math.PI;
@@ -135,17 +144,21 @@ namespace SuperNova.Code.Object {
                         }
 
 
+                        while (IsCollisionPlanet(planet)) {
+
+                            _interval = 0;
+                            position.X += .01f * (float)Math.Cos(planetAngle);
+                            position.Y += .01f * (float)Math.Sin(planetAngle);
+                        }
+
+                        Console.WriteLine(planetAngle + " " + Angle + " " + Math.Abs(planetAngle - Angle));
+
                         if (velocity.X < 1.5 && Math.Abs(planetAngle - Angle) < .7) {
 
-                            while (IsCollisionPlanet(planet)) {
-
-                                _interval = 0;
-                                position.X += .01f * (float)Math.Cos(planetAngle);
-                                position.Y += .01f * (float)Math.Sin(planetAngle);
-                            }
-
-                            if (!_engine)
+                            if (!_engine) {
                                 Angle = planetAngle;
+                                velocity.X *= .5f;
+                            }
 
                             if (velocity.X <= .5) {
                                 UpdateHealth(.025F);
@@ -154,58 +167,31 @@ namespace SuperNova.Code.Object {
 
                         } else {
 
-                            addToVelocity(3, planetAngle);
+                            if (velocity.X * (float)Math.Abs(Math.Sin(planetAngle - velocity.Y)) >= .5 && velocity.X * (float)Math.Abs(Math.Cos(planetAngle - velocity.Y)) < 1) {
+                                velocity.X *= .5f;
+                            }
+
+                            addToVelocity(1.4f * velocity.X * (float)Math.Abs(Math.Cos(planetAngle - velocity.Y)), planetAngle);
 
                             if (_invincibleTimer == 10 && velocity.X > 3) {
-                                Health -= 5 * velocity.X;
+                                Health -= 7.5f * velocity.X * (float)Math.Abs(Math.Cos(planetAngle - velocity.Y));
                                 _invincibleTimer = 0;
                             }
                         }
-                        if (!_engine)
-                            velocity.X *= .5f;
                     }
                 }
             }
         }
 
         private static bool IsCollisionAsteroid(Asteroid asteroid) {
-            
-            return IsCollisionBody(asteroid.X, asteroid.Y, asteroid.Radius);
+
+            float distance = Vector2.Distance(new Vector2(asteroid.X, asteroid.Y), position);
+            return distance < asteroid.Radius + Size.X / 2 - 9;
         }
 
         private static bool IsCollisionPlanet(Planet planet) {
             float distance = Vector2.Distance(new Vector2(planet.X, planet.Y) , position);
-            return distance < planet.Radius + Size.X / 2 - 8;
-        }
-        
-        private static bool IsCollisionBody(double bodyX, double bodyY, double bodyRadius)
-        {
-
-            double pointX1 = position.X,
-                pointY1 = position.Y - Size.Y / 2,
-                pointX2 = position.X - Size.X / 2,
-                pointY2 = position.Y + Size.Y / 2,
-                pointX3 = position.X + Size.X / 2,
-                pointY3 = position.Y + Size.Y / 2;
-            return isCollisionLineCircle(pointX1, pointY1, pointX2, pointY2, bodyX, bodyY, bodyRadius)
-                   || isCollisionLineCircle(pointX1, pointY1, pointX3, pointY3, bodyX, bodyY, bodyRadius)
-                   || isCollisionLineCircle(pointX2, pointY2, pointX3, pointY3, bodyX, bodyY, bodyRadius);
-        }
-
-        private static bool isCollisionLineCircle(double lineX1, double lineY1, double lineX2, double lineY2, double circleX,
-            double circleY, double radius) {
-
-            double lineLen = distance(lineX1, lineY1, lineX2, lineY2);
-            double dotProduct = ((circleX - lineX1) * (lineX2 - lineX1) + (circleY - lineY1) * (lineY2 - lineY1)) /
-                                Math.Pow(lineLen, 2);
-            double closestX = dotProduct * (lineX2 - lineX1) + lineX1;
-            double closestY = dotProduct * (lineY2 - lineY1) + lineY1;
-            double distLineClosest1 = distance(lineX1, lineY1, closestX, closestY);
-            double distLineClosest2 = distance(lineX2, lineY2, closestX, closestY);
-            if (Math.Abs(distLineClosest1 + distLineClosest2 - lineLen) > 0.5)
-                return false;
-            double distCircleClosest = distance(circleX, circleY, closestX, closestY);
-            return distCircleClosest < radius * 1.3;
+            return distance < planet.Radius + Size.X / 2 - 12;
         }
 
         private static double distance(double x1, double y1, double x2, double y2) {
@@ -226,8 +212,8 @@ namespace SuperNova.Code.Object {
             position.X += (float) (velocity.X * Math.Cos(velocity.Y));
             position.Y += (float) (velocity.X * Math.Sin(velocity.Y));
 
-            Camera.SetX(-(position.X - 640));
-            Camera.SetY(-(position.Y - 620));
+            Camera.SetX(-(position.X - DrawPosition.X + Size.X / 2));
+            Camera.SetY(-(position.Y - DrawPosition.Y + Size.Y / 2));
 
             KeyboardState keyboardState = Keyboard.GetState();
 
@@ -254,7 +240,7 @@ namespace SuperNova.Code.Object {
         
         
         private static void Shoot() {
-            WorldManager.Bullets.Add(new Bullet(position - Size / 2, Angle));
+            WorldManager.Bullets.Add(new Bullet(new Vector2 (position.X, position.Y + 12), velocity, Angle));
         }
 
 
@@ -289,7 +275,7 @@ namespace SuperNova.Code.Object {
                     new Rectangle(
                         (int)(Camera.GetWidthScalar() * (DrawPosition.X - Size.X / 2)),
                         (int)(Camera.GetHeightScalar() * (DrawPosition.Y - Size.Y / 2)),
-                        (int)(Camera.GetWidthScalar() * (Size.X)),
+                        (int)(Camera.GetWidthScalar() * Size.X),
                         (int)(Camera.GetHeightScalar() * Size.Y)),
                     null, Color.White,
                     (Angle + (float)Math.PI / 2) % ((float)Math.PI * 2),

@@ -70,7 +70,7 @@ namespace Supernova.Code.World {
 
                     Vector2 spawnPoint = new Vector2((float)rand * 1280 + 640 - Camera.GetX(), -600 - Camera.GetY());
 
-                    Asteroids.Add(new Asteroid(spawnPoint, new Vector2((float)x / 2, (float)y) / 2, 23));
+                    Asteroids.Add(new Asteroid(spawnPoint, new Vector2((float)x / 2, (float)y) / 2, 28));
                 }
             }
 

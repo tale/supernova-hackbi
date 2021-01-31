@@ -82,8 +82,7 @@ namespace Supernova.Code {
                     }
                     break;
                 case GameState.GameScreen:
-                    WorldManager.WorldTick();
-                    SupernovaObject.Tick();
+
                     if (keyBoardState.IsKeyDown(Keys.A)) {
                         Player.Angle -= .075f;
                         Player.Angle = Player.Angle < 0 ? Player.Angle + (float)Math.PI * 2: Player.Angle;
@@ -106,9 +105,10 @@ namespace Supernova.Code {
                         Update(gameTime);
                     }
                     
-
-                    Player.Tick();
+                    WorldManager.WorldTick();
                     WorldManager.WorldTick2();
+                    Player.Tick();
+                    SupernovaObject.Tick();
 
                     break;
                 case GameState.LoseScreen:
@@ -136,7 +136,8 @@ namespace Supernova.Code {
 
             GraphicsDevice.Clear(Color.Black);
 
-            _spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp);
+            _spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, DepthStencilState.DepthRead);
+
 
             switch (_gameState) {
                 case GameState.StartScreen:
