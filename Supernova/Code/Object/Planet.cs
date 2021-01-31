@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Supernova.Code.World;
 using SuperNova.Code.Util;
 
 namespace SuperNova.Code.Object {
@@ -47,7 +48,9 @@ namespace SuperNova.Code.Object {
             if (Math.Sqrt(Math.Pow(Position.X - x, 2) + Math.Pow(Position.Y - y, 2)) > 1000)
                 return Vector2.Zero;
 
-            float acceleration = (float)(_gravityStrength * _mass / (Math.Pow((Position.X - x) / 120, 2) + Math.Pow((Position.Y - y) / 120, 2)));
+            float acceleration = (float)(WorldManager.AccelerationModifier * _gravityStrength * _mass /
+                (Math.Pow((Position.X - x) / 120, 2) + Math.Pow((Position.Y - y) / 120, 2)));
+
             float angle = (float)(Math.Atan((Position.Y - y) / (Position.X - x)));
 
             if (Position.X - x < 0 && Position.Y - y > 0 || Position.X - x < 0 && Position.Y - y < 0) {

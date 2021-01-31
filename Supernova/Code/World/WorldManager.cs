@@ -10,6 +10,7 @@ namespace Supernova.Code.World {
     public static class WorldManager {
 
         public static readonly GaussianRandom Random = new GaussianRandom();
+        public static float AccelerationModifier { get; set; } = 1;
         
         private static (int, int)[] _loaded = new (int, int)[9];
         private static (int, int)[] _parallaxLoaded1 = new (int, int)[9];
@@ -32,6 +33,10 @@ namespace Supernova.Code.World {
         }
 
         public static void WorldTick() {
+
+            AccelerationModifier = 1 + (Player.Score / 10000.0f);
+
+            Console.WriteLine(AccelerationModifier);
 
             int cordX = -Camera.GetX();
             int cordY = -Camera.GetY();
@@ -70,7 +75,7 @@ namespace Supernova.Code.World {
 
                     Vector2 spawnPoint = new Vector2((float)rand * 1280 + 640 - Camera.GetX(), -600 - Camera.GetY());
 
-                    Asteroids.Add(new Asteroid(spawnPoint, new Vector2((float)x / 2, (float)y) / 2, 28));
+                    Asteroids.Add(new Asteroid(spawnPoint, new Vector2((float)x / 2 * AccelerationModifier, (float)y) / 2 * AccelerationModifier, 28));
                 }
             }
 

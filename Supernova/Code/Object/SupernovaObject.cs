@@ -32,7 +32,7 @@ namespace SuperNova.Code.Object {
         
         public static void Tick() {
 
-            _yPosition += _yVelocity;
+            _yPosition += _yVelocity * WorldManager.AccelerationModifier;
 
             if (Player.Y > _yPosition)
                 Player.Health -= 1;

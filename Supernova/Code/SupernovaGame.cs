@@ -23,6 +23,7 @@ namespace Supernova.Code {
         private Button end;
         private Image title;
 
+
         public static SpriteFont font;
         
         private GameState _gameState = GameState.StartScreen;
@@ -95,7 +96,7 @@ namespace Supernova.Code {
                     }
 
                     if (keyBoardState.IsKeyDown(Keys.W) && Player.Fuel > 0) {
-                        Player.addToVelocity(.13f, Player.Angle);
+                        Player.addToVelocity(.13f * WorldManager.AccelerationModifier, Player.Angle);
                         Player.Fuel -= 0.1f;
 
                     }

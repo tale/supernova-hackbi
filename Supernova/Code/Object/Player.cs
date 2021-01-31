@@ -77,7 +77,7 @@ namespace SuperNova.Code.Object {
             float NVX = (float)(amount * Math.Cos(angle));
             float NVY = (float)(amount * Math.Sin(angle));
 
-            velocity.X = (float) Math.Sqrt(Math.Pow(CVX + NVX, 2) + Math.Pow(CVY + NVY, 2));
+            velocity.X = (float)Math.Sqrt(Math.Pow(CVX + NVX, 2) + Math.Pow(CVY + NVY, 2));
             velocity.Y = (float)Math.Atan((CVY + NVY) / (CVX + NVX));
 
             if (CVX + NVX <= 0 && CVY + NVY >= 0 || CVX + NVX <= 0 && CVY + NVY <= 0) {
@@ -167,9 +167,9 @@ namespace SuperNova.Code.Object {
 
                         } else {
 
-                            if (velocity.X * (float)Math.Abs(Math.Sin(planetAngle - velocity.Y)) >= .5 && velocity.X * (float)Math.Abs(Math.Cos(planetAngle - velocity.Y)) < 1) {
+                            if (velocity.X * (float)Math.Abs(Math.Sin(planetAngle - velocity.Y)) >= .5 &&
+                                velocity.X * (float)Math.Abs(Math.Cos(planetAngle - velocity.Y)) < 1)
                                 velocity.X *= .5f;
-                            }
 
                             addToVelocity(1.4f * velocity.X * (float)Math.Abs(Math.Cos(planetAngle - velocity.Y)), planetAngle);
 
@@ -204,7 +204,7 @@ namespace SuperNova.Code.Object {
 
             addToVelocity(gravity.X, gravity.Y);
 
-            velocity.X = Math.Min(velocity.X, 7f);
+            velocity.X = Math.Min(velocity.X, 7f * WorldManager.AccelerationModifier);
             velocity.Y = velocity.Y < 0 ?(float) Math.PI * 2 + velocity.Y: (float)(velocity.Y % (Math.PI * 2));
 
             CheckCollision();
