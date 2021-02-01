@@ -23,7 +23,7 @@ namespace SuperNova.Code.Object {
 
         public static Vector2 DrawPosition { get; } = new Vector2(688, 648);
         
-        public static Vector2 Size { get; } = new Vector2(48, 48);
+        public static Vector2 Dimensions { get; } = new Vector2(48, 48);
         
         public static float Angle { get; set; } = (float) Math.PI * 3 / 2;
 
@@ -69,7 +69,7 @@ namespace SuperNova.Code.Object {
             get { return velocity.Y; }
         }
         
-        public static void addToVelocity(float amount, float angle) {
+        public static void AddToVelocity(float amount, float angle) {
 
             float CVX = (float) (velocity.X * Math.Cos(velocity.Y));
             float CVY = (float) (velocity.X * Math.Sin(velocity.Y));
@@ -115,7 +115,7 @@ namespace SuperNova.Code.Object {
                         asteroidAngle %= (float)Math.PI * 2;
                     }
 
-                    addToVelocity(1.5f * velocity.X * (float)Math.Abs(Math.Cos(asteroidAngle - velocity.Y)), asteroidAngle);
+                    AddToVelocity(1.5f * velocity.X * (float)Math.Abs(Math.Cos(asteroidAngle - velocity.Y)), asteroidAngle);
 
                     if (_invincibleTimer == 10) {
                         Health -= 5 * velocity.X;
@@ -138,7 +138,7 @@ namespace SuperNova.Code.Object {
 
                         float planetAngle = (float)((Math.Atan(y / x) + 2 * Math.PI) % (Math.PI * 2));
 
-                        if (x <= 0 && y >= 0 || x <= 0 && y <= 0) {
+                        if (x < 0 && y >= 0 || x <= 0 && y <= 0) {
                             planetAngle += (float)Math.PI;
                             planetAngle %= (float)Math.PI * 2;
                         }
@@ -153,16 +153,21 @@ namespace SuperNova.Code.Object {
 
                         Console.WriteLine(planetAngle + " " + Angle + " " + Math.Abs(planetAngle - Angle));
 
-                        if (velocity.X < 1.5 && Math.Abs(planetAngle - Angle) < .7) {
+                        if (velocity.X < 1.5 && (planetAngle - Angle) % (Math.PI * 2) < .7) {
+
+
+                            if (velocity.X <= .5) {
+
+                                UpdateHealth(.025F);
+                                UpdateFuel(.1F);
+
+                                position.X = planet.X + (float)((planet.Radius + 10) * Math.Cos(planetAngle + planet.ChangeInAngle));
+                                position.Y = planet.Y + (float)((planet.Radius + 10) * Math.Sin(planetAngle + planet.ChangeInAngle));
+                            }
 
                             if (!_engine) {
                                 Angle = planetAngle;
                                 velocity.X *= .5f;
-                            }
-
-                            if (velocity.X <= .5) {
-                                UpdateHealth(.025F);
-                                UpdateFuel(.1F);
                             }
 
                         } else {
@@ -171,7 +176,7 @@ namespace SuperNova.Code.Object {
                                 velocity.X * (float)Math.Abs(Math.Cos(planetAngle - velocity.Y)) < 1)
                                 velocity.X *= .5f;
 
-                            addToVelocity(1.4f * velocity.X * (float)Math.Abs(Math.Cos(planetAngle - velocity.Y)), planetAngle);
+                            AddToVelocity(1.4f * velocity.X * (float)Math.Abs(Math.Cos(planetAngle - velocity.Y)), planetAngle);
 
                             if (_invincibleTimer == 10 && velocity.X > 3) {
                                 Health -= 7.5f * velocity.X * (float)Math.Abs(Math.Cos(planetAngle - velocity.Y));
@@ -186,12 +191,12 @@ namespace SuperNova.Code.Object {
         private static bool IsCollisionAsteroid(Asteroid asteroid) {
 
             float distance = Vector2.Distance(new Vector2(asteroid.X, asteroid.Y), position);
-            return distance < asteroid.Radius + Size.X / 2 - 9;
+            return distance < asteroid.Radius + Dimensions.X / 2 - 9;
         }
 
         private static bool IsCollisionPlanet(Planet planet) {
             float distance = Vector2.Distance(new Vector2(planet.X, planet.Y) , position);
-            return distance < planet.Radius + Size.X / 2 - 12;
+            return distance < planet.Radius + Dimensions.X / 2 - 12;
         }
 
         private static double distance(double x1, double y1, double x2, double y2) {
@@ -202,18 +207,20 @@ namespace SuperNova.Code.Object {
 
             Vector2 gravity = WorldManager.getGravityEffects(position);
 
-            addToVelocity(gravity.X, gravity.Y);
+            AddToVelocity(gravity.X, gravity.Y);
 
             velocity.X = Math.Min(velocity.X, 7f * WorldManager.AccelerationModifier);
             velocity.Y = velocity.Y < 0 ?(float) Math.PI * 2 + velocity.Y: (float)(velocity.Y % (Math.PI * 2));
+
+            Angle = Angle < 0 ? (float)Math.PI * 2 + Angle : (float)(Angle % (Math.PI * 2));
 
             CheckCollision();
 
             position.X += (float) (velocity.X * Math.Cos(velocity.Y));
             position.Y += (float) (velocity.X * Math.Sin(velocity.Y));
 
-            Camera.SetX(-(position.X - DrawPosition.X + Size.X / 2));
-            Camera.SetY(-(position.Y - DrawPosition.Y + Size.Y / 2));
+            Camera.SetX(-(position.X - DrawPosition.X + Dimensions.X / 2));
+            Camera.SetY(-(position.Y - DrawPosition.Y + Dimensions.Y / 2));
 
             KeyboardState keyboardState = Keyboard.GetState();
 
@@ -249,10 +256,10 @@ namespace SuperNova.Code.Object {
             if (!_engine)
                 _spriteBatch.Draw(sprite, destinationRectangle:
                     new Rectangle(
-                        (int)(Camera.GetWidthScalar() * (DrawPosition.X - Size.X / 2)),
-                        (int)(Camera.GetHeightScalar() * (DrawPosition.Y - Size.Y / 2)),
-                        (int)(Camera.GetWidthScalar() * (Size.X)),
-                        (int)(Camera.GetHeightScalar() * Size.Y)),
+                        (int)(Camera.GetWidthScalar() * (DrawPosition.X - Dimensions.X / 2)),
+                        (int)(Camera.GetHeightScalar() * (DrawPosition.Y - Dimensions.Y / 2)),
+                        (int)(Camera.GetWidthScalar() * (Dimensions.X)),
+                        (int)(Camera.GetHeightScalar() * Dimensions.Y)),
                     null, Color.White,
                     (Angle + (float)Math.PI / 2) % ((float)Math.PI * 2),
                     new Vector2(sprite.Width / 2F, sprite.Height / 2F), SpriteEffects.None,
@@ -261,10 +268,10 @@ namespace SuperNova.Code.Object {
             else if (_gifFrame) {
                 _spriteBatch.Draw(sprite2, destinationRectangle:
                     new Rectangle(
-                        (int)(Camera.GetWidthScalar() * (DrawPosition.X - Size.X / 2)),
-                        (int)(Camera.GetHeightScalar() * (DrawPosition.Y - Size.Y / 2)),
-                        (int)(Camera.GetWidthScalar() * (Size.X)),
-                        (int)(Camera.GetHeightScalar() * Size.Y)),
+                        (int)(Camera.GetWidthScalar() * (DrawPosition.X - Dimensions.X / 2)),
+                        (int)(Camera.GetHeightScalar() * (DrawPosition.Y - Dimensions.Y / 2)),
+                        (int)(Camera.GetWidthScalar() * (Dimensions.X)),
+                        (int)(Camera.GetHeightScalar() * Dimensions.Y)),
                     null, Color.White,
                     (Angle + (float)Math.PI / 2) % ((float)Math.PI * 2),
                     new Vector2(sprite2.Width / 2F, sprite2.Height / 2F), SpriteEffects.None,
@@ -273,10 +280,10 @@ namespace SuperNova.Code.Object {
             else if (!_gifFrame) {
                 _spriteBatch.Draw(sprite3, destinationRectangle:
                     new Rectangle(
-                        (int)(Camera.GetWidthScalar() * (DrawPosition.X - Size.X / 2)),
-                        (int)(Camera.GetHeightScalar() * (DrawPosition.Y - Size.Y / 2)),
-                        (int)(Camera.GetWidthScalar() * Size.X),
-                        (int)(Camera.GetHeightScalar() * Size.Y)),
+                        (int)(Camera.GetWidthScalar() * (DrawPosition.X - Dimensions.X / 2)),
+                        (int)(Camera.GetHeightScalar() * (DrawPosition.Y - Dimensions.Y / 2)),
+                        (int)(Camera.GetWidthScalar() * Dimensions.X),
+                        (int)(Camera.GetHeightScalar() * Dimensions.Y)),
                     null, Color.White,
                     (Angle + (float)Math.PI / 2) % ((float)Math.PI * 2),
                     new Vector2(sprite3.Width / 2F, sprite3.Height / 2F), SpriteEffects.None,

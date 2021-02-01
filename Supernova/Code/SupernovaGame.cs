@@ -96,7 +96,7 @@ namespace Supernova.Code {
                     }
 
                     if (keyBoardState.IsKeyDown(Keys.W) && Player.Fuel > 0) {
-                        Player.addToVelocity(.13f * WorldManager.AccelerationModifier, Player.Angle);
+                        Player.AddToVelocity(.13f * WorldManager.AccelerationModifier, Player.Angle);
                         Player.Fuel -= 0.1f;
 
                     }
@@ -109,7 +109,7 @@ namespace Supernova.Code {
                     WorldManager.WorldTick();
                     WorldManager.WorldTick2();
                     Player.Tick();
-                    SupernovaObject.Tick();
+                    //SupernovaObject.Tick();
 
                     break;
                 case GameState.LoseScreen:

@@ -13,18 +13,22 @@ namespace SuperNova.Code.Object {
         private Texture2D _sprite;
 
         private const double _gravityStrength = .0015;
-        private float _mass, _changeInRotation, _rotation;
+        private float _mass;
 
         public Planet(Vector2 position, float radius, float mass, float changeInRotation) {
 
             IsVisible = true;
-            this.Radius = radius;
+            Radius = radius;
             Position = position;
             _mass = mass;
             _sprite = SpriteManager.MakePlanetTexture();
-            _changeInRotation = changeInRotation;
-            _rotation = (float)(rand.NextDouble() * Math.PI * 2);
+            ChangeInAngle = changeInRotation;
+            Angle = (float)(rand.NextDouble() * Math.PI * 2);
         }
+
+        public float ChangeInAngle { get; }
+
+        public float Angle { get; private set; }
         
         private Vector2 Position { get; }
         
@@ -38,11 +42,9 @@ namespace SuperNova.Code.Object {
 
         public void Tick() {
 
-            _rotation += _changeInRotation;
+            Angle += ChangeInAngle;
 
-            if (_rotation < 0)
-                _rotation += (float)(Math.PI * 2);
-            _rotation %= (float)(Math.PI * 2);
+            Angle = Angle < 0 ? (float)Math.PI * 2 + Angle : (float)(Angle % (Math.PI * 2));
         }
 
         public Vector2 Gravity(Vector2 objectPosition) {
@@ -72,13 +74,13 @@ namespace SuperNova.Code.Object {
 
             if (Camera.IsOnScreen(Position, new Vector2(Radius * 3, Radius * 3))) {
 
-                _spriteBatch.Draw(SpriteManager.rotationShade(_sprite, _rotation), new Rectangle(
+                _spriteBatch.Draw(SpriteManager.rotationShade(_sprite, Angle), new Rectangle(
                         (int)(Camera.GetWidthScalar() * (Position.X + Camera.GetX())),
                     (int)(Camera.GetHeightScalar() * (Position.Y + Camera.GetY())),
                         (int)(Camera.GetWidthScalar() * Radius * 2),
                     (int)(Camera.GetHeightScalar() * Radius * 2)),
                     null, Color.White,
-                    (_rotation) % ((float)Math.PI * 2),
+                    (Angle) % ((float)Math.PI * 2),
                     new Vector2(_sprite.Width / 2F, _sprite.Height / 2F), SpriteEffects.None,
                     0f);
             }
