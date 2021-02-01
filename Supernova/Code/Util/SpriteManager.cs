@@ -54,19 +54,36 @@ namespace SuperNova.Code.Util {
             switch (type) {
 
                 case 0:
-                    return Texture2dHelper.Shade(_game.GraphicsDevice, SpriteManager.GetTexture("EARTH_PLANET"));
+                    return Texture2dHelper.Shade(_game.GraphicsDevice, GetTexture("EARTH_PLANET"));
 
                 case 1:
-                    return Texture2dHelper.Shade(_game.GraphicsDevice, SpriteManager.GetTexture("MARS_PLANET"));
+                    return Texture2dHelper.Shade(_game.GraphicsDevice, GetTexture("MARS_PLANET"));
 
                 case 2:
-                    return Texture2dHelper.Shade(_game.GraphicsDevice, SpriteManager.GetTexture("SAND_PLANET"));
+                    return Texture2dHelper.Shade(_game.GraphicsDevice, GetTexture("SAND_PLANET"));
 
                 case 3:
-                    return Texture2dHelper.Shade(_game.GraphicsDevice, SpriteManager.GetTexture("ROCK_PLANET"));
+                    return Texture2dHelper.Shade(_game.GraphicsDevice, GetTexture("ROCK_PLANET"));
 
                 default:
-                    return SpriteManager.GetTexture("PLANET");
+                    return GetTexture("PLANET");
+            }
+        }
+
+        public static Texture2D MakeAstroidTexture() {
+
+            var type = rand.Next(2);
+
+            switch (type) {
+
+                case 0:
+                    return GetTexture("ASTEROID"); ;
+
+                case 1:
+                    return GetTexture("ASTEROID2"); ;
+
+                default:
+                    return GetTexture("ASTEROID"); ;
             }
         }
     }

@@ -20,7 +20,7 @@ namespace SuperNova.Code.Object {
             Radius = radius;
             _position = position;
             _velocity = velocity;
-            _sprite = MakeAstroidTexture();
+            _sprite = SpriteManager.MakeAstroidTexture();
         }
 
         public Boolean Dead { get; set; } = false;
@@ -72,23 +72,6 @@ namespace SuperNova.Code.Object {
                     return true;
             }
             return false;
-        }
-
-        private static Texture2D MakeAstroidTexture() {
-
-            var type = rand.Next(2);
-
-            switch (type) {
-
-                case 0:
-                    return SpriteManager.GetTexture("ASTEROID"); ;
-
-                case 1:
-                    return SpriteManager.GetTexture("ASTEROID2"); ;
-
-                default:
-                    return SpriteManager.GetTexture("ASTEROID"); ;
-            }
         }
     }
 }
