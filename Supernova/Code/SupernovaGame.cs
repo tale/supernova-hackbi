@@ -109,7 +109,7 @@ namespace Supernova.Code {
                     WorldManager.WorldTick();
                     WorldManager.WorldTick2();
                     Player.Tick();
-                    SupernovaObject.Tick();
+                    //SupernovaObject.Tick();
 
                     break;
                 case GameState.LoseScreen:

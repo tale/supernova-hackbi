@@ -18,8 +18,8 @@ namespace SuperNova.Code.Object {
 
         private static int _fuelTimer = 0, _gifTimer = 0, _invincibleTimer = 0;
 
-        private static Boolean _engine = false;
-        private static Boolean _gifFrame = false;
+        private static bool _engine = false;
+        private static bool _gifFrame = false;
 
         public static Vector2 DrawPosition { get; } = new Vector2(688, 648);
         

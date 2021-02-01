@@ -21,7 +21,7 @@ namespace SuperNova.Code.Object {
             this.Radius = radius;
             Position = position;
             _mass = mass;
-            _sprite = MakePlanetTexture();
+            _sprite = SpriteManager.MakePlanetTexture();
             _changeInRotation = changeInRotation;
             _rotation = (float)(rand.NextDouble() * Math.PI * 2);
         }
@@ -62,28 +62,7 @@ namespace SuperNova.Code.Object {
             return new Vector2((float)(acceleration * Math.Cos(angle)), (float)(acceleration * Math.Sin(angle)));
         }    
 
-        public static Texture2D MakePlanetTexture() {
-
-            int type = rand.Next(4);
-
-            switch (type) {
-
-                case 0:
-                    return SpriteManager.GetTexture("EARTH_PLANET");
-
-                case 1:
-                    return SpriteManager.GetTexture("MARS_PLANET");
-
-                case 2:
-                    return SpriteManager.GetTexture("SAND_PLANET");
-
-                case 3:
-                    return SpriteManager.GetTexture("ROCK_PLANET");
-
-                default:
-                    return SpriteManager.GetTexture("PLANET");
-            }
-        }
+       
 
         public void Render(SpriteBatch _spriteBatch) {
 

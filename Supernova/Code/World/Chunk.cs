@@ -35,7 +35,7 @@ namespace Supernova.Code.World {
                 var y = _random.Next(1850) + 75;
 
                 if (checkPrevious(x, y, previous)) {
-                    array[number] = new Planet(new Vector2((x + _position.X), (y + _position.Y)), 84, 100, (float)_random.NextDouble() / 50 );
+                    array[number] = new Planet(new Vector2((x + _position.X), (y + _position.Y)), 84, 100, (float)_random.NextDouble() / 50);
                     previous.Add((x, y));
                     number++;
                 }

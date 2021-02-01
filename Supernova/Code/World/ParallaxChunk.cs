@@ -44,7 +44,7 @@ namespace Supernova.Code.World {
                 var x = _random.Next(2000 - 84 / (_scaler * 2)) + 84 / _scaler;
                 var y = _random.Next(2000 - 84 / (_scaler * 2)) + 84 / _scaler;
 
-                Texture2D image = _starChunk ? SpriteManager.GetTexture("STAR") : Planet.MakePlanetTexture();
+                Texture2D image = _starChunk ? SpriteManager.GetTexture("STAR") : SpriteManager.MakePlanetTexture();
 
                 if (checkPrevious(x, y, previous)) {
 
