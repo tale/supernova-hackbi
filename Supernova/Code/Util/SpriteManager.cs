@@ -54,16 +54,16 @@ namespace SuperNova.Code.Util {
             switch (type) {
 
                 case 0:
-                    return Texture2dHelper.Shade(_game.GraphicsDevice, GetTexture("EARTH_PLANET"));
+                    return GetTexture("EARTH_PLANET");
 
                 case 1:
-                    return Texture2dHelper.Shade(_game.GraphicsDevice, GetTexture("MARS_PLANET"));
+                    return GetTexture("MARS_PLANET");
 
                 case 2:
-                    return Texture2dHelper.Shade(_game.GraphicsDevice, GetTexture("SAND_PLANET"));
+                    return GetTexture("SAND_PLANET");
 
                 case 3:
-                    return Texture2dHelper.Shade(_game.GraphicsDevice, GetTexture("ROCK_PLANET"));
+                    return GetTexture("ROCK_PLANET");
 
                 default:
                     return GetTexture("PLANET");
@@ -85,6 +85,12 @@ namespace SuperNova.Code.Util {
                 default:
                     return GetTexture("ASTEROID"); ;
             }
+        }
+
+        public static Texture2D rotationShade(Texture2D texture, float angle) {
+
+            return Texture2dHelper.Shade(_game.GraphicsDevice, texture, angle);
+
         }
     }
 }

@@ -20,7 +20,7 @@ namespace SuperNova.Code.Util {
         }
 
         //there is 100% a better way to do this
-        public static Texture2D Shade(GraphicsDevice graphics, Texture2D texture) {
+        public static Texture2D Shade(GraphicsDevice graphics, Texture2D texture, float angle = 0) {
 
             Color[] decomposedTexture = GetPixels(texture);
 
@@ -28,9 +28,23 @@ namespace SuperNova.Code.Util {
 
                 if (decomposedTexture[n].A > 0) {
 
-                    int scaler = (int)(((float)n / (texture.Height * texture.Height) - .5f) * 75);
-                    scaler = scaler < 0 ? (int)(scaler * 1.2f) : scaler;
-                    scaler += (int)(Math.Abs((float)(n % texture.Height) / texture.Width - .5f) * 20);
+                    float y = n / texture.Height - texture.Height / 2;
+                    float x = n % texture.Height - texture.Width / 2;
+
+                    float distance = (float)Math.Sqrt(x * x + y * y);
+                    float angle2 = x != 0 ?(float)(Math.Atan((float) y / x)): (float)Math.PI / 2;
+
+                    if (x < 0 && y >= 0 || x <= 0 && y <= 0)
+                        angle2 += (float)Math.PI;
+
+                    y = (float)(distance * Math.Sin(angle2 + angle) + .5f);
+                    x = (float)(distance * Math.Cos(angle2 + angle) + .5f);
+
+                    var scaler = (float)y * 1.1;
+
+                    scaler += (float)(Math.Abs(x) * Math.Min(1, Math.Pow(2, y / 3f)));
+                    scaler = scaler < 0 ? (float)(scaler * 1.6f) : scaler;
+                    scaler = (int)scaler;
 
                     decomposedTexture[n].R = Convert.ToByte(Math.Max(0, Math.Min(255, decomposedTexture[n].R + scaler)));
                     decomposedTexture[n].G = Convert.ToByte(Math.Max(0, Math.Min(255, decomposedTexture[n].G + scaler)));

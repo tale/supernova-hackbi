@@ -38,7 +38,11 @@ namespace SuperNova.Code.Object {
 
         public void Tick() {
 
-            _rotation = (float)((_rotation + _changeInRotation) % (Math.PI * 2));
+            _rotation += _changeInRotation;
+
+            if (_rotation < 0)
+                _rotation += (float)(Math.PI * 2);
+            _rotation %= (float)(Math.PI * 2);
         }
 
         public Vector2 Gravity(Vector2 objectPosition) {
@@ -60,19 +64,24 @@ namespace SuperNova.Code.Object {
             }
 
             return new Vector2((float)(acceleration * Math.Cos(angle)), (float)(acceleration * Math.Sin(angle)));
-        }    
+        }
 
-       
+
 
         public void Render(SpriteBatch _spriteBatch) {
 
-            if (Camera.IsOnScreen(Position, new Vector2(Radius * 3, Radius * 3)))
-                _spriteBatch.Draw(_sprite, new Rectangle(
-                        (int)(Camera.GetWidthScalar() * (Position.X - Radius + Camera.GetX())),
-                    (int)(Camera.GetHeightScalar() * (Position.Y - Radius + Camera.GetY())),
+            if (Camera.IsOnScreen(Position, new Vector2(Radius * 3, Radius * 3))) {
+
+                _spriteBatch.Draw(SpriteManager.rotationShade(_sprite, _rotation), new Rectangle(
+                        (int)(Camera.GetWidthScalar() * (Position.X + Camera.GetX())),
+                    (int)(Camera.GetHeightScalar() * (Position.Y + Camera.GetY())),
                         (int)(Camera.GetWidthScalar() * Radius * 2),
                     (int)(Camera.GetHeightScalar() * Radius * 2)),
-                    null, Color.White);
+                    null, Color.White,
+                    (_rotation) % ((float)Math.PI * 2),
+                    new Vector2(_sprite.Width / 2F, _sprite.Height / 2F), SpriteEffects.None,
+                    0f);
+            }
         }
     }
 }
