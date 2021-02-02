@@ -35,6 +35,8 @@ namespace SuperNova.Code.Object {
 
         private static int _interval = 20;
 
+        private static Planet _landedPlanet;
+
         public static void Reset() {
             position = new Vector2(640, 620);
             velocity = new Vector2(.00001f, (float) Math.PI * 3 / 2);
@@ -131,7 +133,14 @@ namespace SuperNova.Code.Object {
 
                 foreach (var planet in chunk.Planets) {
 
+                    if (_landedPlanet == null || (Math.Sqrt(Math.Pow(planet.X - X, 2) +
+                        Math.Pow(planet.Y - Y, 2)) < Math.Sqrt(Math.Pow(_landedPlanet.X - X, 2) + Math.Pow(_landedPlanet.Y - Y, 2))
+                        && Y - planet.Y < 5))
+                        _landedPlanet = planet;
+
                     if (IsCollisionPlanet(planet)) {
+
+                        _landedPlanet = planet;
 
                         float x = position.X - planet.X;
                         float y = position.Y - planet.Y;
@@ -254,7 +263,7 @@ namespace SuperNova.Code.Object {
         public static void Render(SpriteBatch _spriteBatch) {
 
             if (!_engine)
-                _spriteBatch.Draw(sprite, destinationRectangle:
+                _spriteBatch.Draw(SpriteManager.playerRotationShade(sprite, _landedPlanet), destinationRectangle:
                     new Rectangle(
                         (int)(Camera.GetWidthScalar() * (DrawPosition.X - Dimensions.X / 2)),
                         (int)(Camera.GetHeightScalar() * (DrawPosition.Y - Dimensions.Y / 2)),
@@ -266,7 +275,7 @@ namespace SuperNova.Code.Object {
                     0f);
 
             else if (_gifFrame) {
-                _spriteBatch.Draw(sprite2, destinationRectangle:
+                _spriteBatch.Draw(SpriteManager.playerRotationShade(sprite2, _landedPlanet), destinationRectangle:
                     new Rectangle(
                         (int)(Camera.GetWidthScalar() * (DrawPosition.X - Dimensions.X / 2)),
                         (int)(Camera.GetHeightScalar() * (DrawPosition.Y - Dimensions.Y / 2)),
@@ -278,7 +287,7 @@ namespace SuperNova.Code.Object {
                     0f);
             }
             else if (!_gifFrame) {
-                _spriteBatch.Draw(sprite3, destinationRectangle:
+                _spriteBatch.Draw(SpriteManager.playerRotationShade(sprite3, _landedPlanet), destinationRectangle:
                     new Rectangle(
                         (int)(Camera.GetWidthScalar() * (DrawPosition.X - Dimensions.X / 2)),
                         (int)(Camera.GetHeightScalar() * (DrawPosition.Y - Dimensions.Y / 2)),

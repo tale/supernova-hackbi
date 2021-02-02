@@ -5,6 +5,7 @@ using System.Runtime.InteropServices;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Supernova.Code;
+using SuperNova.Code.Object;
 
 namespace SuperNova.Code.Util {
 
@@ -90,6 +91,14 @@ namespace SuperNova.Code.Util {
         public static Texture2D rotationShade(Texture2D texture, float angle) {
 
             return Texture2dHelper.Shade(_game.GraphicsDevice, texture, angle);
+
+        }
+        public static Texture2D playerRotationShade(Texture2D texture, Planet planet) {
+
+            if (planet == null)
+                return texture;
+
+            return Texture2dHelper.PlayerShade(_game.GraphicsDevice, texture, planet);
 
         }
     }
