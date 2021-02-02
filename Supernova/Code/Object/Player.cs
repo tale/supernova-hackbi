@@ -160,9 +160,7 @@ namespace SuperNova.Code.Object {
                             position.Y += .01f * (float)Math.Sin(planetAngle);
                         }
 
-                        Console.WriteLine(planetAngle + " " + Angle + " " + Math.Abs(planetAngle - Angle));
-
-                        if (velocity.X < 1.5 && (planetAngle - Angle) % (Math.PI * 2) < .7) {
+                        if (velocity.X < 1.5 && ((planetAngle - Angle) % (Math.PI * 2) < .7 || (planetAngle - Angle) - (Math.PI * 2) < .7)) {
 
 
                             if (velocity.X <= .5) {

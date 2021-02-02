@@ -15,12 +15,14 @@ namespace SuperNova.Code.Object {
 
         private Vector2 _position, _velocity;
 
-        public Asteroid(Vector2 position, Vector2 velocity, float radius) {
+        public Asteroid(Vector2 position, Vector2 velocity, float radius, float changeInAngle) {
 
             Radius = radius;
             _position = position;
             _velocity = velocity;
             _sprite = SpriteManager.MakeAstroidTexture();
+            ChangeInAngle = changeInAngle;
+            Angle = (float)(rand.NextDouble() * Math.PI * 2 - Math.PI);
         }
 
         public Boolean Dead { get; set; } = false;
@@ -29,6 +31,9 @@ namespace SuperNova.Code.Object {
 
         public float X => _position.X;
         public float Y => _position.Y;
+
+        public float Angle { get; set; }
+        public float ChangeInAngle { get; }
 
         public void Tick() {
 
@@ -39,6 +44,10 @@ namespace SuperNova.Code.Object {
 
             _position.X += _velocity.X;
             _position.Y += _velocity.Y;
+
+            Angle += ChangeInAngle;
+            Angle = Angle < 0 ? (float)Math.PI * 2 + Angle : (float)(Angle % (Math.PI * 2));
+
         }
 
         public void Render(SpriteBatch _spriteBatch) {
@@ -46,11 +55,14 @@ namespace SuperNova.Code.Object {
             if (Camera.IsOnScreen(_position, new Vector2(Radius * 2, Radius * 2))) {
 
                 if (!Dead)
-                    _spriteBatch.Draw(_sprite, new Rectangle(
-                            (int)(Camera.GetWidthScalar() * (_position.X - Radius + Camera.GetX())),
-                            (int)(Camera.GetHeightScalar() * (_position.Y - Radius + Camera.GetY())),
+                    _spriteBatch.Draw(SpriteManager.rotationShade( _sprite, Angle), new Rectangle(
+                            (int)(Camera.GetWidthScalar() * (_position.X + Camera.GetX())),
+                            (int)(Camera.GetHeightScalar() * (_position.Y + Camera.GetY())),
                             (int)(Camera.GetWidthScalar() * Radius * 2),
-                            (int)(Camera.GetHeightScalar() * Radius * 2)), Color.White);
+                            (int)(Camera.GetHeightScalar() * Radius * 2)), null, Color.White,
+                            (Angle) % ((float)Math.PI * 2),
+                            new Vector2(_sprite.Width / 2F, _sprite.Height / 2F), SpriteEffects.None, 0f);
+  
 
                 else
                     _spriteBatch.Draw(_exp, new Rectangle(

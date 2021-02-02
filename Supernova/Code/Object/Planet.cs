@@ -15,15 +15,15 @@ namespace SuperNova.Code.Object {
         private const double _gravityStrength = .0015;
         private float _mass;
 
-        public Planet(Vector2 position, float radius, float mass, float changeInRotation) {
+        public Planet(Vector2 position, float radius, float mass, float changeInAngle) {
 
             IsVisible = true;
             Radius = radius;
             Position = position;
             _mass = mass;
             _sprite = SpriteManager.MakePlanetTexture();
-            ChangeInAngle = changeInRotation;
-            Angle = (float)(rand.NextDouble() * Math.PI * 2);
+            ChangeInAngle = changeInAngle;
+            Angle = (float)(rand.NextDouble() * Math.PI * 2 - Math.PI);
         }
 
         public float ChangeInAngle { get; }
