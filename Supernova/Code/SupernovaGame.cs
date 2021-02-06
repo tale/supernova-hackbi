@@ -109,7 +109,7 @@ namespace Supernova.Code {
                     WorldManager.WorldTick();
                     WorldManager.WorldTick2();
                     Player.Tick();
-                    //SupernovaObject.Tick();
+                    SupernovaObject.Tick();
 
                     break;
                 case GameState.LoseScreen:
@@ -151,8 +151,7 @@ namespace Supernova.Code {
                     WorldManager.WorldRender(_spriteBatch);
                     Player.Render(_spriteBatch);
                     SupernovaObject.Render(_spriteBatch);
-                    HealthBar.Render(_spriteBatch);
-                    FuelBar.Render(_spriteBatch);
+                    InfoBar.Render(_spriteBatch);
                     break;
                 case GameState.LoseScreen:
                     font = Content.Load<SpriteFont>("BaseFont");

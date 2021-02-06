@@ -80,8 +80,8 @@ namespace SuperNova.Code.Util {
 
                     float scaler = 1;
 
-                    if (Math.Abs(planet.X - (x + Player.X)) < planet.Radius + (y + Player.Y - planet.Y) / 7f && y + Player.Y - planet.Y < 0)
-                        scaler = Math.Min(.5f, .002f * -(y + Player.Y - planet.Y)) + .5f;
+                    if (Math.Abs(planet.X - (x + Player.X)) < planet.Radius + (y + Player.Y - planet.Y) / 15f && y + Player.Y - planet.Y < 0)
+                        scaler = Math.Min(.5f, .001f * -(y + Player.Y - planet.Y)) + .5f;
 
                     decomposedTexture[n].R = Convert.ToByte(Math.Max(0, Math.Min(255, decomposedTexture[n].R * scaler)));
                     decomposedTexture[n].G = Convert.ToByte(Math.Max(0, Math.Min(255, decomposedTexture[n].G * scaler)));

@@ -9,6 +9,8 @@ namespace SuperNova.Code.Object {
 
     public static class Player {
 
+        private static Planet _landedPlanet;
+
         private static Texture2D sprite = SpriteManager.GetTexture("PLAYER");
         private static Texture2D sprite2 = SpriteManager.GetTexture("PLAYER1");
         private static Texture2D sprite3 = SpriteManager.GetTexture("PLAYER2");
@@ -17,6 +19,7 @@ namespace SuperNova.Code.Object {
         private static Vector2 velocity = new Vector2(.00001f, (float) Math.PI * 3 / 2);
 
         private static int _fuelTimer = 0, _gifTimer = 0, _invincibleTimer = 0;
+        private static int _interval = 20;
 
         private static bool _engine = false;
         private static bool _gifFrame = false;
@@ -33,9 +36,10 @@ namespace SuperNova.Code.Object {
 
         public static int Score { get; set; } = 0;
 
-        private static int _interval = 20;
+        public static float getDistance() {
 
-        private static Planet _landedPlanet;
+            return SupernovaObject.Y - Y;
+        }
 
         public static void Reset() {
             position = new Vector2(640, 620);

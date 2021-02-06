@@ -34,6 +34,9 @@ namespace SuperNova.Code.Object {
 
             _yPosition += _yVelocity * WorldManager.AccelerationModifier;
 
+            if (Player.getDistance() > 5000)
+                _yPosition += _yVelocity * WorldManager.AccelerationModifier;
+
             if (Player.Y > _yPosition)
                 Player.Health -= 1;
         }
